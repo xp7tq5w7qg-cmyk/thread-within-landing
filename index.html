@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raglan Calculator — The Thread Within</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f3efee;
+    --sage: #8b7c9e;
+    --sage-dark: #5c5470;
+    --terracotta: #c98f9e;
+    --ink: #3a3444;
+    --ink-soft: #6b6178;
+    --line: #ddd5e0;
+    --paper: #fdfbfc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Karla', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---- Stitch row divider (signature element) ---- */
+  .stitch-row {
+    width: 100%;
+    height: 22px;
+    overflow: hidden;
+  }
+  .stitch-row svg { width: 100%; height: 100%; display: block; }
+
+  /* ---- Header ---- */
+  header {
+    padding: 28px 0 0;
+  }
+  .brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+  }
+  .brand-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .brand-name span { color: var(--terracotta); }
+  .brand nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.92rem;
+    margin-left: 24px;
+  }
+  .brand nav a:hover { color: var(--terracotta); }
+
+  /* ---- Hero ---- */
+  .hero {
+    padding: 64px 0 56px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .eyebrow {
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: clamp(2.1rem, 4vw, 3.1rem);
+    line-height: 1.12;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+  .hero p.lead {
+    font-size: 1.08rem;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin-bottom: 30px;
+  }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 13px 26px;
+    border-radius: 3px;
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--terracotta);
+    color: var(--paper);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(193,112,79,0.35); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--sage-dark);
+    border: 1.5px solid var(--sage);
+  }
+  .btn-secondary:hover { background: rgba(124,139,111,0.08); }
+
+  /* ---- Raglan diagram (signature visual) ---- */
+  .diagram-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 28px;
+    position: relative;
+  }
+  .diagram-card svg { width: 100%; height: auto; display: block; }
+  .diagram-caption {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* ---- Section shared ---- */
+  section { padding: 56px 0; }
+  .section-head { max-width: 60ch; margin-bottom: 40px; }
+  .section-head .eyebrow { margin-bottom: 10px; }
+  .section-head h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
+
+  /* ---- Feature grid ---- */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 40px;
+  }
+  .feature {
+    display: flex;
+    gap: 16px;
+  }
+  .feature-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    color: var(--sage);
+    flex-shrink: 0;
+    width: 32px;
+  }
+  .feature h3 {
+    font-size: 1.08rem;
+    margin-bottom: 6px;
+  }
+  .feature p { color: var(--ink-soft); font-size: 0.96rem; }
+
+  /* ---- Try it ---- */
+  .try-it {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 40px;
+    text-align: center;
+  }
+  .try-it h2 { margin-bottom: 10px; }
+  .try-it p { color: var(--ink-soft); max-width: 50ch; margin: 0 auto 28px; }
+  .teaser-box {
+    border: 1.5px dashed var(--sage);
+    border-radius: 5px;
+    padding: 48px 24px;
+    background: repeating-linear-gradient(
+      135deg,
+      rgba(124,139,111,0.04),
+      rgba(124,139,111,0.04) 10px,
+      transparent 10px,
+      transparent 20px
+    );
+  }
+  .teaser-box p.placeholder-label {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    color: var(--sage-dark);
+    margin-bottom: 8px;
+  }
+  .teaser-box p.placeholder-sub {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ---- Pricing / buy ---- */
+  .buy-card {
+    background: var(--sage-dark);
+    color: var(--cream);
+    border-radius: 6px;
+    padding: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .buy-card h2 { color: var(--cream); font-size: 1.6rem; margin-bottom: 8px; }
+  .buy-card p { color: #e8e2ea; max-width: 42ch; }
+  .price {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    white-space: nowrap;
+  }
+  .buy-card .btn-primary {
+    background: var(--terracotta);
+  }
+  .buy-right { text-align: right; }
+
+  /* ---- About ---- */
+  .about {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .about-mark {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--sage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cream);
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+  }
+  .about p { color: var(--ink-soft); margin-bottom: 14px; }
+  .about a { color: var(--terracotta); }
+
+  footer {
+    padding: 32px 0 48px;
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; }
+    .buy-card { flex-direction: column; text-align: center; }
+    .buy-right { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stitch-row">
+  <svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#8b7c9e" stroke-width="2" fill="none"/>
+  </svg>
+</div>
+
+<header>
+  <div class="wrap brand">
+    <div class="brand-name">The Thread <span>Within</span></div>
+    <nav>
+      <a href="#try">Try it</a>
+      <a href="#buy">Get the full version</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero" style="padding-top:8px;">
+    <div>
+      <div class="eyebrow">Raglan Calculator</div>
+      <h1>The maths, <em>done</em>.<br>The knitting, yours.</h1>
+      <p class="lead">Enter your gauge and measurements — get a complete, personalised top-down raglan pattern in seconds. Exact stitch counts, increase rate, a schematic diagram, and instructions you can save or print.</p>
+      <div class="cta-row">
+        <a href="#buy" class="btn btn-primary">Get the full version — £15</a>
+        <a href="#try" class="btn btn-secondary">Try it free</a>
+      </div>
+    </div>
+    <div class="diagram-card">
+      <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+        <!-- simple raglan yoke schematic -->
+        <circle cx="130" cy="46" r="26" fill="none" stroke="#3a3444" stroke-width="1.4"/>
+        <!-- raglan lines from neck to underarm -->
+        <line x1="112" y1="66" x2="46" y2="150" stroke="#c98f9e" stroke-width="1.6" stroke-dasharray="4 3"/>
+        <line x1="148" y1="66" x2="214" y2="150" stroke="#c98f9e" stroke-width="1.6" stroke-dasharray="4 3"/>
+        <line x1="130" y1="72" x2="130" y2="150" stroke="#c98f9e" stroke-width="1.6" stroke-dasharray="4 3"/>
+        <!-- body outline -->
+        <path d="M46 150 L30 236 L230 236 L214 150" fill="none" stroke="#3a3444" stroke-width="1.4"/>
+        <!-- sleeves -->
+        <path d="M46 150 L8 210 L30 236" fill="none" stroke="#3a3444" stroke-width="1.4"/>
+        <path d="M214 150 L252 210 L230 236" fill="none" stroke="#3a3444" stroke-width="1.4"/>
+        <!-- labels -->
+        <text x="130" y="18" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">neck</text>
+        <text x="130" y="196" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">body</text>
+        <text x="14" y="185" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
+        <text x="246" y="185" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
+      </svg>
+      <p class="diagram-caption">Your schematic, generated from your own numbers.</p>
+    </div>
+  </section>
+</div>
+
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 11 Q10 22 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
+
+<div class="wrap">
+  <section id="features">
+    <div class="section-head">
+      <div class="eyebrow">What it does</div>
+      <h2>Every raglan decision, worked out for you</h2>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-num">01</div>
+        <div>
+          <h3>Enter your gauge and measurements</h3>
+          <p>Stitches and rows per 10cm, chest, and desired ease — the calculator takes it from there.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-num">02</div>
+        <div>
+          <h3>Get exact stitch counts</h3>
+          <p>Cast-on numbers, raglan increase rate, and where each increase falls — no swatching guesswork.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-num">03</div>
+        <div>
+          <h3>Choose your neckline</h3>
+          <p>Round neck or V-neck construction, calculated to fit your own gauge and shape.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-num">04</div>
+        <div>
+          <h3>See your schematic</h3>
+          <p>A full SVG diagram of your jumper's shape, alongside estimated yarn yardage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="try">
+    <div class="try-it">
+      <h2>Try it free</h2>
+      <p>Play with the calculator using one sample size before deciding whether to unlock your own pattern.</p>
+      <div class="teaser-box">
+        <p class="placeholder-label">Calculator embed goes here</p>
+        <p class="placeholder-sub">Swap this box for the free teaser version once it's embedded.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="buy">
+    <div class="buy-card">
+      <div>
+        <h2>Get your full pattern</h2>
+        <p>Unlock every size, both neckline options, yardage estimates, and your printable schematic.</p>
+      </div>
+      <div class="buy-right">
+        <div class="price">£15</div>
+        <br>
+        <a href="#" class="btn btn-primary" style="margin-top:8px;">Buy now</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about">
+      <div class="about-mark">TTW</div>
+      <div>
+        <h2 style="margin-bottom:14px;">About The Thread Within</h2>
+        <p>The Thread Within is a knitting and craft brand making digital tools and printable resources for makers — pattern calculators, project trackers, and colorwork charts, built by someone who'd rather knit than do sums twice.</p>
+        <p>Follow along on <a href="#">YouTube</a> or <a href="#">Etsy</a> for more.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">&copy; 2026 The Thread Within</div>
+</footer>
+
+</body>
+</html>
