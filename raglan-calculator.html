@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raglan Calculator — The Thread Within</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --oat: #E4DCEC;
+    --panel: #F8F3FA;
+    --grid-line: rgba(43,33,64,0.07);
+    --ink: #2B2140;
+    --ink-soft: #6B5A78;
+    --sage: #7E8F6E;
+    --sage-deep: #3F4A34;
+    --terracotta: #A24E78;
+    --gold: #C9A15A;
+    --line: rgba(43,33,64,0.15);
+    --warn-bg: #F1DCE6;
+    --warn-ink: #7A2E4A;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0/28px 28px,
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0/28px 28px,
+      var(--oat);
+    color:var(--ink);
+    font-family:'Karla', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding: 28px 16px 60px;
+  }
+  .wrap{ max-width:1040px; margin:0 auto; }
+
+  header.top{ margin-bottom:28px; }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--sage-deep);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px; background:var(--terracotta);
+    display:inline-block;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(28px, 5vw, 42px);
+    line-height:1.05;
+    margin:0 0 10px;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  h1 em{ font-style:italic; color:var(--terracotta); font-weight:500; }
+  .lede{
+    max-width:560px;
+    color:var(--ink-soft);
+    font-size:15px;
+    line-height:1.55;
+  }
+
+  .howto{
+    max-width:640px;
+    margin:16px 0 0;
+    padding:14px 16px 14px 34px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--sage);
+    font-size:13.5px;
+    line-height:1.55;
+    color:var(--ink);
+  }
+  .howto li{ margin-bottom:6px; }
+  .howto li:last-child{ margin-bottom:0; }
+  .howto b{ color:var(--sage-deep); }
+
+  .grid{
+    display:grid;
+    grid-template-columns: minmax(280px, 380px) 1fr;
+    gap:20px;
+    align-items:start;
+  }
+  @media (max-width: 860px){
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:2px;
+    position:relative;
+  }
+  .panel::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--sage-deep), var(--sage) 40%, var(--gold) 75%, var(--terracotta));
+  }
+
+  .panel-inner{ padding:22px 22px 26px; }
+  fieldset{ border:none; margin:0 0 20px; padding:0; }
+  fieldset:last-of-type{ margin-bottom:0; }
+  legend{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--sage-deep);
+    padding:0 0 8px;
+    border-bottom:1px dashed var(--line);
+    width:100%;
+    margin-bottom:12px;
+  }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px 12px; }
+  .field{ margin-bottom:10px; }
+  .field.full{ grid-column: 1 / -1; }
+  label{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:4px;
+  }
+  label .hint{
+    display:block;
+    font-size:11px;
+    color:var(--sage-deep);
+    opacity:0.85;
+    margin-top:1px;
+  }
+  input[type=text], input[type=number]{
+    width:100%;
+    font-family:'Space Mono', monospace;
+    font-size:14px;
+    padding:8px 9px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:#fff;
+    color:var(--ink);
+  }
+  select{
+    width:100%;
+    font-family:'Karla', sans-serif;
+    font-size:14px;
+    padding:8px 9px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:#fff;
+    color:var(--ink);
+  }
+  select:focus{
+    outline:2px solid var(--sage);
+    outline-offset:1px;
+  }
+  input:focus{
+    outline:2px solid var(--sage);
+    outline-offset:1px;
+  }
+  input[type=text]{ font-family:'Karla', sans-serif; }
+
+  .results-panel .panel-inner{ padding:24px 26px 30px; }
+
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    margin-bottom:20px;
+    border:1px solid var(--line);
+    width:fit-content;
+  }
+  .tab-btn{
+    font-family:'Space Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    background:var(--panel);
+    color:var(--ink-soft);
+    border:none;
+    padding:10px 16px;
+    cursor:pointer;
+  }
+  .tab-btn + .tab-btn{ border-left:1px solid var(--line); }
+  .tab-btn.active{
+    background:var(--sage-deep);
+    color:var(--panel);
+  }
+
+  .unit-toggle{
+    display:flex;
+    border:1px solid var(--line);
+    width:fit-content;
+    margin-bottom:18px;
+  }
+  .unit-btn{
+    font-family:'Space Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    background:var(--panel);
+    color:var(--ink-soft);
+    border:none;
+    padding:8px 16px;
+    cursor:pointer;
+  }
+  .unit-btn + .unit-btn{ border-left:1px solid var(--line); }
+  .unit-btn.active{
+    background:var(--terracotta);
+    color:var(--panel);
+  }
+
+  .stat-strip{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin-bottom:24px;
+  }
+  @media (max-width:560px){ .stat-strip{ grid-template-columns:repeat(2,1fr); } }
+  .stat{
+    background:var(--panel);
+    padding:14px 12px;
+    text-align:left;
+  }
+  .stat .n{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:26px;
+    color:var(--terracotta);
+    line-height:1;
+  }
+  .stat .l{
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+
+  .warn{
+    background:var(--warn-bg);
+    color:var(--warn-ink);
+    border:1px solid rgba(138,63,30,0.25);
+    padding:10px 13px;
+    font-size:13px;
+    line-height:1.5;
+    margin-bottom:20px;
+  }
+  .warn strong{ font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; display:block; margin-bottom:3px;}
+
+  .schematic{
+    display:grid;
+    grid-template-columns: 200px 1fr;
+    gap:20px;
+    margin-bottom:26px;
+    align-items:center;
+  }
+  @media (max-width:640px){ .schematic{ grid-template-columns:1fr; } }
+  .schematic svg{ width:100%; height:auto; }
+  .schematic .cap{
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .schematic .cap b{ color:var(--ink); }
+
+  .steps{ counter-reset: step; }
+  .step{
+    position:relative;
+    padding:0 0 22px 34px;
+    border-left:1px dashed var(--line);
+    margin-left:11px;
+  }
+  .step:last-child{ border-left-color:transparent; padding-bottom:2px; }
+  .step::before{
+    counter-increment:step;
+    content: counter(step);
+    position:absolute; left:-12px; top:-2px;
+    width:22px; height:22px;
+    background:var(--sage-deep);
+    color:var(--panel);
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%;
+  }
+  .step h3{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:600;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .step p{
+    margin:0 0 6px;
+    font-size:14.5px;
+    line-height:1.6;
+    color:var(--ink);
+  }
+  .step p.note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+  .kx{
+    font-family:'Space Mono', monospace;
+    background:rgba(124,140,107,0.15);
+    color:var(--sage-deep);
+    padding:1px 5px;
+    border-radius:2px;
+    font-weight:700;
+    font-size:13px;
+  }
+
+  .actions{ margin-top:22px; display:flex; gap:10px; flex-wrap:wrap; }
+  button.copy{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    background:var(--sage-deep);
+    color:var(--panel);
+    border:none;
+    padding:11px 18px;
+    cursor:pointer;
+    border-radius:2px;
+  }
+  button.copy:hover{ background:var(--terracotta); }
+  button.copy:active{ transform:translateY(1px); }
+  .copied-msg{
+    font-family:'Space Mono', monospace;
+    font-size:11.5px;
+    color:var(--sage-deep);
+    align-self:center;
+    opacity:0;
+    transition:opacity .2s;
+  }
+  .copied-msg.show{ opacity:1; }
+
+  footer{
+    max-width:1040px; margin:26px auto 0; padding:0 4px;
+    font-size:11.5px; color:var(--ink-soft); line-height:1.6;
+    font-family:'Space Mono', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">Gauge → Garden</div>
+    <h1>Top-Down Raglan <em>Calculator</em></h1>
+    <p class="lede">Enter your gauge and finished measurements. The numbers below update live — cast-on counts, raglan increases, underarm stitches, and sleeve shaping, all worked out for you.</p>
+
+    <ol class="howto">
+      <li><b>Choose cm or inches</b> at the top of the measurements panel. Switching converts whatever you've already entered rather than resetting it, and every label, hint, and pattern instruction updates to match.</li>
+      <li><b>Pick a neckline tab</b> in the results panel — Round neck, V-neck, Boat neck, or Off shoulder. This changes the construction method, not just the label.</li>
+      <li><b>Fill in gauge and measurements</b> on the left. A couple of fields only appear for certain necklines — a V-neck depth field shows up only on the V-neck tab, for instance — and the hint under "Neck circumference" changes per tab to suggest a sensible range for that style.</li>
+      <li><b>Read the pattern</b> on the right: stitch counts up top, a schematic, then step-by-step instructions that update as you tweak any field. Use "Copy pattern as text" to save it.</li>
+    </ol>
+  </header>
+
+  <div class="grid">
+    <!-- FORM -->
+    <div class="panel">
+      <div class="panel-inner">
+
+        <div class="unit-toggle">
+          <button class="unit-btn active" id="unitCm" type="button">cm</button>
+          <button class="unit-btn" id="unitIn" type="button">inches</button>
+        </div>
+
+        <fieldset>
+          <legend>Gauge &amp; materials</legend>
+          <div class="field-row">
+            <div class="field">
+              <label>Stitches / <span id="gaugeRefSt">10cm</span>
+                <span class="hint">stockinette, blocked</span>
+              </label>
+              <input type="number" id="stGauge" value="13" step="0.5" min="1">
+            </div>
+            <div class="field">
+              <label>Rows / <span id="gaugeRefRow">10cm</span></label>
+              <input type="number" id="rowGauge" value="18" step="0.5" min="1">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Needle size</label>
+              <select id="needle">
+                <option value="2mm / US 0">2mm / US 0</option>
+                <option value="2.25mm / US 1">2.25mm / US 1</option>
+                <option value="2.75mm / US 2">2.75mm / US 2</option>
+                <option value="3mm / US 2.5">3mm / US 2.5</option>
+                <option value="3.25mm / US 3">3.25mm / US 3</option>
+                <option value="3.5mm / US 4">3.5mm / US 4</option>
+                <option value="3.75mm / US 5">3.75mm / US 5</option>
+                <option value="4mm / US 6">4mm / US 6</option>
+                <option value="4.5mm / US 7">4.5mm / US 7</option>
+                <option value="5mm / US 8">5mm / US 8</option>
+                <option value="5.5mm / US 9">5.5mm / US 9</option>
+                <option value="6mm / US 10" selected>6mm / US 10</option>
+                <option value="6.5mm / US 10.5">6.5mm / US 10.5</option>
+                <option value="7mm / US 10.75">7mm / US 10.75</option>
+                <option value="8mm / US 11">8mm / US 11</option>
+                <option value="9mm / US 13">9mm / US 13</option>
+                <option value="10mm / US 15">10mm / US 15</option>
+                <option value="12mm / US 17">12mm / US 17</option>
+                <option value="15mm / US 19">15mm / US 19</option>
+                <option value="20mm / US 36">20mm / US 36</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Yarn weight</label>
+              <select id="yarn">
+                <option value="Lace">Lace</option>
+                <option value="Fingering / sock">Fingering / sock</option>
+                <option value="Sport">Sport</option>
+                <option value="DK">DK</option>
+                <option value="Worsted">Worsted</option>
+                <option value="Aran" selected>Aran</option>
+                <option value="Bulky">Bulky</option>
+                <option value="Super bulky">Super bulky</option>
+                <option value="Jumbo">Jumbo</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Finished measurements (<span id="measureUnitLabel">cm</span>)</legend>
+          <div class="field-row">
+            <div class="field">
+              <label>Neck circumference
+                <span class="hint" id="neckHint">typically 45–56cm for a fitted round neck</span>
+              </label>
+              <input type="number" id="neck" value="50" min="20">
+            </div>
+            <div class="field">
+              <label>Chest / bust circ.
+                <span class="hint">incl. ease</span>
+              </label>
+              <input type="number" id="chest" value="100" min="40">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Raglan / armhole depth
+                <span class="hint">neck seam to underarm</span>
+              </label>
+              <input type="number" id="armDepth" value="20" min="5">
+            </div>
+            <div class="field">
+              <label>Body length
+                <span class="hint">underarm to hem</span>
+              </label>
+              <input type="number" id="bodyLen" value="40" min="10">
+            </div>
+          </div>
+          <div class="field-row" id="vDepthRow" style="display:none;">
+            <div class="field">
+              <label>V-neck depth
+                <span class="hint">shoulder to point of V</span>
+              </label>
+              <input type="number" id="vDepth" value="14" min="3">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Upper arm circ.</label>
+              <input type="number" id="upperArm" value="32" min="15">
+            </div>
+            <div class="field">
+              <label>Cuff circumference</label>
+              <input type="number" id="cuff" value="20" min="10">
+            </div>
+          </div>
+          <div class="field full">
+            <label>Sleeve length
+              <span class="hint">underarm to cuff (before ribbing)</span>
+            </label>
+            <input type="number" id="sleeveLen" value="43" min="15">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Ribbing (<span id="ribUnitLabel">cm</span>)</legend>
+          <div class="field-row">
+            <div class="field">
+              <label>Neckband</label>
+              <input type="number" id="ribNeck" value="3" min="0" step="0.5">
+            </div>
+            <div class="field">
+              <label>Hem</label>
+              <input type="number" id="ribHem" value="5" min="0" step="0.5">
+            </div>
+          </div>
+          <div class="field">
+            <label>Cuff</label>
+            <input type="number" id="ribCuff" value="5" min="0" step="0.5">
+          </div>
+        </fieldset>
+
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="panel results-panel">
+      <div class="panel-inner">
+
+        <div class="tabs">
+          <button class="tab-btn active" id="tabCrew" type="button">Round neck</button>
+          <button class="tab-btn" id="tabV" type="button">V-neck</button>
+          <button class="tab-btn" id="tabBoat" type="button">Boat neck</button>
+          <button class="tab-btn" id="tabOff" type="button">Off shoulder</button>
+        </div>
+
+        <div id="warnBox"></div>
+
+        <div class="stat-strip" id="statStrip"></div>
+
+        <div class="schematic">
+          <svg id="schematic" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="cap" id="schematicCap"></div>
+        </div>
+
+        <div class="steps" id="steps"></div>
+
+        <div class="actions">
+          <button class="copy" id="copyBtn">Copy pattern as text</button>
+          <span class="copied-msg" id="copiedMsg">Copied ✓</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    All four necklines share the same underlying shaping: 4 raglan lines increasing 8 sts per round (1 st each side, every RS row), equal front and back stitch counts (no separate front-neck scoop shaping), and a straight, unshaped body. What differs between tabs is only how the neckline itself is cast on and finished — round neck joins in the round and ribs first; V-neck starts flat at two front edges and joins partway through; boat neck uses a wide, shallow edge; off-shoulder uses a deep fold-over band, ideally with elastic run through it. All measurements and gauge can be worked in cm or inches — toggle at the top of the form — and every figure below updates to match. All figures are rounded to whole stitches/rounds — swatch and re-check gauge before committing to a size.
+  </footer>
+</div>
+
+<script>
+function toEven(n){ return 2*Math.round(n/2); }
+function r(n){ return Math.round(n); }
+
+let mode = 'crew';
+let unit = 'cm';
+const CM_PER_IN = 2.54;
+function uAbbr(){ return unit==='in' ? 'in' : 'cm'; }
+function gaugeRefText(){ return unit==='in' ? '4in' : '10cm'; }
+function gaugeRefLen(){ return unit==='in' ? 4 : 10; }
+
+function calc(){
+  const stG10 = parseFloat(document.getElementById('stGauge').value) || 1;
+  const rowG10 = parseFloat(document.getElementById('rowGauge').value) || 1;
+  const gRef = gaugeRefLen();
+  const sg = stG10/gRef, rg = rowG10/gRef;
+
+  const neckCirc = parseFloat(document.getElementById('neck').value) || 0;
+  const chestCirc = parseFloat(document.getElementById('chest').value) || 0;
+  const armDepth = parseFloat(document.getElementById('armDepth').value) || 0;
+  const bodyLen = parseFloat(document.getElementById('bodyLen').value) || 0;
+  const upperArm = parseFloat(document.getElementById('upperArm').value) || 0;
+  const cuffCirc = parseFloat(document.getElementById('cuff').value) || 0;
+  const sleeveLen = parseFloat(document.getElementById('sleeveLen').value) || 0;
+
+  const ribNeck = parseFloat(document.getElementById('ribNeck').value) || 0;
+  const ribHem = parseFloat(document.getElementById('ribHem').value) || 0;
+  const ribCuff = parseFloat(document.getElementById('ribCuff').value) || 0;
+
+  const warnings = [];
+
+  // 1. Neck cast-on, divided 2:2:1:1 back:front:sleeve:sleeve
+  const neckSts = Math.max(8, toEven(neckCirc*sg));
+  const sleeve0 = Math.max(2, r(neckSts/6));
+  const back0 = r(neckSts*2/6);
+  const front0 = neckSts - back0 - 2*sleeve0;
+
+  // 2. Raglan increases, 8 sts/round (2 per section per round: 1 each side), every RS row
+  const N = Math.max(1, r((armDepth*rg)/2));
+  const raglanDepthCm = (2*N)/rg;
+
+  const backF = back0 + 2*N;
+  const frontF = front0 + 2*N;
+  const sleeveF = sleeve0 + 2*N;
+
+  // 3. Underarm cast-on for body, back-solved from target chest
+  const chestTarget = r(chestCirc*sg);
+  let underarmEach = r((chestTarget - backF - frontF)/2);
+  if(underarmEach < 1){
+    warnings.push({t:"Tight fit at underarm", m:"Your raglan depth produces more body stitches than your chest measurement allows. The tool has floored the underarm cast-on at 1 stitch per side — consider a shallower raglan depth or a looser chest measurement."});
+    underarmEach = 1;
+  }
+  const chestActualSts = backF + frontF + 2*underarmEach;
+  const chestActualCm = chestActualSts/sg;
+
+  // 4. Sleeve underarm cast-on, back-solved from target upper arm
+  const sleeveTarget = r(upperArm*sg);
+  let sleeveUnderarm = sleeveTarget - sleeveF;
+  if(sleeveUnderarm < 0){
+    warnings.push({t:"Sleeve narrower than target", m:"At this raglan depth the sleeve already has more stitches than your upper-arm measurement needs. The tool has set the sleeve underarm cast-on to 0 — consider a shallower raglan depth or a roomier upper-arm measurement."});
+    sleeveUnderarm = 0;
+  }
+  const sleeveJoinSts = sleeveF + sleeveUnderarm;
+  const upperArmActualCm = sleeveJoinSts/sg;
+
+  // 5. Body length in rounds
+  const bodyPlainCm = Math.max(0, bodyLen - ribHem);
+  const bodyPlainRounds = r(bodyPlainCm*rg);
+
+  // 6. Sleeve taper
+  const cuffTarget = Math.max(4, r(cuffCirc*sg));
+  const totalDecrease = Math.max(0, sleeveJoinSts - cuffTarget);
+  const decreaseRounds = Math.floor(totalDecrease/2);
+  const sleevePlainCm = Math.max(0, sleeveLen - ribCuff);
+  const sleevePlainRows = r(sleevePlainCm*rg);
+  let decreaseEvery = 0;
+  if(decreaseRounds > 0){
+    decreaseEvery = Math.max(2, Math.floor(sleevePlainRows/decreaseRounds));
+  }
+
+  const neckRibRounds = r(ribNeck*rg);
+  const hemRibRounds = r(ribHem*rg);
+  const cuffRibRounds = r(ribCuff*rg);
+
+  // V-neck specific: front starts as a fixed small point and widens to front0.
+  // Depth is controlled by how many RS rows that widening is spread across (not by the cast-on).
+  let vN = 0, frontStart = 2, initialCO = neckSts, vActualDepthCm = 0, pickUpPerSide = 0, neckbandPickupSts = 0, vIncreaseEvery = 1;
+  if(mode === 'v'){
+    frontStart = Math.max(0, Math.min(2, front0 - 2));
+    const numEvents = Math.max(1, Math.ceil((front0 - frontStart)/2)); // fewest RS rows the widening can possibly take
+    const vDepthCm = parseFloat(document.getElementById('vDepth').value) || 0;
+    const requestedRows = Math.round((vDepthCm*rg)/2);
+
+    let actualRows = Math.max(numEvents, requestedRows);
+    if(requestedRows < numEvents){
+      warnings.push({t:"V depth increased to minimum", m:"Your requested V depth was too shallow to fit the necessary front-neck widening at this gauge and neck size. Depth has been increased to the shallowest the V can be."});
+    }
+    if(actualRows > N){
+      actualRows = N;
+      warnings.push({t:"V depth limited by armhole depth", m:"The V can't be deeper than the raglan/armhole depth in this construction. Increase 'Raglan / armhole depth' too if you want the V deeper, or it's been capped to match."});
+    }
+
+    vN = actualRows;
+    vIncreaseEvery = Math.max(1, Math.floor(vN / numEvents));
+    vActualDepthCm = (2*vN)/rg;
+    initialCO = back0 + 2*sleeve0 + frontStart;
+    const vEdgeRows = 2*vN;
+    pickUpPerSide = Math.round(vEdgeRows * 0.75);
+    neckbandPickupSts = back0 + 2*pickUpPerSide;
+  }
+
+  const frontA = Math.ceil(frontStart/2);
+  const frontB = Math.floor(frontStart/2);
+
+  return {
+    sg, rg, neckSts, sleeve0, back0, front0, N, raglanDepthCm, backF, frontF, sleeveF,
+    underarmEach, chestActualSts, chestActualCm, sleeveUnderarm, sleeveJoinSts, upperArmActualCm,
+    bodyPlainRounds, cuffTarget, totalDecrease, decreaseRounds, decreaseEvery, sleevePlainRows,
+    neckRibRounds, hemRibRounds, cuffRibRounds, warnings, chestCirc, bodyLen, sleeveLen, upperArm, cuffCirc,
+    vN, frontStart, initialCO, vActualDepthCm, pickUpPerSide, neckbandPickupSts, frontA, frontB, vIncreaseEvery
+  };
+}
+
+function render(){
+  const d = calc();
+
+  // warnings
+  const wb = document.getElementById('warnBox');
+  wb.innerHTML = d.warnings.map(w=>`<div class="warn"><strong>${w.t}</strong>${w.m}</div>`).join('');
+
+  // stat strip
+  const stats = [
+    ["Cast on", mode==='v' ? d.initialCO : d.neckSts, mode==='v' ? "sts, flat" : "neck sts"],
+    ["Raglan rounds", d.N, "increase rnds"],
+    ["Chest sts", d.chestActualSts, "≈ "+d.chestActualCm.toFixed(1)+" "+uAbbr()],
+    ["Sleeve sts", d.sleeveJoinSts, "≈ "+d.upperArmActualCm.toFixed(1)+" "+uAbbr()],
+  ];
+  document.getElementById('statStrip').innerHTML = stats.map(s=>
+    `<div class="stat"><div class="n">${s[1]}</div><div class="l">${s[0]}<br>${s[2]}</div></div>`
+  ).join('');
+
+  // schematic
+  const svg = document.getElementById('schematic');
+  const bodyHalfW = 70;
+  const bodyH = 90;
+  const sleeveW = 40;
+  const sleeveH = 70;
+  svg.innerHTML = `
+    <g stroke="#4F5D3F" stroke-width="1.2" fill="none">
+      <!-- body front -->
+      <rect x="60" y="60" width="80" height="${bodyH}" fill="#F8F3E6"/>
+      <!-- neck curve -->
+      ${mode==='v' ? '<path d="M 82 60 L 100 84 L 118 60" />' : mode==='boat' ? '<path d="M 72 62 L 128 62" />' : mode==='offshoulder' ? '<path d="M 66 70 L 134 70" stroke-width="4"/>' : '<path d="M 85 60 Q 100 72 115 60" />'}
+      <!-- raglan lines -->
+      <line x1="60" y1="60" x2="40" y2="105" stroke-dasharray="3,2"/>
+      <line x1="140" y1="60" x2="160" y2="105" stroke-dasharray="3,2"/>
+      <!-- sleeve -->
+      <path d="M 40 105 L 10 118 L 16 165 L 40 160 Z" fill="#F8F3E6"/>
+    </g>
+    <g font-family="Space Mono, monospace" font-size="7" fill="#5C5D4F">
+      <text x="100" y="55" text-anchor="middle">CO ${mode==='v' ? d.initialCO : d.neckSts}</text>
+      <text x="100" y="107" text-anchor="middle">back ${d.backF} / front ${d.frontF}</text>
+      <text x="147" y="150">underarm +${d.underarmEach} ea. side</text>
+      <text x="100" y="163" text-anchor="middle">chest ${d.chestActualSts} sts</text>
+      <text x="100" y="205" text-anchor="middle">body ${d.bodyLen} ${uAbbr()}</text>
+      <text x="20" y="112" text-anchor="middle">${d.sleeveF}</text>
+      <text x="5" y="185">sleeve ${d.sleeveJoinSts} sts</text>
+    </g>
+  `;
+  document.getElementById('schematicCap').innerHTML = mode==='v' ?
+    `<b>Reading this diagram —</b> dashed lines are the raglan seams. Cast on just <b>${d.initialCO} sts</b> and work flat, `+
+    `growing the V and the raglan lines together for <b>${d.vN} rows</b> (~${d.vActualDepthCm.toFixed(1)}${uAbbr()}), then raglan-only for the rest `+
+    `of <b>${d.N} increase rounds</b> before the sleeves are set aside and <b>${d.underarmEach} sts</b> are cast on under each arm to reach <b>${d.chestActualCm.toFixed(1)}${uAbbr()}</b> at the chest.`
+    : mode==='boat' ?
+    `<b>Reading this diagram —</b> dashed lines are the raglan seams. The wide, shallow neckline opens to <b>${d.neckSts} sts</b> and sits close to the shoulder edge, `+
+    `widening over <b>${d.N} increase rounds</b> (~${d.raglanDepthCm.toFixed(1)}${uAbbr()}) before the sleeves are set aside `+
+    `and <b>${d.underarmEach} sts</b> are cast on under each arm to reach <b>${d.chestActualCm.toFixed(1)}${uAbbr()}</b> at the chest.`
+    : mode==='offshoulder' ?
+    `<b>Reading this diagram —</b> dashed lines are the raglan seams. The very wide cast-on (<b>${d.neckSts} sts</b>) sits below the shoulder line, held in place by a snug fold-over band, `+
+    `then widens over <b>${d.N} increase rounds</b> (~${d.raglanDepthCm.toFixed(1)}${uAbbr()}) before the sleeves are set aside `+
+    `and <b>${d.underarmEach} sts</b> are cast on under each arm to reach <b>${d.chestActualCm.toFixed(1)}${uAbbr()}</b> at the chest.`
+    :
+    `<b>Reading this diagram —</b> dashed lines are the raglan seams. The neckband opens to <b>${d.neckSts} sts</b>, `+
+    `widening over <b>${d.N} increase rounds</b> (~${d.raglanDepthCm.toFixed(1)}${uAbbr()}) before the sleeves are set aside `+
+    `and <b>${d.underarmEach} sts</b> are cast on under each arm to reach <b>${d.chestActualCm.toFixed(1)}${uAbbr()}</b> at the chest.`;
+
+  // steps
+  const steps = document.getElementById('steps');
+  const neckStepsCrew = `
+    <div class="step">
+      <h3>Neckband</h3>
+      <p>Cast on <span class="kx">${d.neckSts}</span> stitches. Join in the round, place a marker for start of round.</p>
+      <p>Work <span class="kx">${d.neckRibRounds}</span> rounds of 1×1 or 2×2 rib (≈${document.getElementById('ribNeck').value}${uAbbr()}).</p>
+    </div>
+
+    <div class="step">
+      <h3>Set up raglan lines</h3>
+      <p>Next round, place markers to divide stitches as follows, in order around the round:</p>
+      <p>Back <span class="kx">${d.back0}</span> — pm — Sleeve <span class="kx">${d.sleeve0}</span> — pm — Front <span class="kx">${d.front0}</span> — pm — Sleeve <span class="kx">${d.sleeve0}</span> — pm (start of round)</p>
+      <p class="note">Assumes matching front and back stitch counts for a simple crew neckline.</p>
+    </div>
+
+    <div class="step">
+      <h3>Raglan increases</h3>
+      <p>*Increase round: knit to 1 st before marker, M1L, k1, slip marker, k1, M1R, knit to next marker — repeat from * at each of the 4 markers (8 sts increased per round).</p>
+      <p>Work increase round, then 1 plain round. Repeat these 2 rounds a total of <span class="kx">${d.N}</span> times (${d.N} increase rounds, ~${d.raglanDepthCm.toFixed(1)}${uAbbr()} of raglan depth).</p>
+      <p>After all increases: Back <span class="kx">${d.backF}</span> sts · Front <span class="kx">${d.frontF}</span> sts · each Sleeve <span class="kx">${d.sleeveF}</span> sts.</p>
+    </div>
+
+    <div class="step">
+      <h3>Divide for body and sleeves</h3>
+      <p>Knit across front and back stitches. At each underarm, place ${d.sleeveF} sleeve stitches on a holder or scrap yarn, and cast on <span class="kx">${d.underarmEach}</span> new stitches for the underarm.</p>
+      <p>Total body stitches after dividing: <span class="kx">${d.chestActualSts}</span> (≈${d.chestActualCm.toFixed(1)}${uAbbr()} chest circumference).</p>
+    </div>`;
+
+  const neckStepsV = `
+    <div class="step">
+      <h3>Cast on &amp; set up</h3>
+      <p>Worked flat (back and forth), starting at the two edges of the V. Cast on <span class="kx">${d.initialCO}</span> stitches and place markers as you go, in this order:</p>
+      <p>Front <span class="kx">${d.frontA}</span> — pm — Sleeve <span class="kx">${d.sleeve0}</span> — pm — Back <span class="kx">${d.back0}</span> — pm — Sleeve <span class="kx">${d.sleeve0}</span> — pm — Front <span class="kx">${d.frontB}</span></p>
+      <p class="note">The two front sections are the two open edges of the row — they'll grow toward each other and eventually join into a tube.</p>
+    </div>
+
+    <div class="step">
+      <h3>V-neck &amp; raglan shaping</h3>
+      <p><b>Raglan (every RS row, all ${d.N} rows):</b> at each of the 4 raglan markers, M1L before / M1R after (8 sts/row). WS rows: purl even.</p>
+      <p><b>Front edges (every ${d.vIncreaseEvery===1?'RS row':''+d.vIncreaseEvery+'th RS row'}, for the first <span class="kx">${d.vN}</span> RS rows):</b> also work an edge increase (e.g. backward-loop cast-on 1 st, or M1 into the strand at the edge) at the very start and very end of the row to grow each front piece by 1 st. ${d.vIncreaseEvery>1 ? 'On the RS rows in between, work the raglan increases only — the front edge stays as it is.' : ''}</p>
+      <p>By RS row <span class="kx">${d.vN}</span> (~${d.vActualDepthCm.toFixed(1)}${uAbbr()} of V depth), combined front sts reach <span class="kx">${d.front0}</span> and the V is fully opened — stop the edge increases here.</p>
+      <p><b>RS rows ${d.vN+1}–${d.N} (raglan only):</b> continue raglan increases only (front stays fixed) for the remaining <span class="kx">${d.N-d.vN}</span> RS rows, still worked flat.</p>
+      <p>After all increases: Back <span class="kx">${d.backF}</span> sts · Front <span class="kx">${d.frontF}</span> sts (combined) · each Sleeve <span class="kx">${d.sleeveF}</span> sts.</p>
+      <p class="note">A deeper V spreads the same front-edge increases across more rows (skipping some RS rows in between) rather than adding extra stitches — so the final front width stays the same, but the V takes longer to close and there's more edge to pick up stitches along later.</p>
+    </div>
+
+    <div class="step">
+      <h3>Join to work in the round</h3>
+      <p>With RS facing, knit across the second front section and, instead of turning, continue straight onto the first front section's stitches — the two edges are now adjacent, closing the piece into a tube. Place a marker here for start of round if you'd like a visible centre-front line.</p>
+      <p class="note">From here on, everything is worked in the round rather than flat.</p>
+    </div>
+
+    <div class="step">
+      <h3>Divide for body and sleeves</h3>
+      <p>Knit across front and back stitches. At each underarm, place ${d.sleeveF} sleeve stitches on a holder or scrap yarn, and cast on <span class="kx">${d.underarmEach}</span> new stitches for the underarm.</p>
+      <p>Total body stitches: <span class="kx">${d.chestActualSts}</span> (≈${d.chestActualCm.toFixed(1)}${uAbbr()} chest circumference).</p>
+    </div>`;
+
+  const neckStepsBoat = `
+    <div class="step">
+      <h3>Neckline edge</h3>
+      <p>Cast on <span class="kx">${d.neckSts}</span> stitches. Join in the round, place a marker for start of round.</p>
+      <p>Because a boat neck sits wide and shallow, right at the shoulder edge, it usually wants a much shorter edge than a crew neckband: work <span class="kx">${d.neckRibRounds}</span> rounds of 1×1 rib (≈${document.getElementById('ribNeck').value}${uAbbr()}) — or for a flatter finish, 2–3 rounds of garter (purl 1 round, knit 1 round) instead, or simply bind off after a single round.</p>
+    </div>
+
+    <div class="step">
+      <h3>Set up raglan lines</h3>
+      <p>Next round, place markers to divide stitches as follows, in order around the round:</p>
+      <p>Back <span class="kx">${d.back0}</span> — pm — Sleeve <span class="kx">${d.sleeve0}</span> — pm — Front <span class="kx">${d.front0}</span> — pm — Sleeve <span class="kx">${d.sleeve0}</span> — pm (start of round)</p>
+      <p class="note">Because the neck is so wide, the raglan lines start much closer to the shoulder tip than on a round or V neck — expect the fabric above the bust/chest to sit fairly flat and horizontal before the diagonals really kick in.</p>
+    </div>
+
+    <div class="step">
+      <h3>Raglan increases</h3>
+      <p>*Increase round: knit to 1 st before marker, M1L, k1, slip marker, k1, M1R, knit to next marker — repeat from * at each of the 4 markers (8 sts increased per round).</p>
+      <p>Work increase round, then 1 plain round. Repeat these 2 rounds a total of <span class="kx">${d.N}</span> times (${d.N} increase rounds, ~${d.raglanDepthCm.toFixed(1)}${uAbbr()} of raglan depth).</p>
+      <p>After all increases: Back <span class="kx">${d.backF}</span> sts · Front <span class="kx">${d.frontF}</span> sts · each Sleeve <span class="kx">${d.sleeveF}</span> sts.</p>
+    </div>
+
+    <div class="step">
+      <h3>Divide for body and sleeves</h3>
+      <p>Knit across front and back stitches. At each underarm, place ${d.sleeveF} sleeve stitches on a holder or scrap yarn, and cast on <span class="kx">${d.underarmEach}</span> new stitches for the underarm.</p>
+      <p>Total body stitches after dividing: <span class="kx">${d.chestActualSts}</span> (≈${d.chestActualCm.toFixed(1)}${uAbbr()} chest circumference).</p>
+    </div>`;
+
+  const neckStepsOff = `
+    <div class="step">
+      <h3>Fold-over band</h3>
+      <p>Cast on <span class="kx">${d.neckSts}</span> stitches. Join in the round, place a marker for start of round.</p>
+      <p>This edge needs to grip snugly below the shoulder without a strap, so work it deeper and stretchier than a boat neck: <span class="kx">${d.neckRibRounds*2}</span> rounds of 1×1 rib (≈${(parseFloat(document.getElementById('ribNeck').value)*2).toFixed(1)}${uAbbr()}) — fold it in half to the inside and stitch down, ideally running a length of clear elastic or elastic thread through the fold as you sew it, so the band holds its position on the body.</p>
+    </div>
+
+    <div class="step">
+      <h3>Set up raglan lines</h3>
+      <p>Next round, place markers to divide stitches as follows, in order around the round:</p>
+      <p>Back <span class="kx">${d.back0}</span> — pm — Sleeve <span class="kx">${d.sleeve0}</span> — pm — Front <span class="kx">${d.front0}</span> — pm — Sleeve <span class="kx">${d.sleeve0}</span> — pm (start of round)</p>
+      <p class="note">The cast-on sits well below the natural shoulder line, so there's very little "rise" before the raglan diagonals begin — most of the shaping happens fast, close to the band.</p>
+    </div>
+
+    <div class="step">
+      <h3>Raglan increases</h3>
+      <p>*Increase round: knit to 1 st before marker, M1L, k1, slip marker, k1, M1R, knit to next marker — repeat from * at each of the 4 markers (8 sts increased per round).</p>
+      <p>Work increase round, then 1 plain round. Repeat these 2 rounds a total of <span class="kx">${d.N}</span> times (${d.N} increase rounds, ~${d.raglanDepthCm.toFixed(1)}${uAbbr()} of raglan depth).</p>
+      <p>After all increases: Back <span class="kx">${d.backF}</span> sts · Front <span class="kx">${d.frontF}</span> sts · each Sleeve <span class="kx">${d.sleeveF}</span> sts.</p>
+    </div>
+
+    <div class="step">
+      <h3>Divide for body and sleeves</h3>
+      <p>Knit across front and back stitches. At each underarm, place ${d.sleeveF} sleeve stitches on a holder or scrap yarn, and cast on <span class="kx">${d.underarmEach}</span> new stitches for the underarm.</p>
+      <p>Total body stitches after dividing: <span class="kx">${d.chestActualSts}</span> (≈${d.chestActualCm.toFixed(1)}${uAbbr()} chest circumference).</p>
+    </div>`;
+
+  const neckStepsMap = { crew: neckStepsCrew, v: neckStepsV, boat: neckStepsBoat, offshoulder: neckStepsOff };
+
+  steps.innerHTML = neckStepsMap[mode] + `
+
+    <div class="step">
+      <h3>Body</h3>
+      <p>Work even in the round on ${d.chestActualSts} sts for <span class="kx">${d.bodyPlainRounds}</span> rounds (≈${(d.bodyLen-parseFloat(document.getElementById('ribHem').value)).toFixed(1)}${uAbbr()}).</p>
+      <p>Change to rib and work <span class="kx">${d.hemRibRounds}</span> rounds (≈${document.getElementById('ribHem').value}${uAbbr()}). Bind off in rib.</p>
+    </div>
+
+    <div class="step">
+      <h3>Sleeves</h3>
+      <p>Return ${d.sleeveF} held sleeve stitches to needles. Pick up and knit <span class="kx">${d.sleeveUnderarm}</span> stitches across the cast-on underarm gap. Join in the round: <span class="kx">${d.sleeveJoinSts}</span> sts total.</p>
+      ${d.decreaseRounds > 0 ? `
+      <p>Decrease round: k1, k2tog, knit to last 3 sts, ssk, k1 (2 sts decreased). Work a decrease round every <span class="kx">${d.decreaseEvery}</span> rounds, <span class="kx">${d.decreaseRounds}</span> times total.</p>
+      ` : `<p>No decreases needed — sleeve stitch count already matches your target cuff width; work even.</p>`}
+      <p>Work even until sleeve measures ${(d.sleeveLen - parseFloat(document.getElementById('ribCuff').value)).toFixed(1)}${uAbbr()} from underarm, ending with <span class="kx">${d.cuffTarget}</span> sts remaining.</p>
+      <p>Change to rib and work <span class="kx">${d.cuffRibRounds}</span> rounds (≈${document.getElementById('ribCuff').value}${uAbbr()}). Bind off in rib. Repeat for second sleeve.</p>
+    </div>
+    ${mode==='v' ? `
+    <div class="step">
+      <h3>Neckband</h3>
+      <p>With RS facing, pick up and knit around the V: the ${d.back0} live back-neck sts, plus approximately <span class="kx">${d.pickUpPerSide}</span> sts picked up along each side of the V (≈3 sts for every 4 rows) — about <span class="kx">${d.neckbandPickupSts}</span> sts total. Place a marker at the exact point of the V.</p>
+      <p>Work <span class="kx">${d.neckRibRounds}</span> rounds of 1×1 rib, decreasing 2 sts either side of the V-point marker every round (ssk before, k2tog after) to keep the point sharp. Bind off in rib.</p>
+    </div>` : ''}
+
+    <div class="step">
+      <h3>Finishing</h3>
+      <p>Weave in ends, block to measurements (chest ${d.chestCirc}${uAbbr()}, body length ${d.bodyLen}${uAbbr()}, sleeve length ${d.sleeveLen}${uAbbr()}, upper arm ${d.upperArm}${uAbbr()}, cuff ${d.cuffCirc}${uAbbr()}).</p>
+    </div>
+  `;
+}
+
+function patternText(){
+  const d = calc();
+  const needle = document.getElementById('needle').value;
+  const yarn = document.getElementById('yarn').value;
+  return `TOP-DOWN RAGLAN — custom pattern
+Needle: ${needle}   Yarn: ${yarn}
+Gauge: ${document.getElementById('stGauge').value} sts / ${document.getElementById('rowGauge').value} rows per ${gaugeRefText()}
+
+${mode==='v' ? `CAST ON & SET-UP (worked flat, starting at the two V edges)
+Cast on ${d.initialCO} sts.
+Front ${d.frontA} — pm — Sleeve ${d.sleeve0} — pm — Back ${d.back0} — pm — Sleeve ${d.sleeve0} — pm — Front ${d.frontB}
+
+V-NECK & RAGLAN SHAPING
+Raglan (every RS row, all ${d.N} rows): M1L/M1R at 4 markers, 8 sts/row.
+Front edges (every ${d.vIncreaseEvery===1?'RS row':d.vIncreaseEvery+'th RS row'}, first ${d.vN} RS rows): also edge-inc 1 st at start + 1 st at end of row.
+By RS row ${d.vN} (~${d.vActualDepthCm.toFixed(1)}${uAbbr()}): front reaches ${d.front0} sts, V fully open — stop edge increases.
+RS rows ${d.vN+1}-${d.N}: raglan inc only, front fixed.
+Result: Back ${d.backF} · Front ${d.frontF} (combined) · each Sleeve ${d.sleeveF}
+
+JOIN IN THE ROUND
+Knit across 2nd front section, continue straight onto 1st front section without turning — piece becomes a tube. Everything below is worked in the round.` : mode==='boat' ? `BOAT NECKLINE
+Cast on ${d.neckSts} sts. Join in the round.
+Work ${d.neckRibRounds} rounds 1x1 rib, or 2-3 rounds garter for a flatter edge (~${document.getElementById('ribNeck').value}${uAbbr()}).
+
+SET-UP
+Back ${d.back0} — pm — Sleeve ${d.sleeve0} — pm — Front ${d.front0} — pm — Sleeve ${d.sleeve0} — pm (BOR)
+
+RAGLAN INCREASES
+Inc round: [knit to 1 before marker, M1L, k1, sm, k1, M1R] x4 markers (8 sts/round)
+Alternate inc round / plain round, ${d.N} times total (~${d.raglanDepthCm.toFixed(1)}${uAbbr()} depth).
+Result: Back ${d.backF} · Front ${d.frontF} · each Sleeve ${d.sleeveF}` : mode==='offshoulder' ? `FOLD-OVER BAND
+Cast on ${d.neckSts} sts. Join in the round.
+Work ${d.neckRibRounds*2} rounds 1x1 rib (~${(parseFloat(document.getElementById('ribNeck').value)*2).toFixed(1)}${uAbbr()}). Fold in half, stitch down, run elastic through fold.
+
+SET-UP
+Back ${d.back0} — pm — Sleeve ${d.sleeve0} — pm — Front ${d.front0} — pm — Sleeve ${d.sleeve0} — pm (BOR)
+
+RAGLAN INCREASES
+Inc round: [knit to 1 before marker, M1L, k1, sm, k1, M1R] x4 markers (8 sts/round)
+Alternate inc round / plain round, ${d.N} times total (~${d.raglanDepthCm.toFixed(1)}${uAbbr()} depth).
+Result: Back ${d.backF} · Front ${d.frontF} · each Sleeve ${d.sleeveF}` : `NECKBAND
+Cast on ${d.neckSts} sts. Join in the round.
+Work ${d.neckRibRounds} rounds rib (~${document.getElementById('ribNeck').value}${uAbbr()}).
+
+SET-UP
+Back ${d.back0} — pm — Sleeve ${d.sleeve0} — pm — Front ${d.front0} — pm — Sleeve ${d.sleeve0} — pm (BOR)
+
+RAGLAN INCREASES
+Inc round: [knit to 1 before marker, M1L, k1, sm, k1, M1R] x4 markers (8 sts/round)
+Alternate inc round / plain round, ${d.N} times total (~${d.raglanDepthCm.toFixed(1)}${uAbbr()} depth).
+Result: Back ${d.backF} · Front ${d.frontF} · each Sleeve ${d.sleeveF}`}
+
+DIVIDE
+Hold ${d.sleeveF} sts each sleeve. CO ${d.underarmEach} sts at each underarm.
+Body total: ${d.chestActualSts} sts (~${d.chestActualCm.toFixed(1)}${uAbbr()} chest)
+
+BODY
+Work even ${d.bodyPlainRounds} rounds. Rib ${d.hemRibRounds} rounds (~${document.getElementById('ribHem').value}${uAbbr()}). Bind off.
+
+SLEEVES (x2)
+${d.sleeveF} held sts + pick up ${d.sleeveUnderarm} underarm sts = ${d.sleeveJoinSts} sts, join in round.
+${d.decreaseRounds>0 ? `Dec round (k1,k2tog,knit to last3,ssk,k1) every ${d.decreaseEvery} rounds, ${d.decreaseRounds} times, to ${d.cuffTarget} sts.` : 'No decreases needed.'}
+Work even to ${(d.sleeveLen-parseFloat(document.getElementById('ribCuff').value)).toFixed(1)}${uAbbr()} from underarm.
+Rib ${d.cuffRibRounds} rounds (~${document.getElementById('ribCuff').value}${uAbbr()}). Bind off.
+${mode==='v' ? `
+NECKBAND
+Pick up ${d.back0} live back-neck sts + ~${d.pickUpPerSide} sts each side of V (~${d.neckbandPickupSts} total). Mark V-point.
+Rib ${d.neckRibRounds} rounds, dec 2 sts at V-point marker every round (ssk / k2tog). Bind off in rib.` : ''}
+
+FINISHING
+Block to: chest ${d.chestCirc}${uAbbr()} · body length ${d.bodyLen}${uAbbr()} · sleeve length ${d.sleeveLen}${uAbbr()} · upper arm ${d.upperArm}${uAbbr()} · cuff ${d.cuffCirc}${uAbbr()}`;
+}
+
+const NECK_HINT_RANGES_CM = { crew:[45,56], boat:[60,72], offshoulder:[80,95] };
+const NECK_HINT_SUFFIX = {
+  crew: 'for a fitted round neck',
+  boat: '— wide and shallow, sits at the shoulder edge',
+  offshoulder: '— wide enough to sit below the shoulder, held up by a snug fold-over band'
+};
+function updateNeckHint(){
+  const el = document.getElementById('neckHint');
+  if(mode === 'v'){
+    el.textContent = 'same opening width as a round neck, split at centre front';
+    return;
+  }
+  const [loCm, hiCm] = NECK_HINT_RANGES_CM[mode];
+  const lo = unit==='in' ? Math.round(loCm/CM_PER_IN) : loCm;
+  const hi = unit==='in' ? Math.round(hiCm/CM_PER_IN) : hiCm;
+  el.textContent = `typically ${lo}–${hi}${uAbbr()} ${NECK_HINT_SUFFIX[mode]}`;
+}
+
+function setMode(m){
+  mode = m;
+  document.getElementById('tabCrew').classList.toggle('active', m==='crew');
+  document.getElementById('tabV').classList.toggle('active', m==='v');
+  document.getElementById('tabBoat').classList.toggle('active', m==='boat');
+  document.getElementById('tabOff').classList.toggle('active', m==='offshoulder');
+  document.getElementById('vDepthRow').style.display = m==='v' ? 'grid' : 'none';
+  updateNeckHint();
+  render();
+}
+document.getElementById('tabCrew').addEventListener('click', ()=>setMode('crew'));
+document.getElementById('tabV').addEventListener('click', ()=>setMode('v'));
+document.getElementById('tabBoat').addEventListener('click', ()=>setMode('boat'));
+document.getElementById('tabOff').addEventListener('click', ()=>setMode('offshoulder'));
+
+const LENGTH_FIELDS = ['neck','chest','armDepth','bodyLen','upperArm','cuff','sleeveLen','vDepth','ribNeck','ribHem','ribCuff'];
+function setUnit(u){
+  if(u === unit) return;
+  const prev = unit;
+  unit = u;
+
+  LENGTH_FIELDS.forEach(id=>{
+    const el = document.getElementById(id);
+    const v = parseFloat(el.value);
+    if(!isNaN(v)){
+      let nv;
+      if(prev==='cm' && u==='in') nv = Math.round((v/CM_PER_IN)*4)/4;
+      else nv = Math.round((v*CM_PER_IN)*2)/2;
+      el.value = nv;
+    }
+    if(el.min !== ''){
+      const mv = parseFloat(el.min);
+      if(!isNaN(mv)){
+        el.min = prev==='cm' && u==='in' ? Math.round(mv/CM_PER_IN) : Math.round(mv*CM_PER_IN);
+      }
+    }
+  });
+
+  ['stGauge','rowGauge'].forEach(id=>{
+    const el = document.getElementById(id);
+    const v = parseFloat(el.value);
+    if(isNaN(v)) return;
+    let perUnit, nv;
+    if(prev==='cm' && u==='in'){
+      perUnit = v/10;
+      nv = Math.round((perUnit*4*CM_PER_IN)*2)/2;
+    } else {
+      perUnit = v/4;
+      nv = Math.round((perUnit*10/CM_PER_IN)*2)/2;
+    }
+    el.value = nv;
+  });
+
+  document.getElementById('unitCm').classList.toggle('active', u==='cm');
+  document.getElementById('unitIn').classList.toggle('active', u==='in');
+  document.getElementById('gaugeRefSt').textContent = gaugeRefText();
+  document.getElementById('gaugeRefRow').textContent = gaugeRefText();
+  document.getElementById('measureUnitLabel').textContent = uAbbr();
+  document.getElementById('ribUnitLabel').textContent = uAbbr();
+  updateNeckHint();
+  render();
+}
+document.getElementById('unitCm').addEventListener('click', ()=>setUnit('cm'));
+document.getElementById('unitIn').addEventListener('click', ()=>setUnit('in'));
+
+document.querySelectorAll('input').forEach(el=>el.addEventListener('input', render));
+document.querySelectorAll('select').forEach(el=>el.addEventListener('change', render));
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  const txt = patternText();
+  navigator.clipboard.writeText(txt).then(()=>{
+    const m = document.getElementById('copiedMsg');
+    m.classList.add('show');
+    setTimeout(()=>m.classList.remove('show'), 1600);
+  });
+});
+
+render();
+</script>
+</body>
+</html>

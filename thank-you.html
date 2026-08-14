@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank you — The Thread Within</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f3efee;
+    --sage: #8b7c9e;
+    --sage-dark: #5c5470;
+    --terracotta: #c98f9e;
+    --ink: #3a3444;
+    --ink-soft: #6b6178;
+    --line: #ddd5e0;
+    --paper: #fdfbfc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Karla', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  h1, h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    max-width: 560px;
+    width: 100%;
+    padding: 48px 40px;
+    text-align: center;
+  }
+  .mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--sage);
+    color: var(--cream);
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+  }
+  .eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.1rem);
+    margin-bottom: 16px;
+  }
+  p.lead {
+    color: var(--ink-soft);
+    max-width: 42ch;
+    margin: 0 auto 32px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 15px 32px;
+    border-radius: 3px;
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--terracotta);
+    color: var(--paper);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(201,143,158,0.4);
+  }
+  .note {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--line);
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  .note a { color: var(--terracotta); }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="mark">TTW</div>
+  <div class="eyebrow">Order confirmed</div>
+  <h1>Thank you for your purchase</h1>
+  <p class="lead">Your Raglan Calculator is ready to download. Save the file, then open it in any browser — no installation needed.</p>
+
+  <a href="raglan-calculator.html" download class="btn">Download your calculator</a>
+
+  <div class="note">
+    <p>Trouble with the download, or didn't receive a receipt? Email <a href="mailto:hello@thethreadwithin.store">hello@thethreadwithin.store</a> and I'll sort it out.</p>
+  </div>
+</div>
+
+</body>
+</html>
