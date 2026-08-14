@@ -18,11 +18,11 @@
     --line: #ddd5e0;
     --paper: #fdfbfc;
   }
-
+ 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
   html { scroll-behavior: smooth; }
-
+ 
   body {
     background: var(--cream);
     color: var(--ink);
@@ -30,19 +30,19 @@
     font-size: 17px;
     line-height: 1.6;
   }
-
+ 
   h1, h2, h3 {
     font-family: 'Fraunces', serif;
     font-weight: 500;
     color: var(--ink);
   }
-
+ 
   .wrap {
     max-width: 980px;
     margin: 0 auto;
     padding: 0 28px;
   }
-
+ 
   /* ---- Stitch row divider (signature element) ---- */
   .stitch-row {
     width: 100%;
@@ -50,7 +50,7 @@
     overflow: hidden;
   }
   .stitch-row svg { width: 100%; height: 100%; display: block; }
-
+ 
   /* ---- Header ---- */
   header {
     padding: 28px 0 0;
@@ -75,7 +75,7 @@
     margin-left: 24px;
   }
   .brand nav a:hover { color: var(--terracotta); }
-
+ 
   /* ---- Hero ---- */
   .hero {
     padding: 64px 0 56px;
@@ -129,7 +129,7 @@
     border: 1.5px solid var(--sage);
   }
   .btn-secondary:hover { background: rgba(124,139,111,0.08); }
-
+ 
   /* ---- Raglan diagram (signature visual) ---- */
   .diagram-card {
     background: var(--paper);
@@ -146,13 +146,13 @@
     margin-top: 10px;
     font-style: italic;
   }
-
+ 
   /* ---- Section shared ---- */
   section { padding: 56px 0; }
   .section-head { max-width: 60ch; margin-bottom: 40px; }
   .section-head .eyebrow { margin-bottom: 10px; }
   .section-head h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
-
+ 
   /* ---- Feature grid ---- */
   .features {
     display: grid;
@@ -175,7 +175,7 @@
     margin-bottom: 6px;
   }
   .feature p { color: var(--ink-soft); font-size: 0.96rem; }
-
+ 
   /* ---- Try it ---- */
   .try-it {
     background: var(--paper);
@@ -186,30 +186,107 @@
   }
   .try-it h2 { margin-bottom: 10px; }
   .try-it p { color: var(--ink-soft); max-width: 50ch; margin: 0 auto 28px; }
-  .teaser-box {
-    border: 1.5px dashed var(--sage);
+  .calc-box {
+    border: 1px solid var(--line);
     border-radius: 5px;
-    padding: 48px 24px;
-    background: repeating-linear-gradient(
-      135deg,
-      rgba(124,139,111,0.04),
-      rgba(124,139,111,0.04) 10px,
-      transparent 10px,
-      transparent 20px
-    );
+    padding: 32px;
+    background: var(--paper);
+    text-align: left;
   }
-  .teaser-box p.placeholder-label {
-    font-family: 'Fraunces', serif;
-    font-size: 1.15rem;
-    color: var(--sage-dark);
-    margin-bottom: 8px;
+  .calc-inputs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 20px;
   }
-  .teaser-box p.placeholder-sub {
-    font-size: 0.9rem;
+  .calc-inputs label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink);
+    gap: 6px;
+  }
+  .calc-inputs label span {
+    font-weight: 400;
     color: var(--ink-soft);
-    margin: 0;
+    font-size: 0.78rem;
   }
-
+  .calc-inputs input {
+    font-family: 'Karla', sans-serif;
+    font-size: 1rem;
+    padding: 9px 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .calc-inputs input:focus {
+    outline: 2px solid var(--sage);
+    outline-offset: 1px;
+  }
+  .calc-results {
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 24px;
+  }
+  .calc-result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 12px;
+    background: var(--cream);
+    border-radius: 4px;
+  }
+  .calc-result-row span {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  .calc-result-row strong {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: var(--sage-dark);
+  }
+  .calc-locked {
+    margin-top: 28px;
+    border-top: 1px dashed var(--line);
+    padding-top: 24px;
+    text-align: center;
+  }
+  .locked-label {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    color: var(--sage-dark);
+    margin-bottom: 12px;
+  }
+  .calc-locked ul {
+    list-style: none;
+    max-width: 46ch;
+    margin: 0 auto 22px;
+    text-align: left;
+  }
+  .calc-locked li {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    padding: 5px 0 5px 20px;
+    position: relative;
+  }
+  .calc-locked li::before {
+    content: "·";
+    position: absolute;
+    left: 4px;
+    color: var(--terracotta);
+    font-size: 1.4rem;
+    line-height: 0.8;
+  }
+  @media (max-width: 700px) {
+    .calc-inputs { grid-template-columns: 1fr 1fr; }
+    .calc-results { grid-template-columns: 1fr; }
+  }
+ 
   /* ---- Pricing / buy ---- */
   .buy-card {
     background: var(--sage-dark);
@@ -233,7 +310,7 @@
     background: var(--terracotta);
   }
   .buy-right { text-align: right; }
-
+ 
   /* ---- About ---- */
   .about {
     display: grid;
@@ -255,14 +332,78 @@
   }
   .about p { color: var(--ink-soft); margin-bottom: 14px; }
   .about a { color: var(--terracotta); }
-
+ 
+  /* ---- Product grid ---- */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .product-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .product-photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .product-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .placeholder-photo {
+    background: repeating-linear-gradient(
+      135deg,
+      rgba(139,124,158,0.08),
+      rgba(139,124,158,0.08) 10px,
+      transparent 10px,
+      transparent 20px
+    );
+    border: 1.5px dashed var(--sage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placeholder-photo span {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+  .product-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+  .product-card p {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+  .btn-small {
+    padding: 9px 18px;
+    font-size: 0.85rem;
+    align-self: flex-start;
+  }
+  @media (max-width: 760px) {
+    .product-grid { grid-template-columns: 1fr; }
+  }
+ 
   footer {
     padding: 32px 0 48px;
     text-align: center;
     color: var(--ink-soft);
     font-size: 0.85rem;
   }
-
+ 
   @media (max-width: 760px) {
     .hero { grid-template-columns: 1fr; }
     .features { grid-template-columns: 1fr; }
@@ -273,26 +414,79 @@
 </style>
 </head>
 <body>
-
+ 
 <div class="stitch-row">
   <svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#8b7c9e" stroke-width="2" fill="none"/>
   </svg>
 </div>
-
+ 
 <header>
   <div class="wrap brand">
     <div class="brand-name">The Thread <span>Within</span></div>
     <nav>
+      <a href="#about">About</a>
+      <a href="#shop">Shop</a>
       <a href="#try">Try it</a>
       <a href="#buy">Get the full version</a>
-      <a href="#about">About</a>
     </nav>
   </div>
 </header>
-
+ 
 <div class="wrap">
-  <section class="hero" style="padding-top:8px;">
+  <section id="about" style="padding-top:8px; padding-bottom:8px;">
+    <div class="about">
+      <div class="about-mark">TTW</div>
+      <div>
+        <h2 style="margin-bottom:14px;">About The Thread Within</h2>
+        <p>The Thread Within is a knitting and craft brand making digital tools and printable resources for makers, built by someone who'd rather knit than do sums twice.</p>
+        <p>Follow along on <a href="#">YouTube</a> for more, in both English and Greek, or browse the full shop below.</p>
+      </div>
+    </div>
+  </section>
+</div>
+ 
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
+ 
+<div class="wrap">
+  <section id="shop">
+    <div class="section-head">
+      <div class="eyebrow">From the shop</div>
+      <h2>More from The Thread Within</h2>
+    </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-photo">
+          <img src="images/woodland.webp" alt="Woodland colorwork chart bundle — fox, hedgehog, squirrel, and rabbit charts">
+        </div>
+        <h3>Woodland Colorwork Chart Bundle</h3>
+        <p>Fox, hedgehog, squirrel, and rabbit colorwork charts, ready to knit into your own projects.</p>
+        <a href="https://www.etsy.com/uk/shop/TheThreadWithin" target="_blank" rel="noopener" class="btn btn-secondary btn-small">Buy on Etsy</a>
+      </div>
+      <div class="product-card">
+        <div class="product-photo">
+          <img src="images/tracker.webp" alt="Printable knitting project tracker sheet">
+        </div>
+        <h3>Printable Craft Trackers</h3>
+        <p>PDF trackers for knitting, sock, crochet, blanket, and amigurumi projects — print and go.</p>
+        <a href="https://www.etsy.com/uk/shop/TheThreadWithin" target="_blank" rel="noopener" class="btn btn-secondary btn-small">Buy on Etsy</a>
+      </div>
+      <div class="product-card">
+        <div class="product-photo">
+          <img src="images/calculator.webp" alt="Raglan Calculator tool interface">
+        </div>
+        <h3>Raglan Calculator</h3>
+        <p>The tool on this page — enter your gauge and measurements, get a complete pattern.</p>
+        <a href="#buy" class="btn btn-secondary btn-small">Buy below</a>
+      </div>
+    </div>
+  </section>
+</div>
+ 
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 11 Q10 22 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
+ 
+<div class="wrap">
+  <section class="hero" style="padding-top:48px;">
     <div>
       <div class="eyebrow">Raglan Calculator</div>
       <h1>The maths, <em>done</em>.<br>The knitting, yours.</h1>
@@ -303,31 +497,93 @@
       </div>
     </div>
     <div class="diagram-card">
-      <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
-        <!-- simple raglan yoke schematic -->
-        <circle cx="130" cy="46" r="26" fill="none" stroke="#3a3444" stroke-width="1.4"/>
-        <!-- raglan lines from neck to underarm -->
-        <line x1="112" y1="66" x2="46" y2="150" stroke="#c98f9e" stroke-width="1.6" stroke-dasharray="4 3"/>
-        <line x1="148" y1="66" x2="214" y2="150" stroke="#c98f9e" stroke-width="1.6" stroke-dasharray="4 3"/>
-        <line x1="130" y1="72" x2="130" y2="150" stroke="#c98f9e" stroke-width="1.6" stroke-dasharray="4 3"/>
-        <!-- body outline -->
-        <path d="M46 150 L30 236 L230 236 L214 150" fill="none" stroke="#3a3444" stroke-width="1.4"/>
-        <!-- sleeves -->
-        <path d="M46 150 L8 210 L30 236" fill="none" stroke="#3a3444" stroke-width="1.4"/>
-        <path d="M214 150 L252 210 L230 236" fill="none" stroke="#3a3444" stroke-width="1.4"/>
+      <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg">
+ 
+        <!-- neckline variant chips -->
+        <g font-family="Karla" font-size="8.5" fill="#6b6178" text-anchor="middle">
+          <!-- crew -->
+          <path d="M38 34 Q48 45 58 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
+          <line x1="20" y1="34" x2="38" y2="34" stroke="#3a3444" stroke-width="1.3"/>
+          <line x1="58" y1="34" x2="76" y2="34" stroke="#3a3444" stroke-width="1.3"/>
+          <text x="48" y="54">Crew</text>
+ 
+          <!-- V-neck -->
+          <path d="M112 34 L128 48 L144 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
+          <text x="128" y="54">V-neck</text>
+ 
+          <!-- boat -->
+          <path d="M182 34 Q204 42 226 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
+          <text x="204" y="54">Boat</text>
+ 
+          <!-- off-shoulder -->
+          <line x1="262" y1="40" x2="300" y2="40" stroke="#3a3444" stroke-width="1.3"/>
+          <text x="281" y="54">Off-shoulder</text>
+        </g>
+ 
+        <line x1="10" y1="66" x2="310" y2="66" stroke="#ddd5e0" stroke-width="1"/>
+ 
+        <!-- ===== main flat sketch ===== -->
+ 
+        <!-- raglan seams (shoulder to underarm), shared edge of sleeve + torso -->
+        <line x1="120" y1="100" x2="78" y2="180" stroke="#c98f9e" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <line x1="200" y1="100" x2="242" y2="180" stroke="#c98f9e" stroke-width="1.5" stroke-dasharray="4 3"/>
+ 
+        <!-- left sleeve -->
+        <path d="M120 100 L54 122 L14 228 L46 240 L78 180 Z" fill="none" stroke="#3a3444" stroke-width="1.4" stroke-linejoin="round"/>
+        <!-- cuff ribbing ticks -->
+        <g stroke="#8b7c9e" stroke-width="1">
+          <line x1="20" y1="222" x2="24" y2="234"/>
+          <line x1="27" y1="219" x2="31" y2="231"/>
+          <line x1="34" y1="216" x2="38" y2="228"/>
+        </g>
+ 
+        <!-- right sleeve -->
+        <path d="M200 100 L266 122 L306 228 L274 240 L242 180 Z" fill="none" stroke="#3a3444" stroke-width="1.4" stroke-linejoin="round"/>
+        <g stroke="#8b7c9e" stroke-width="1">
+          <line x1="300" y1="222" x2="296" y2="234"/>
+          <line x1="293" y1="219" x2="289" y2="231"/>
+          <line x1="286" y1="216" x2="282" y2="228"/>
+        </g>
+ 
+        <!-- torso -->
+        <path d="M78 180 L60 336 L260 336 L242 180" fill="none" stroke="#3a3444" stroke-width="1.4" stroke-linejoin="round"/>
+ 
+        <!-- shoulder line + neckline (crew, default) -->
+        <path d="M120 100 L145 100 Q160 112 175 100 L200 100" fill="none" stroke="#3a3444" stroke-width="1.4"/>
+ 
+        <!-- hem ribbing ticks -->
+        <g stroke="#8b7c9e" stroke-width="1">
+          <line x1="90" y1="326" x2="90" y2="336"/>
+          <line x1="110" y1="326" x2="110" y2="336"/>
+          <line x1="130" y1="326" x2="130" y2="336"/>
+          <line x1="150" y1="326" x2="150" y2="336"/>
+          <line x1="170" y1="326" x2="170" y2="336"/>
+          <line x1="190" y1="326" x2="190" y2="336"/>
+          <line x1="210" y1="326" x2="210" y2="336"/>
+          <line x1="230" y1="326" x2="230" y2="336"/>
+        </g>
+ 
+        <!-- chest dimension arrow -->
+        <g stroke="#c98f9e" stroke-width="1">
+          <line x1="78" y1="200" x2="242" y2="200"/>
+          <line x1="78" y1="195" x2="78" y2="205"/>
+          <line x1="242" y1="195" x2="242" y2="205"/>
+        </g>
+        <text x="160" y="215" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">chest</text>
+ 
         <!-- labels -->
-        <text x="130" y="18" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">neck</text>
-        <text x="130" y="196" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">body</text>
-        <text x="14" y="185" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
-        <text x="246" y="185" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
+        <text x="160" y="90" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">neck</text>
+        <text x="18" y="180" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
+        <text x="302" y="180" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
+        <text x="160" y="360" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">body</text>
       </svg>
       <p class="diagram-caption">Your schematic, generated from your own numbers.</p>
     </div>
   </section>
 </div>
-
+ 
 <div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 11 Q10 22 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
-
+ 
 <div class="wrap">
   <section id="features">
     <div class="section-head">
@@ -353,7 +609,7 @@
         <div class="feature-num">03</div>
         <div>
           <h3>Choose your neckline</h3>
-          <p>Round neck or V-neck construction, calculated to fit your own gauge and shape.</p>
+          <p>Crew, V-neck, boat neck, or off-shoulder construction, calculated to fit your own gauge and shape.</p>
         </div>
       </div>
       <div class="feature">
@@ -365,18 +621,79 @@
       </div>
     </div>
   </section>
-
+ 
   <section id="try">
     <div class="try-it">
       <h2>Try it free</h2>
-      <p>Play with the calculator using one sample size before deciding whether to unlock your own pattern.</p>
-      <div class="teaser-box">
-        <p class="placeholder-label">Calculator embed goes here</p>
-        <p class="placeholder-sub">Swap this box for the free teaser version once it's embedded.</p>
+      <p>Enter your gauge and measurements to see your crew-neck stitch breakdown. The full version adds sleeve taper, rib details, V-neck/boat/off-shoulder options, every size, and a printable pattern.</p>
+ 
+      <div class="calc-box">
+        <div class="calc-inputs">
+          <label>
+            Stitch gauge <span>(sts per 10cm)</span>
+            <input type="number" id="calc-sts-gauge" value="22" min="1" step="0.5">
+          </label>
+          <label>
+            Row gauge <span>(rows per 10cm)</span>
+            <input type="number" id="calc-row-gauge" value="30" min="1" step="0.5">
+          </label>
+          <label>
+            Neck circumference <span>(cm)</span>
+            <input type="number" id="calc-neck" value="38" min="1" step="0.5">
+          </label>
+          <label>
+            Chest circumference <span>(cm)</span>
+            <input type="number" id="calc-chest" value="96" min="1" step="0.5">
+          </label>
+          <label>
+            Armhole depth <span>(cm)</span>
+            <input type="number" id="calc-arm-depth" value="20" min="1" step="0.5">
+          </label>
+        </div>
+        <button class="btn btn-secondary" id="calc-run" type="button">Calculate</button>
+ 
+        <div class="calc-results" id="calc-results">
+          <div class="calc-result-row">
+            <span>Cast on (neck)</span>
+            <strong id="res-neck-sts">—</strong>
+          </div>
+          <div class="calc-result-row">
+            <span>Back sts</span>
+            <strong id="res-back">—</strong>
+          </div>
+          <div class="calc-result-row">
+            <span>Front sts</span>
+            <strong id="res-front">—</strong>
+          </div>
+          <div class="calc-result-row">
+            <span>Each sleeve sts</span>
+            <strong id="res-sleeve">—</strong>
+          </div>
+          <div class="calc-result-row">
+            <span>Raglan rounds to underarm</span>
+            <strong id="res-rounds">—</strong>
+          </div>
+          <div class="calc-result-row">
+            <span>Chest sts after dividing</span>
+            <strong id="res-chest-sts">—</strong>
+          </div>
+        </div>
+ 
+        <div class="calc-locked">
+          <p class="locked-label">🔒 Unlocked in the full version</p>
+          <ul>
+            <li>Sleeve taper — decrease schedule down to your cuff</li>
+            <li>V-neck, boat neck, and off-shoulder construction, not just crew</li>
+            <li>Rib depth for neck, hem, and cuff, converted to exact rounds</li>
+            <li>Every size, not just one sample</li>
+            <li>Full written pattern text and printable schematic</li>
+          </ul>
+          <a href="#buy" class="btn btn-primary">Unlock the full version — £15</a>
+        </div>
       </div>
     </div>
   </section>
-
+ 
   <section id="buy">
     <div class="buy-card">
       <div>
@@ -390,22 +707,60 @@
       </div>
     </div>
   </section>
-
-  <section id="about">
-    <div class="about">
-      <div class="about-mark">TTW</div>
-      <div>
-        <h2 style="margin-bottom:14px;">About The Thread Within</h2>
-        <p>The Thread Within is a knitting and craft brand making digital tools and printable resources for makers — pattern calculators, project trackers, and colorwork charts, built by someone who'd rather knit than do sums twice.</p>
-        <p>Follow along on <a href="#">YouTube</a> or <a href="#">Etsy</a> for more.</p>
-      </div>
-    </div>
-  </section>
 </div>
-
+ 
 <footer>
   <div class="wrap">&copy; 2026 The Thread Within</div>
 </footer>
-
+ 
+<script>
+(function () {
+  const runBtn = document.getElementById('calc-run');
+ 
+  function r(n) { return Math.round(n); }
+  function toEven(n) { return 2 * Math.round(n / 2); }
+ 
+  function calculate() {
+    const stG10 = parseFloat(document.getElementById('calc-sts-gauge').value) || 1;
+    const rowG10 = parseFloat(document.getElementById('calc-row-gauge').value) || 1;
+    const sg = stG10 / 10;
+    const rg = rowG10 / 10;
+ 
+    const neckCirc = parseFloat(document.getElementById('calc-neck').value) || 0;
+    const chestCirc = parseFloat(document.getElementById('calc-chest').value) || 0;
+    const armDepth = parseFloat(document.getElementById('calc-arm-depth').value) || 0;
+ 
+    // Neck cast-on, divided 2:2:1:1 back:front:sleeve:sleeve
+    const neckSts = Math.max(8, toEven(neckCirc * sg));
+    const sleeve0 = Math.max(2, r(neckSts / 6));
+    const back0 = r(neckSts * 2 / 6);
+    const front0 = neckSts - back0 - 2 * sleeve0;
+ 
+    // Raglan increases, 8 sts/round, every RS row
+    const N = Math.max(1, r((armDepth * rg) / 2));
+ 
+    const backF = back0 + 2 * N;
+    const frontF = front0 + 2 * N;
+    const sleeveF = sleeve0 + 2 * N;
+ 
+    // Chest stitches after dividing, back-solved from target chest
+    const chestTarget = r(chestCirc * sg);
+    let underarmEach = r((chestTarget - backF - frontF) / 2);
+    if (underarmEach < 1) underarmEach = 1;
+    const chestActualSts = backF + frontF + 2 * underarmEach;
+ 
+    document.getElementById('res-neck-sts').textContent = neckSts + ' sts';
+    document.getElementById('res-back').textContent = backF + ' sts';
+    document.getElementById('res-front').textContent = frontF + ' sts';
+    document.getElementById('res-sleeve').textContent = sleeveF + ' sts';
+    document.getElementById('res-rounds').textContent = N + ' rounds';
+    document.getElementById('res-chest-sts').textContent = chestActualSts + ' sts';
+  }
+ 
+  runBtn.addEventListener('click', calculate);
+  calculate();
+})();
+</script>
+ 
 </body>
 </html>
