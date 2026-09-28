@@ -533,7 +533,7 @@
           <div class="cap" id="schematicCap"></div>
         </div>
 
-        <div class="steps" id="steps"></div>
+        <div class="steps" id="steps"><div class="warn"><strong>Open in a full browser</strong>This calculator needs JavaScript to show your pattern. If you're seeing this, your file viewer or in-app preview is blocking it — save the file to your phone and open it with Chrome or Safari instead.</div></div>
 
         <div class="actions">
           <button class="copy" id="copyBtn">Copy pattern as text</button>
@@ -972,7 +972,10 @@ function updateNeckHint(){
   el.textContent = `typically ${lo}–${hi}${uAbbr()} ${NECK_HINT_SUFFIX[mode]}`;
 }
 
-function setMode(m){
+const HASH_TO_MODE = { round:'crew', vneck:'v', boat:'boat', offshoulder:'offshoulder' };
+const MODE_TO_HASH = { crew:'round', v:'vneck', boat:'boat', offshoulder:'offshoulder' };
+
+function setMode(m, fromHash){
   mode = m;
   document.getElementById('tabCrew').classList.toggle('active', m==='crew');
   document.getElementById('tabV').classList.toggle('active', m==='v');
@@ -981,6 +984,9 @@ function setMode(m){
   document.getElementById('vDepthRow').style.display = m==='v' ? 'grid' : 'none';
   updateNeckHint();
   render();
+  if(!fromHash){
+    try { history.replaceState(null, '', '#'+MODE_TO_HASH[m]); } catch(e) { /* sandboxed viewer: ignore */ }
+  }
 }
 document.getElementById('tabCrew').addEventListener('click', ()=>setMode('crew'));
 document.getElementById('tabV').addEventListener('click', ()=>setMode('v'));
@@ -1048,7 +1054,19 @@ document.getElementById('copyBtn').addEventListener('click', ()=>{
   });
 });
 
-render();
+(function initFromHash(){
+  const h = (window.location.hash || '').replace('#','').toLowerCase();
+  if(HASH_TO_MODE[h]){
+    setMode(HASH_TO_MODE[h], true);
+  } else {
+    render();
+  }
+})();
+
+window.addEventListener('hashchange', ()=>{
+  const h = (window.location.hash || '').replace('#','').toLowerCase();
+  if(HASH_TO_MODE[h] && HASH_TO_MODE[h] !== mode) setMode(HASH_TO_MODE[h], true);
+});
 </script>
 </body>
 </html>
