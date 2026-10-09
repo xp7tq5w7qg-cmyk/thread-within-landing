@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gauge Fixer — The Thread Within</title>
+<meta name="description" content="Your swatch doesn't match the pattern? Enter both gauges and get the right size, new stitch and row counts, and how much yarn to buy. Free.">
+<link rel="canonical" href="https://thethreadwithin.store/gauge-fixer/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thethreadwithin.store/gauge-fixer/">
+<meta property="og:title" content="Gauge Fixer — The Thread Within">
+<meta property="og:description" content="Your swatch is off? Get the numbers that still work.">
+<meta property="og:image" content="https://thethreadwithin.store/images/calculator.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#f3efee;--sage:#8b7c9e;--sage-dark:#5c5470;--terracotta:#c98f9e;--ink:#3a3444;--ink-soft:#6b6178;--line:#ddd5e0;--paper:#fdfbfc;--soft:#f6e9ed;--ok:#4f7a5e;--warn:#b4491f}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Karla',sans-serif;font-size:17px;line-height:1.6}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;color:var(--ink)}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px}
+.stitch-row{width:100%;height:22px;overflow:hidden}
+.stitch-row svg{width:100%;height:100%;display:block}
+header{padding:28px 0 0}
+.brand{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px}
+.brand-name{font-family:'Fraunces',serif;font-size:1.1rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.brand-name span{color:var(--terracotta)}
+.brand nav a{color:var(--ink-soft);text-decoration:none;font-size:.92rem;margin-left:24px}
+.brand nav a:hover{color:var(--terracotta)}
+.brand nav a.btn{color:var(--paper)}
+main{max-width:760px;margin:0 auto;padding:48px 28px 24px}
+.eyebrow{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage-dark);font-weight:700;margin-bottom:14px}
+h1{font-size:clamp(2.1rem,4vw,3.1rem);line-height:1.12;margin-bottom:14px}
+h1 em{font-style:italic;color:var(--terracotta)}
+.lede{color:var(--ink-soft);max-width:52ch;margin-bottom:28px;font-size:1.08rem}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:28px;margin-bottom:20px}
+h2{font-size:1.35rem;margin-bottom:6px}
+h3{font-size:1.08rem;margin:24px 0 8px}
+.hint{color:var(--ink-soft);font-size:.9rem;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+label{display:block;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--cream);border:1px solid var(--line);border-radius:4px;padding:9px 10px;min-height:42px}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+.sub{grid-column:1/-1;font-family:'Fraunces',serif;font-weight:500;font-size:1.02rem;margin-top:10px;color:var(--sage-dark)}
+.sub:first-child{margin-top:0}
+.full{grid-column:1/-1}
+button{font:inherit;font-weight:700;font-size:.95rem;border-radius:3px;border:1.5px solid var(--sage);background:transparent;color:var(--sage-dark);padding:8px 14px;cursor:pointer;min-height:40px}
+button:hover{background:rgba(139,124,158,.08)}
+button.go{background:var(--terracotta);border-color:var(--terracotta);color:var(--paper);width:100%;min-height:48px;margin-top:12px}
+button.go:hover{box-shadow:0 6px 16px rgba(193,112,79,.35)}
+button.x{border-color:var(--line);color:var(--ink-soft);padding:4px 10px;min-height:34px}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th{text-align:left;font-weight:500;color:var(--ink-soft);font-size:.82rem;padding:4px 6px}
+td{padding:6px;border-top:1px solid var(--line);vertical-align:middle}
+.crow{display:grid;grid-template-columns:1.4fr 1fr .9fr auto;gap:8px;align-items:center;margin-bottom:8px}
+.big{background:var(--soft);border-radius:5px;padding:14px 16px;margin-bottom:8px;font-size:1.05rem}
+.big b{font-weight:700}
+.good{color:var(--ok)}.bad{color:var(--warn)}
+.pick{background:var(--soft);font-weight:700}
+.scroll{overflow-x:auto}
+td.n{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500;color:var(--sage-dark);white-space:nowrap}
+.email-capture{margin:0 0 20px;text-align:center;padding:24px}
+.email-capture p{color:var(--ink-soft);max-width:46ch;margin:6px auto 0}
+.buy-card{background:var(--sage-dark);color:var(--cream);border-radius:6px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:20px}
+.buy-card h2{color:var(--cream);font-size:1.5rem;margin-bottom:6px}
+.buy-card p{color:#e8e2ea;max-width:42ch}
+.btn{display:inline-block;padding:13px 26px;border-radius:3px;font-weight:700;font-size:.95rem;text-decoration:none;background:var(--terracotta);color:var(--paper);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(193,112,79,.35)}
+footer{padding:16px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85rem}
+footer a{color:var(--terracotta)}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.crow{grid-template-columns:1fr 1fr}.crow .x{justify-self:start}}
+@media(max-width:700px){.brand nav a:not(.btn){display:none}.card{padding:20px}.buy-card{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wave" d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11"/></defs></svg>
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><use href="#wave" stroke="#8b7c9e" stroke-width="2" fill="none"/></svg></div>
+<header>
+  <div class="wrap brand">
+    <a class="brand-name" href="/">The Thread <span>Within</span></a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/#shop">Shop</a>
+      <a href="/#try" class="btn" style="margin-top:8px;">Raglan Calculator</a>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="eyebrow">Free tool</div>
+<h1>Gauge <em>Fixer</em></h1>
+<p class="lede">Your swatch doesn't match the pattern? Fill in the boxes below, then scroll down for your answers. They update as you type.</p>
+<section class="card">
+<h2>Your numbers</h2>
+<p class="hint">Gauge means how many stitches and rows fit in a square of fabric. The pattern gives its gauge. For yours, knit a small swatch and count.</p>
+<div class="grid">
+<div class="sub">The pattern's gauge</div>
+<div><label for="ps">Stitches</label><input id="ps" type="number" inputmode="decimal" step="any" value="20"></div>
+<div><label for="pr">Rows</label><input id="pr" type="number" inputmode="decimal" step="any" value="28"></div>
+<div class="sub">Your gauge</div>
+<div><label for="ms">Stitches</label><input id="ms" type="number" inputmode="decimal" step="any" value="22"></div>
+<div><label for="mr">Rows</label><input id="mr" type="number" inputmode="decimal" step="any" value="30"></div>
+<div class="full"><label for="unit">Both gauges are counted over</label>
+<select id="unit"><option value="10">10 cm</option><option value="4">4 inches</option></select></div>
+
+<div class="sub">Sizes (optional)</div>
+<div class="full"><label for="sizes">Sizes in the pattern: finished measurements, separated by commas</label><input id="sizes" value="86, 94, 102, 110, 118"></div>
+<div class="full"><label for="target">The measurement you want your finished piece to be</label><input id="target" type="number" inputmode="decimal" step="any" value="100"></div>
+
+<div class="sub">Yarn (optional)</div>
+<div><label for="py">Yarn the pattern says you need</label><input id="py" type="number" inputmode="decimal" step="any" value="1000"></div>
+<div><label for="yu">Measured in</label><select id="yu"><option>yards</option><option>metres</option></select></div>
+<div><label for="sk">Length in one skein of your yarn</label><input id="sk" type="number" inputmode="decimal" step="any" value="220"></div>
+<div><label for="buf">Extra to be safe (%)</label><input id="buf" type="number" inputmode="decimal" step="any" value="10"></div>
+</div>
+
+<h3>Counts to convert</h3>
+<p class="hint">Type the numbers from the pattern, like cast-on stitches or how many rows to knit. Mark each as stitches or rows.</p>
+<div id="counts"></div>
+<button id="add" type="button">+ Add another number</button>
+<div class="grid" style="margin-top:12px">
+<div class="full hint" style="margin:0">If your stitch pattern repeats (for example a multiple of 4 plus 2), the new stitch counts can be rounded to fit.</div>
+<div><label for="mult">Multiple of</label><input id="mult" type="number" min="1" step="1" value="1"></div>
+<div><label for="off">Plus</label><input id="off" type="number" min="0" step="1" value="0"></div>
+</div>
+<button class="go" id="jump" type="button">See my answers ↓</button>
+</section>
+
+<section class="card" id="answers">
+<h2>Your answers</h2>
+<h3>1. Will the pattern fit as written?</h3>
+<div class="big" id="a1" aria-live="polite"></div>
+<div id="a1b" class="hint"></div>
+
+<h3>2. Which size should you knit?</h3>
+<div class="big" id="a2" aria-live="polite"></div>
+<div class="scroll"><table id="sizeTable"></table></div>
+
+<h3>3. Your new stitch and row counts</h3>
+<div class="scroll"><table id="outCounts"></table></div>
+
+<h3>4. How much yarn you need</h3>
+<div class="big" id="a4" aria-live="polite"></div>
+<p class="hint">This is an estimate. Denser fabric uses more yarn and looser fabric uses less. The extra amount covers the difference.</p>
+</section>
+</main>
+<div class="wrap" style="max-width:760px">
+<!-- EMAIL CAPTURE: hidden until MailerLite is set up. Paste the embed, then delete the word "hidden". -->
+<div class="card email-capture" hidden>
+  <h2>Want the bee motif chart too?</h2>
+  <p>Get a free colourwork chart, plus new calculators as they launch.</p>
+  <!-- PASTE MAILERLITE EMBED HERE -->
+</div>
+<div class="buy-card">
+  <div>
+    <h2>Knitting a raglan?</h2>
+    <p>Skip the sums entirely. Enter your gauge and measurements and get a full top-down raglan pattern in seconds.</p>
+  </div>
+  <a class="btn" href="/#try">Try the Raglan Calculator</a>
+</div>
+</div>
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><use href="#wave" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
+<footer><div class="wrap">&copy; 2026 The Thread Within · <a href="/">Back to the shop</a></div></footer>
+<script>
+const $=id=>document.getElementById(id);
+const num=id=>parseFloat($(id).value);
+const fmt=(x,d=1)=>Number.isFinite(x)?(Math.round(x*10**d)/10**d).toString():'–';
+const esc=s=>s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+let rows=[{l:'Cast on',t:'s',v:120},{l:'Body length',t:'r',v:140}];
+
+function snap(n,m,o){m=Math.max(1,Math.round(m)||1);o=Math.round(o)||0;return Math.round((n-o)/m)*m+o}
+
+function renderInputs(){
+  const box=$('counts');box.innerHTML='';
+  rows.forEach((r,i)=>{
+    const d=document.createElement('div');d.className='crow';
+    d.innerHTML=`<input aria-label="What is it?" placeholder="e.g. Cast on" value="${esc(r.l)}">
+    <select aria-label="Stitches or rows"><option value="s"${r.t=='s'?' selected':''}>Stitches</option><option value="r"${r.t=='r'?' selected':''}>Rows</option></select>
+    <input aria-label="Number in the pattern" type="number" inputmode="numeric" value="${r.v}">
+    <button class="x" type="button" aria-label="Remove">&times;</button>`;
+    const [li,ti,vi]=d.querySelectorAll('input,select');
+    li.oninput=()=>{r.l=li.value;calc()};
+    ti.onchange=()=>{r.t=ti.value;calc()};
+    vi.oninput=()=>{r.v=parseFloat(vi.value);calc()};
+    d.querySelector('button').onclick=()=>{rows.splice(i,1);renderInputs()};
+    box.appendChild(d);
+  });
+  calc();
+}
+
+function calc(){
+  const ps=num('ps'),pr=num('pr'),ms=num('ms'),mr=num('mr'),base=+$('unit').value;
+  const unitName=base===10?'cm':'in';
+  const ok=[ps,pr,ms,mr].every(v=>v>0);
+  if(!ok){['a1','a2','a4'].forEach(k=>$(k).textContent='Fill in all four gauge numbers above.');$('a1b').textContent='';$('sizeTable').innerHTML='';$('outCounts').innerHTML='';return}
+  const fs=ms/ps,fr=mr/pr;
+  const dw=(1/fs-1)*100,dl=(1/fr-1)*100;
+
+  // 1
+  if(Math.abs(dw)<.5&&Math.abs(dl)<.5){$('a1').innerHTML='<b class="good">Yes.</b> Your gauge matches. Knit the pattern as written.';$('a1b').textContent=''}
+  else{
+    const bad=Math.abs(dw)>5||Math.abs(dl)>5;
+    const w=dw>0?'wider':'narrower',l=dl>0?'longer':'shorter';
+    $('a1').innerHTML=`<b class="${bad?'bad':'good'}">${bad?'Not quite.':'Close enough.'}</b> Knitted as written, your piece would come out ${fmt(Math.abs(dw))}% ${w} and ${fmt(Math.abs(dl))}% ${l} than the pattern.`;
+    $('a1b').textContent=bad?'Use the new counts below instead of the pattern\'s numbers.':'A difference this small can often be fixed when you block.';
+  }
+
+  // 2
+  const list=$('sizes').value.split(/[,\s;]+/).map(parseFloat).filter(v=>v>0);
+  const t=num('target'),m=num('mult'),o=num('off');
+  if(!list.length){$('a2').textContent='Add the pattern\'s sizes above to see this.';$('sizeTable').innerHTML=''}
+  else{
+    let best=0,bd=Infinity;
+    const out=list.map((s,i)=>{const a=s/fs;const d=Math.abs(a-t);if(d<bd){bd=d;best=i}return{s,a}});
+    $('sizeTable').innerHTML='<tr><th>Size in the pattern</th><th>What you would really get</th></tr>'+out.map((x,i)=>`<tr class="${i===best&&t>0?'pick':''}"><td>${fmt(x.s)} ${unitName}</td><td>${fmt(x.a)} ${unitName}${i===best&&t>0?' ← closest':''}</td></tr>`).join('');
+    if(t>0){
+      const need=t/base*ms;
+      $('a2').innerHTML=`Knit the <b>${fmt(out[best].s)} ${unitName}</b> size. In your yarn it comes out at ${fmt(out[best].a)} ${unitName}.<br>To make exactly ${fmt(t)} ${unitName} you need about <b>${snap(need,m,o)} stitches</b> across.`;
+    }else $('a2').textContent='Enter the measurement you want above.';
+  }
+
+  // 3
+  const valid=rows.filter(r=>r.v>=0);
+  if(!valid.length){$('outCounts').innerHTML=''}
+  else $('outCounts').innerHTML='<tr><th></th><th>Pattern says</th><th>You knit</th></tr>'+valid.map(r=>{
+    const raw=r.v*(r.t==='s'?fs:fr);
+    const n=r.t==='s'?snap(raw,m,o):Math.round(raw);
+    return `<tr><td>${esc(r.l)||'(no label)'} <span class="hint" style="margin:0">${r.t==='s'?'stitches':'rows'}</span></td><td>${r.v}</td><td class="n">${n}</td></tr>`}).join('');
+
+  // 4
+  const py=num('py'),sk=num('sk'),b=num('buf')||0,u=$('yu').value;
+  if(!(py>0)){$('a4').textContent='Enter the yarn amount from the pattern above.'}
+  else{
+    const f=(ms+mr)/(ps+pr),est=py*f,buf=est*(1+b/100);
+    let h=`Plan for about <b>${Math.round(buf)} ${u}</b>.`;
+    if(sk>0){const c=Math.ceil(buf/sk);h+=` That is <b>${c} skein${c===1?'':'s'}</b>.`}
+    h+=`<br><span class="hint">The pattern says ${fmt(py,0)} ${u}. Your tighter or looser gauge changes it to about ${Math.round(est)}, plus ${fmt(b,0)}% extra.</span>`;
+    $('a4').innerHTML=h;
+  }
+}
+
+['ps','pr','ms','mr','unit','sizes','target','mult','off','py','sk','buf','yu'].forEach(id=>$(id).addEventListener('input',calc));
+$('add').onclick=()=>{rows.push({l:'',t:'s',v:0});renderInputs()};
+$('jump').onclick=()=>$('answers').scrollIntoView();
+renderInputs();
+</script>
+</body>
+</html>
