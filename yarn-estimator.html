@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yarn Estimator — The Thread Within</title>
+<meta name="description" content="Work out how much yarn to buy by size, stitch pattern and yarn weight, for knit or crochet jumpers, cardigans, vests, hats and scarves. Free.">
+<link rel="canonical" href="https://thethreadwithin.store/yarn-estimator/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thethreadwithin.store/yarn-estimator/">
+<meta property="og:title" content="Yarn Estimator — The Thread Within">
+<meta property="og:description" content="Enough yarn to finish, without a cupboard of leftovers.">
+<meta property="og:image" content="https://thethreadwithin.store/images/calculator.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3efee;--card:#fdfbfc;--ink:#3a3444;--mute:#6b6178;--line:#ddd5e0;--acc:#5c5470;--sage:#8b7c9e;--terracotta:#c98f9e;--buf:#c98f9e;--paper:#fdfbfc}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Karla',sans-serif;font-size:17px;line-height:1.6}
+h1,h2{font-family:'Fraunces',serif;font-weight:500;color:var(--ink)}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px}
+.stitch-row{width:100%;height:22px;overflow:hidden}
+.stitch-row svg{width:100%;height:100%;display:block}
+header{padding:28px 0 0}
+.brand{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px}
+.brand-name{font-family:'Fraunces',serif;font-size:1.1rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.brand-name span{color:var(--terracotta)}
+.brand nav a{color:var(--mute);text-decoration:none;font-size:.92rem;margin-left:24px}
+.brand nav a:hover{color:var(--terracotta)}
+.brand nav a.btn{color:var(--paper)}
+main{max-width:700px;margin:0 auto;padding:48px 28px 24px}
+.eyebrow{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:14px}
+h1{font-size:clamp(2.1rem,4vw,3.1rem);line-height:1.12;margin-bottom:14px}
+h1 em{font-style:italic;color:var(--terracotta)}
+.sub{color:var(--mute);margin:0 0 28px;max-width:50ch;font-size:1.08rem}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:28px;margin-bottom:20px}
+.seg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.seg button{font:inherit;font-weight:700;font-size:.92rem;padding:8px 18px;border-radius:3px;border:1.5px solid var(--sage);background:transparent;color:var(--acc);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--acc);color:var(--paper);border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+label{display:block;font-size:.85rem;font-weight:700;color:var(--ink)}
+input,select{width:100%;font:inherit;font-weight:400;font-size:1rem;margin-top:4px;padding:9px 10px;min-height:42px;border-radius:4px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+:is(input,select,button):focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+.full{grid-column:1/-1}
+.sizes button{font:inherit;font-size:.85rem;font-weight:700;padding:5px 12px;border-radius:3px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.sizes button[aria-pressed="true"]{background:var(--acc);color:var(--paper);border-color:var(--acc)}
+.res{border-color:var(--terracotta)}
+.big{font-family:'Fraunces',serif;font-size:clamp(2.4rem,11vw,3.6rem);font-weight:500;letter-spacing:-.02em;line-height:1;color:var(--acc)}
+.big small{font-family:'Karla',sans-serif;font-size:1rem;font-weight:400;color:var(--mute);letter-spacing:0}
+.stats{display:flex;gap:20px;flex-wrap:wrap;margin:12px 0 18px;color:var(--mute)}
+.stats b{color:var(--ink);font-weight:700}
+.strip{position:relative;height:38px;border-radius:4px;border:1.5px solid var(--ink);overflow:hidden;background:var(--bg)}
+.strip .base,.strip .buf{position:absolute;top:0;bottom:0;left:0}
+.strip .buf{background:repeating-linear-gradient(135deg,var(--buf) 0 6px,transparent 6px 12px)}
+.strip .base{background:var(--sage)}
+.strip i{position:absolute;top:0;bottom:0;width:2px;background:var(--ink)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--mute);margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;background:var(--c);border:1px solid var(--line)}
+.note{font-size:.88rem;color:var(--mute);margin:14px 0 0}
+.more{font-size:.92rem;color:var(--mute);margin:0 0 20px}
+.more a,footer a{color:var(--terracotta)}
+.email-capture{text-align:center}
+.email-capture h2{font-size:1.3rem;margin-bottom:6px}
+.email-capture p{color:var(--mute);max-width:46ch;margin:0 auto}
+.buy-card{background:var(--acc);color:var(--bg);border-radius:6px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:20px}
+.buy-card h2{color:var(--bg);font-size:1.5rem;margin-bottom:6px}
+.buy-card p{color:#e8e2ea;max-width:42ch}
+.btn{display:inline-block;padding:13px 26px;border-radius:3px;font-weight:700;font-size:.95rem;text-decoration:none;background:var(--terracotta);color:var(--paper);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(193,112,79,.35)}
+footer{padding:16px 0 48px;text-align:center;color:var(--mute);font-size:.85rem}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+@media(max-width:700px){.brand nav a:not(.btn){display:none}.panel{padding:20px}.buy-card{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wave" d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11"/></defs></svg>
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><use href="#wave" stroke="#8b7c9e" stroke-width="2" fill="none"/></svg></div>
+<header>
+  <div class="wrap brand">
+    <a class="brand-name" href="/">The Thread <span>Within</span></a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/#shop">Shop</a>
+      <a href="/#try" class="btn" style="margin-top:8px;">Raglan Calculator</a>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="eyebrow">Free tool</div>
+<h1>Yarn <em>Estimator</em></h1>
+<p class="sub">Enough yarn to finish, without a cupboard of leftovers. Estimates by size, stitch and yarn weight.</p>
+<div class="panel">
+  <div class="seg" id="craft" role="group" aria-label="Craft">
+    <button type="button" data-v="knit" aria-pressed="true">Knit</button>
+    <button type="button" data-v="crochet" aria-pressed="false">Crochet</button>
+  </div>
+  <div class="grid">
+    <label class="full">Project
+      <select id="garment">
+        <option value="jumper">Jumper</option>
+        <option value="cardigan">Cardigan</option>
+        <option value="vest">Vest / tank</option>
+        <option value="hat">Hat</option>
+        <option value="scarf">Scarf</option>
+      </select></label>
+    <div class="full sizes" id="sizes">
+      <label style="margin-bottom:6px">Body chest, quick pick</label>
+      <button type="button" data-c="82">XS</button> <button type="button" data-c="90">S</button> <button type="button" data-c="98">M</button> <button type="button" data-c="106">L</button> <button type="button" data-c="114">XL</button> <button type="button" data-c="126">2XL</button>
+    </div>
+    <label id="l1">Chest (cm)<input id="f1" type="number" inputmode="decimal" min="1"></label>
+    <label id="lease">Fit<select id="ease"><option value="4">Close fit (+4 cm)</option><option value="10" selected>Regular (+10 cm)</option><option value="20">Relaxed (+20 cm)</option><option value="30">Oversized (+30 cm)</option></select></label>
+    <label id="l2">Body length (cm)<input id="f2" type="number" inputmode="decimal" min="1"></label>
+    <label id="l3">Sleeve length (cm)<input id="f3" type="number" inputmode="decimal" min="0"></label>
+    <label>Yarn weight
+      <select id="weight">
+        <option value="lace">Lace</option><option value="fing">Fingering / 4-ply</option><option value="sport">Sport</option><option value="dk" selected>DK</option><option value="wors">Worsted</option><option value="aran">Aran</option><option value="chunky">Chunky</option>
+      </select></label>
+    <label>Stitch pattern<select id="stitch"></select></label>
+    <label>My gauge, optional (sts / 10 cm)<input id="gauge" type="number" inputmode="decimal" placeholder="from your swatch"></label>
+    <label>Safety margin (%)<input id="buf" type="number" inputmode="decimal" value="10" min="0" max="50"></label>
+    <label>Metres per skein<input id="skm" type="number" inputmode="decimal" min="1"></label>
+    <label>Grams per skein<input id="skg" type="number" inputmode="decimal" value="100" min="1"></label>
+  </div>
+</div>
+
+<div class="panel res" aria-live="polite">
+  <div class="big"><span id="m">0</span> <small>metres to buy</small></div>
+  <div class="stats">
+    <span><b id="yd">0</b> yards</span>
+    <span><b id="g">0</b> g</span>
+    <span><b id="sk">0</b> skeins</span>
+    <span><b id="left">0</b> m left over</span>
+  </div>
+  <div class="strip" id="strip"><div class="buf" id="sbuf"></div><div class="base" id="sbase"></div></div>
+  <div class="legend"><span style="--c:var(--acc)">The project</span><span style="--c:var(--buf)">Safety margin</span><span style="--c:var(--bg);">Leftover in last skein</span></div>
+  <p class="note">An estimate for plain shaping. Swatch first, enter your own gauge for a closer figure, and buy all skeins from one dye lot.</p>
+</div>
+<p class="more">Swatch doesn't match the pattern? Try the <a href="/gauge-fixer/">Gauge Fixer</a>.</p>
+</main>
+<div class="wrap" style="max-width:700px">
+<!-- EMAIL CAPTURE: hidden until MailerLite is set up. Paste the embed, then delete the word "hidden". -->
+<div class="panel email-capture" hidden>
+  <h2>Want the bee motif chart too?</h2>
+  <p>Get a free colourwork chart, plus new calculators as they launch.</p>
+  <!-- PASTE MAILERLITE EMBED HERE -->
+</div>
+<div class="buy-card">
+  <div>
+    <h2>Knitting a raglan?</h2>
+    <p>Skip the sums entirely. Enter your gauge and measurements and get a full top-down raglan pattern in seconds.</p>
+  </div>
+  <a class="btn" href="/#try">Try the Raglan Calculator</a>
+</div>
+</div>
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><use href="#wave" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
+<footer><div class="wrap">&copy; 2026 The Thread Within · <a href="/">Back to the shop</a></div></footer>
+<script>
+(function(){
+var W={lace:{g:32,m:0.156,sk:800},fing:{g:28,m:0.136,sk:400},sport:{g:24,m:0.117,sk:300},dk:{g:22,m:0.107,sk:225},wors:{g:18,m:0.0875,sk:190},aran:{g:16,m:0.078,sk:160},chunky:{g:13,m:0.063,sk:110}};
+var ST={knit:[["Stockinette",1],["Garter",1.25],["1x1 rib",1.3],["Seed / moss",1.2],["Cables",1.5],["Stranded colourwork",1.6],["Lace / openwork",0.85]],
+crochet:[["Double crochet",1.2],["Half double crochet",1.35],["Single crochet",1.5],["Shells / granny",1.1]]};
+var G={jumper:{n:["Chest (cm)","Body length (cm)","Sleeve length (cm)"],v:[98,62,46],bonus:1.04,chest:1,sl:1},
+cardigan:{n:["Chest (cm)","Body length (cm)","Sleeve length (cm)"],v:[98,62,46],bonus:1.08,chest:1,sl:1},
+vest:{n:["Chest (cm)","Body length (cm)"],v:[98,62],bonus:1.03,chest:1,sl:0},
+hat:{n:["Head circumference (cm)","Height incl. brim (cm)"],v:[56,22],bonus:1.1,chest:0,sl:0},
+scarf:{n:["Width (cm)","Length (cm)"],v:[20,160],bonus:1,chest:0,sl:0}};
+var $=function(i){return document.getElementById(i)};
+var craft="knit",skAuto=true;
+function setGarment(){
+ var g=G[$("garment").value];
+ [1,2,3].forEach(function(i){
+  var l=$("l"+i);
+  if(g.n[i-1]){l.style.display="";l.firstChild.nodeValue=g.n[i-1];$("f"+i).value=g.v[i-1]}else l.style.display="none";
+ });
+ $("sizes").style.display=g.chest?"":"none";
+ $("lease").style.display=g.chest?"":"none";
+ calc();
+}
+function setStitches(){
+ var s=$("stitch");s.innerHTML="";
+ ST[craft].forEach(function(x,i){var o=document.createElement("option");o.value=x[1];o.textContent=x[0];s.appendChild(o)});
+}
+function setSkein(){ if(skAuto)$("skm").value=W[$("weight").value].sk/(100/ (+$("skg").value||100)) }
+function fmt(n){return Math.round(n).toLocaleString("en-GB")}
+function calc(){
+ document.querySelectorAll("#sizes button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.c===String(+$("f1").value))});
+ var key=$("garment").value,g=G[key],a=[+$("f1").value||0,+$("f2").value||0,+$("f3").value||0],area;
+ if(key==="hat")area=0.9*a[0]*a[1];
+ else if(key==="scarf")area=a[0]*a[1];
+ else{var c=a[0]+(+$("ease").value);area=c*a[1]+(g.sl?2*0.30*c*a[2]:0)}
+ var w=W[$("weight").value],gf=+$("gauge").value>0?(+$("gauge").value/w.g):1;
+ var base=area*g.bonus*w.m*gf*(+$("stitch").value);
+ var bp=Math.max(0,+$("buf").value||0)/100,tot=base*(1+bp);
+ var sm=+$("skm").value||1,sg=+$("skg").value||100,n=Math.max(1,Math.ceil(tot/sm-1e-9));
+ if(!(area>0)){n=0;tot=0;base=0}
+ $("m").textContent=fmt(Math.ceil(tot/10)*10);
+ $("yd").textContent=fmt(tot*1.0936);
+ $("g").textContent=fmt(tot*sg/sm);
+ $("sk").textContent=n;
+ $("left").textContent=fmt(Math.max(0,n*sm-tot));
+ var cap=Math.max(1,n)*sm;
+ $("sbase").style.width=Math.min(100,base/cap*100)+"%";
+ $("sbuf").style.width=Math.min(100,tot/cap*100)+"%";
+ var s=$("strip");[].slice.call(s.querySelectorAll("i")).forEach(function(e){s.removeChild(e)});
+ for(var i=1;i<n;i++){var d=document.createElement("i");d.style.left="calc("+(i/n*100)+"% - 1px)";s.appendChild(d)}
+}
+document.querySelectorAll("#craft button").forEach(function(b){b.onclick=function(){
+ craft=b.dataset.v;document.querySelectorAll("#craft button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});setStitches();calc()}});
+document.querySelectorAll("#sizes button").forEach(function(b){b.onclick=function(){$("f1").value=b.dataset.c;calc()}});
+$("garment").onchange=setGarment;
+$("weight").onchange=function(){setSkein();calc()};
+$("skg").oninput=function(){setSkein();calc()};
+$("skm").oninput=function(){skAuto=false;calc()};
+["f1","f2","f3","ease","stitch","gauge","buf"].forEach(function(i){$(i).oninput=calc;$(i).onchange=calc});
+setStitches();setSkein();setGarment();
+})();
+</script>
+</body>
+</html>
