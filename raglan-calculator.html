@@ -545,7 +545,7 @@
   </div>
 
   <footer>
-    All four necklines share the same underlying shaping: 4 raglan lines increasing 8 sts per round (1 st each side, every RS row), equal front and back stitch counts (no separate front-neck scoop shaping), and a straight, unshaped body. What differs between tabs is only how the neckline itself is cast on and finished — round neck joins in the round and ribs first; V-neck starts flat at two front edges and joins partway through; boat neck uses a wide, shallow edge; off-shoulder uses a deep fold-over band, ideally with elastic run through it. All measurements and gauge can be worked in cm or inches — toggle at the top of the form — and every figure below updates to match. All figures are rounded to whole stitches/rounds — swatch and re-check gauge before committing to a size.
+    All four necklines share the same underlying shaping: 4 raglan lines increasing 8 sts per round (1 st each side, every RS row), equal front and back stitch counts (no separate front-neck scoop shaping), and a straight, unshaped body. What differs between tabs is only how the neckline itself is cast on and finished — round neck joins in the round and ribs first; V-neck starts flat at two front edges and joins partway through; boat neck uses a wide, shallow edge; off-shoulder uses a deep fold-over band, ideally with elastic run through it. All measurements and gauge can be worked in cm or inches — toggle at the top of the form — and every figure below updates to match. The underarm cast-on is capped at a realistic ~5cm per side; if your neck and chest measurements would need more than that to match up, the tool will flag it and point you to a deeper raglan depth instead. All figures are rounded to whole stitches/rounds — swatch and re-check gauge before committing to a size.
   </footer>
 </div>
 
@@ -595,21 +595,34 @@ function calc(){
   const sleeveF = sleeve0 + 2*N;
 
   // 3. Underarm cast-on for body, back-solved from target chest
+  // Capped at a realistic ~5cm (a standard raglan underarm gusset) so a narrow
+  // neck / wide chest combination can't force an oversized, unrealistic cast-on.
+  const maxUnderarmLen = unit==='in' ? 5/CM_PER_IN : 5;
+  const maxUnderarmSts = Math.max(1, r(maxUnderarmLen*sg));
+
   const chestTarget = r(chestCirc*sg);
   let underarmEach = r((chestTarget - backF - frontF)/2);
   if(underarmEach < 1){
     warnings.push({t:"Tight fit at underarm", m:"Your raglan depth produces more body stitches than your chest measurement allows. The tool has floored the underarm cast-on at 1 stitch per side — consider a shallower raglan depth or a looser chest measurement."});
     underarmEach = 1;
+  } else if(underarmEach > maxUnderarmSts){
+    warnings.push({t:"Underarm cast-on capped", m:`Reaching this chest at this raglan depth would need an unusually large underarm cast-on (${underarmEach} sts each side). It's been capped at a realistic ~${maxUnderarmLen.toFixed(1)}${uAbbr()} (${maxUnderarmSts} sts), which means the actual chest will come out narrower than you asked for — increase 'Raglan / armhole depth' so more width comes from the raglan increases instead, or reduce the chest measurement.`});
+    underarmEach = maxUnderarmSts;
   }
   const chestActualSts = backF + frontF + 2*underarmEach;
   const chestActualCm = chestActualSts/sg;
 
-  // 4. Sleeve underarm cast-on, back-solved from target upper arm
+  // 4. Sleeve underarm cast-on, back-solved from target upper arm, with the same
+  // realistic cap — and never allowed to drift wildly from the body's underarm
+  // amount, since both cross the same physical gap at the same point.
   const sleeveTarget = r(upperArm*sg);
   let sleeveUnderarm = sleeveTarget - sleeveF;
   if(sleeveUnderarm < 0){
     warnings.push({t:"Sleeve narrower than target", m:"At this raglan depth the sleeve already has more stitches than your upper-arm measurement needs. The tool has set the sleeve underarm cast-on to 0 — consider a shallower raglan depth or a roomier upper-arm measurement."});
     sleeveUnderarm = 0;
+  } else if(sleeveUnderarm > maxUnderarmSts){
+    warnings.push({t:"Sleeve underarm cast-on capped", m:`Reaching this upper arm at this raglan depth would need an unusually large underarm addition (${sleeveUnderarm} sts). It's been capped at a realistic ~${maxUnderarmLen.toFixed(1)}${uAbbr()} (${maxUnderarmSts} sts) — increase 'Raglan / armhole depth' for more width from the increases themselves, or reduce the upper-arm measurement.`});
+    sleeveUnderarm = maxUnderarmSts;
   }
   const sleeveJoinSts = sleeveF + sleeveUnderarm;
   const upperArmActualCm = sleeveJoinSts/sg;
