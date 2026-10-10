@@ -99,6 +99,13 @@ section{padding:56px 0}
 footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85rem}footer a{color:var(--terracotta)}
 @media(max-width:700px){.calc-inputs{grid-template-columns:1fr 1fr}.calc-results{grid-template-columns:1fr}.brand nav a:not(.btn){display:none}}
 @media(max-width:760px){.product-grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.features{grid-template-columns:1fr}.about{grid-template-columns:1fr}.buy-card{flex-direction:column;text-align:center}.buy-right{text-align:center}}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tool-card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:22px;display:flex;flex-direction:column}
+.tool-card.lead{border-color:var(--terracotta)}
+.tool-tag{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:8px}
+.tool-card h3{font-size:1.15rem;margin-bottom:8px}
+.tool-card p{color:var(--ink-soft);font-size:.92rem;margin-bottom:18px;flex-grow:1}
+@media(max-width:760px){.tools-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -112,6 +119,7 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
     <div class="brand-name">The Thread <span>Within</span></div>
     <nav>
       <a href="#try">Try it free</a>
+      <a href="#free-tools">Free tools</a>
       <a href="#shop">Shop</a>
       <a href="#about">About</a>
       <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:8px;">Get the full version</a>
@@ -258,6 +266,31 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
           </ul>
           <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary">Unlock the full version — £15</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="free-tools">
+    <div class="section-head">
+      <div class="eyebrow">Free tools</div>
+      <h2>Fix the numbers before you cast on</h2>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card lead">
+        <div class="tool-tag">Start here</div>
+        <h3>Gauge Fixer</h3>
+        <p>Your swatch doesn't match the pattern? Get the right size, new stitch and row counts, and how much yarn to buy.</p>
+        <a href="/gauge-fixer/" class="btn btn-primary btn-small">Open the Gauge Fixer</a>
+      </div>
+      <div class="tool-card">
+        <h3>Yarn Swap</h3>
+        <p>Swapping yarn? Check weight, yardage, drape and fibre in one go, and see how many skeins to buy.</p>
+        <a href="/yarn-swap/" class="btn btn-secondary btn-small">Open Yarn Swap</a>
+      </div>
+      <div class="tool-card">
+        <h3>Yarn Estimator</h3>
+        <p>Work out how much yarn to buy by size, stitch pattern and yarn weight.</p>
+        <a href="/yarn-estimator/" class="btn btn-secondary btn-small">Open the Yarn Estimator</a>
       </div>
     </div>
   </section>
