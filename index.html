@@ -1,580 +1,163 @@
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="p:domain_verify" content="fd2f4818b94f556e9289b46743d9b972"/>
+<meta name="p:domain_verify" content="fd2f4818b94f556e9289b46743d9b972"/>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raglan Calculator — The Thread Within</title>
+<meta name="description" content="Enter your gauge and measurements and get a personalised top-down raglan pattern: exact stitch counts, increase rate and a schematic. Try it free.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thethreadwithin.store">
+<meta property="og:title" content="Raglan Calculator — The Thread Within">
+<meta property="og:description" content="The maths, done. The knitting, yours. Try the top-down raglan calculator free.">
+<meta property="og:image" content="https://thethreadwithin.store/images/calculator.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cream: #f3efee;
-    --sage: #8b7c9e;
-    --sage-dark: #5c5470;
-    --terracotta: #c98f9e;
-    --ink: #3a3444;
-    --ink-soft: #6b6178;
-    --line: #ddd5e0;
-    --paper: #fdfbfc;
-  }
- 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
- 
-  html { scroll-behavior: smooth; }
- 
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'Karla', sans-serif;
-    font-size: 17px;
-    line-height: 1.6;
-  }
- 
-  h1, h2, h3 {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    color: var(--ink);
-  }
- 
-  .wrap {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 0 28px;
-  }
- 
-  /* ---- Stitch row divider (signature element) ---- */
-  .stitch-row {
-    width: 100%;
-    height: 22px;
-    overflow: hidden;
-  }
-  .stitch-row svg { width: 100%; height: 100%; display: block; }
- 
-  /* ---- Header ---- */
-  header {
-    padding: 28px 0 0;
-  }
-  .brand {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 20px;
-  }
-  .brand-name {
-    font-family: 'Fraunces', serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .brand-name span { color: var(--terracotta); }
-  .brand nav a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 0.92rem;
-    margin-left: 24px;
-  }
-  .brand nav a:hover { color: var(--terracotta); }
- 
-  /* ---- Hero ---- */
-  .hero {
-    padding: 64px 0 56px;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 48px;
-    align-items: center;
-  }
-  .eyebrow {
-    font-size: 0.82rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--sage-dark);
-    font-weight: 700;
-    margin-bottom: 14px;
-  }
-  .hero h1 {
-    font-size: clamp(2.1rem, 4vw, 3.1rem);
-    line-height: 1.12;
-    margin-bottom: 20px;
-  }
-  .hero h1 em {
-    font-style: italic;
-    color: var(--terracotta);
-  }
-  .hero p.lead {
-    font-size: 1.08rem;
-    color: var(--ink-soft);
-    max-width: 46ch;
-    margin-bottom: 30px;
-  }
-  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
-  .btn {
-    display: inline-block;
-    padding: 13px 26px;
-    border-radius: 3px;
-    font-family: 'Karla', sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-decoration: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .btn-primary {
-    background: var(--terracotta);
-    color: var(--paper);
-  }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(193,112,79,0.35); }
-  .btn-secondary {
-    background: transparent;
-    color: var(--sage-dark);
-    border: 1.5px solid var(--sage);
-  }
-  .btn-secondary:hover { background: rgba(124,139,111,0.08); }
- 
-  /* ---- Raglan diagram (signature visual) ---- */
-  .diagram-card {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 28px;
-    position: relative;
-  }
-  .diagram-card svg { width: 100%; height: auto; display: block; }
-  .diagram-caption {
-    text-align: center;
-    font-size: 0.82rem;
-    color: var(--ink-soft);
-    margin-top: 10px;
-    font-style: italic;
-  }
- 
-  /* ---- Section shared ---- */
-  section { padding: 56px 0; }
-  .section-head { max-width: 60ch; margin-bottom: 40px; }
-  .section-head .eyebrow { margin-bottom: 10px; }
-  .section-head h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
- 
-  /* ---- Feature grid ---- */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 28px 40px;
-  }
-  .feature {
-    display: flex;
-    gap: 16px;
-  }
-  .feature-num {
-    font-family: 'Fraunces', serif;
-    font-size: 1.4rem;
-    color: var(--sage);
-    flex-shrink: 0;
-    width: 32px;
-  }
-  .feature h3 {
-    font-size: 1.08rem;
-    margin-bottom: 6px;
-  }
-  .feature p { color: var(--ink-soft); font-size: 0.96rem; }
- 
-  /* ---- Try it ---- */
-  .try-it {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 40px;
-    text-align: center;
-  }
-  .try-it h2 { margin-bottom: 10px; }
-  .try-it p { color: var(--ink-soft); max-width: 50ch; margin: 0 auto 28px; }
-  .calc-box {
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    padding: 32px;
-    background: var(--paper);
-    text-align: left;
-  }
-  .calc-inputs {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 20px;
-  }
-  .calc-inputs label {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--ink);
-    gap: 6px;
-  }
-  .calc-inputs label span {
-    font-weight: 400;
-    color: var(--ink-soft);
-    font-size: 0.78rem;
-  }
-  .calc-inputs input {
-    font-family: 'Karla', sans-serif;
-    font-size: 1rem;
-    padding: 9px 10px;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    background: var(--cream);
-    color: var(--ink);
-  }
-  .calc-inputs input:focus {
-    outline: 2px solid var(--sage);
-    outline-offset: 1px;
-  }
-  .calc-results {
-    margin-top: 24px;
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 24px;
-  }
-  .calc-result-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 8px 12px;
-    background: var(--cream);
-    border-radius: 4px;
-  }
-  .calc-result-row span {
-    font-size: 0.88rem;
-    color: var(--ink-soft);
-  }
-  .calc-result-row strong {
-    font-family: 'Fraunces', serif;
-    font-size: 1.1rem;
-    color: var(--sage-dark);
-  }
-  .calc-locked {
-    margin-top: 28px;
-    border-top: 1px dashed var(--line);
-    padding-top: 24px;
-    text-align: center;
-  }
-  .locked-label {
-    font-family: 'Fraunces', serif;
-    font-size: 1.05rem;
-    color: var(--sage-dark);
-    margin-bottom: 12px;
-  }
-  .calc-locked ul {
-    list-style: none;
-    max-width: 46ch;
-    margin: 0 auto 22px;
-    text-align: left;
-  }
-  .calc-locked li {
-    color: var(--ink-soft);
-    font-size: 0.92rem;
-    padding: 5px 0 5px 20px;
-    position: relative;
-  }
-  .calc-locked li::before {
-    content: "·";
-    position: absolute;
-    left: 4px;
-    color: var(--terracotta);
-    font-size: 1.4rem;
-    line-height: 0.8;
-  }
-  @media (max-width: 700px) {
-    .calc-inputs { grid-template-columns: 1fr 1fr; }
-    .calc-results { grid-template-columns: 1fr; }
-  }
- 
-  /* ---- Pricing / buy ---- */
-  .buy-card {
-    background: var(--sage-dark);
-    color: var(--cream);
-    border-radius: 6px;
-    padding: 44px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
-  .buy-card h2 { color: var(--cream); font-size: 1.6rem; margin-bottom: 8px; }
-  .buy-card p { color: #e8e2ea; max-width: 42ch; }
-  .price {
-    font-family: 'Fraunces', serif;
-    font-size: 2.4rem;
-    white-space: nowrap;
-  }
-  .buy-card .btn-primary {
-    background: var(--terracotta);
-  }
-  .buy-right { text-align: right; }
- 
-  /* ---- About ---- */
-  .about {
-    display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: 40px;
-    align-items: start;
-  }
-  .about-mark {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: var(--sage);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--cream);
-    font-family: 'Fraunces', serif;
-    font-size: 1.5rem;
-  }
-  .about p { color: var(--ink-soft); margin-bottom: 14px; }
-  .about a { color: var(--terracotta); }
- 
-  /* ---- Product grid ---- */
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-  }
-  .product-card {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-  }
-  .product-photo {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 4px;
-    margin-bottom: 16px;
-    overflow: hidden;
-  }
-  .product-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .placeholder-photo {
-    background: repeating-linear-gradient(
-      135deg,
-      rgba(139,124,158,0.08),
-      rgba(139,124,158,0.08) 10px,
-      transparent 10px,
-      transparent 20px
-    );
-    border: 1.5px dashed var(--sage);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .placeholder-photo span {
-    color: var(--ink-soft);
-    font-size: 0.85rem;
-    font-style: italic;
-  }
-  .product-card h3 {
-    font-size: 1.05rem;
-    margin-bottom: 8px;
-  }
-  .product-card p {
-    color: var(--ink-soft);
-    font-size: 0.92rem;
-    margin-bottom: 18px;
-    flex-grow: 1;
-  }
-  .btn-small {
-    padding: 9px 18px;
-    font-size: 0.85rem;
-    align-self: flex-start;
-  }
-  @media (max-width: 760px) {
-    .product-grid { grid-template-columns: 1fr; }
-  }
- 
-  footer {
-    padding: 32px 0 48px;
-    text-align: center;
-    color: var(--ink-soft);
-    font-size: 0.85rem;
-  }
- 
-  @media (max-width: 760px) {
-    .hero { grid-template-columns: 1fr; }
-    .features { grid-template-columns: 1fr; }
-    .about { grid-template-columns: 1fr; }
-    .buy-card { flex-direction: column; text-align: center; }
-    .buy-right { text-align: center; }
-  }
+:root{--cream:#f3efee;--sage:#8b7c9e;--sage-dark:#5c5470;--terracotta:#c98f9e;--ink:#3a3444;--ink-soft:#6b6178;--line:#ddd5e0;--paper:#fdfbfc}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Karla',sans-serif;font-size:17px;line-height:1.6}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;color:var(--ink)}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px}
+.stitch-row{width:100%;height:22px;overflow:hidden}
+.stitch-row svg{width:100%;height:100%;display:block}
+header{padding:28px 0 0}
+.brand{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px}
+.brand-name{font-family:'Fraunces',serif;font-size:1.1rem;letter-spacing:.04em;text-transform:uppercase}
+.brand-name span{color:var(--terracotta)}
+.brand nav a{color:var(--ink-soft);text-decoration:none;font-size:.92rem;margin-left:24px}
+.brand nav a:hover{color:var(--terracotta)}
+.brand nav a.btn{color:var(--paper)}
+.hero{padding:40px 0 56px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.eyebrow{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage-dark);font-weight:700;margin-bottom:14px}
+.hero h1{font-size:clamp(2.1rem,4vw,3.1rem);line-height:1.12;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--terracotta)}
+.hero p.lead{font-size:1.08rem;color:var(--ink-soft);max-width:46ch;margin-bottom:30px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.micro{font-size:.82rem;color:var(--ink-soft);margin-top:14px}
+.btn{display:inline-block;padding:13px 26px;border-radius:3px;font-family:'Karla',sans-serif;font-weight:700;font-size:.95rem;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+.btn-primary{background:var(--terracotta);color:var(--paper)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(193,112,79,.35)}
+.btn-secondary{background:transparent;color:var(--sage-dark);border:1.5px solid var(--sage);cursor:pointer}
+.btn-secondary:hover{background:rgba(124,139,111,.08)}
+.diagram-card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:28px}
+.diagram-card svg{width:100%;height:auto;display:block}
+.diagram-caption{text-align:center;font-size:.82rem;color:var(--ink-soft);margin-top:10px;font-style:italic}
+section{padding:56px 0}
+.section-head{max-width:60ch;margin-bottom:40px}
+.section-head .eyebrow{margin-bottom:10px}
+.section-head h2{font-size:clamp(1.6rem,3vw,2.1rem)}
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 40px}
+.feature{display:flex;gap:16px}
+.feature-num{font-family:'Fraunces',serif;font-size:1.4rem;color:var(--sage);flex-shrink:0;width:32px}
+.feature h3{font-size:1.08rem;margin-bottom:6px}
+.feature p{color:var(--ink-soft);font-size:.96rem}
+.try-it{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:40px;text-align:center}
+.try-it h2{margin-bottom:10px}
+.try-it>p{color:var(--ink-soft);max-width:50ch;margin:0 auto 28px}
+.calc-box{border:1px solid var(--line);border-radius:5px;padding:32px;background:var(--paper);text-align:left}
+.calc-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px;margin-bottom:20px}
+.calc-inputs label{display:flex;flex-direction:column;font-size:.85rem;font-weight:700;color:var(--ink);gap:6px}
+.calc-inputs label span{font-weight:400;color:var(--ink-soft);font-size:.78rem}
+.calc-inputs input{font-family:'Karla',sans-serif;font-size:1rem;padding:9px 10px;border:1px solid var(--line);border-radius:4px;background:var(--cream);color:var(--ink)}
+.calc-inputs input:focus{outline:2px solid var(--sage);outline-offset:1px}
+.calc-results{margin-top:24px;border-top:1px solid var(--line);padding-top:18px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px}
+.calc-result-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 12px;background:var(--cream);border-radius:4px}
+.calc-result-row span{font-size:.88rem;color:var(--ink-soft)}
+.calc-result-row strong{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--sage-dark)}
+.email-capture{margin-top:28px;border-top:1px dashed var(--line);padding-top:24px;text-align:center}
+.email-capture h3{font-size:1.15rem;margin-bottom:6px}
+.email-capture p{color:var(--ink-soft);max-width:46ch;margin:0 auto}
+.calc-locked{margin-top:28px;border-top:1px dashed var(--line);padding-top:24px;text-align:center}
+.locked-label{font-family:'Fraunces',serif;font-size:1.05rem;color:var(--sage-dark);margin-bottom:12px}
+.calc-locked ul{list-style:none;max-width:46ch;margin:0 auto 22px;text-align:left}
+.calc-locked li{color:var(--ink-soft);font-size:.92rem;padding:5px 0 5px 20px;position:relative}
+.calc-locked li::before{content:"·";position:absolute;left:4px;color:var(--terracotta);font-size:1.4rem;line-height:.8}
+.faq{max-width:70ch}
+.faq details{background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:16px 20px;margin-bottom:12px}
+.faq summary{font-family:'Fraunces',serif;font-size:1.02rem;cursor:pointer}
+.faq details p{color:var(--ink-soft);font-size:.95rem;margin-top:10px}
+.buy-card{background:var(--sage-dark);color:var(--cream);border-radius:6px;padding:44px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+.buy-card h2{color:var(--cream);font-size:1.6rem;margin-bottom:8px}
+.buy-card p{color:#e8e2ea;max-width:42ch}
+.buy-card .micro{color:#e8e2ea}
+.price{font-family:'Fraunces',serif;font-size:2.4rem;white-space:nowrap}
+.buy-right{text-align:right}
+.about{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
+.about-mark{width:64px;height:64px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;color:var(--cream);font-family:'Fraunces',serif;font-size:1.5rem}
+.about p{color:var(--ink-soft);margin-bottom:14px}
+.about a{color:var(--terracotta)}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.product-card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;display:flex;flex-direction:column}
+.product-photo{width:100%;aspect-ratio:1/1;border-radius:4px;margin-bottom:16px;overflow:hidden}
+.product-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.product-card h3{font-size:1.05rem;margin-bottom:8px}
+.product-card p{color:var(--ink-soft);font-size:.92rem;margin-bottom:18px;flex-grow:1}
+.btn-small{padding:9px 18px;font-size:.85rem;align-self:flex-start}
+footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85rem}footer a{color:var(--terracotta)}
+@media(max-width:700px){.calc-inputs{grid-template-columns:1fr 1fr}.calc-results{grid-template-columns:1fr}.brand nav a:not(.btn){display:none}}
+@media(max-width:760px){.product-grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.features{grid-template-columns:1fr}.about{grid-template-columns:1fr}.buy-card{flex-direction:column;text-align:center}.buy-right{text-align:center}}
 </style>
 </head>
 <body>
- 
-<div class="stitch-row">
-  <svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#8b7c9e" stroke-width="2" fill="none"/>
-  </svg>
-</div>
- 
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wave" d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11"/></defs></svg>
+
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><use href="#wave" stroke="#8b7c9e" stroke-width="2" fill="none"/></svg></div>
+
 <header>
   <div class="wrap brand">
     <div class="brand-name">The Thread <span>Within</span></div>
     <nav>
-      <a href="#about">About</a>
+      <a href="#try">Try it free</a>
       <a href="#shop">Shop</a>
-      <a href="#try">Try it</a>
+      <a href="#about">About</a>
       <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:8px;">Get the full version</a>
     </nav>
   </div>
 </header>
- 
+
 <div class="wrap">
-  <section id="about" style="padding-top:8px; padding-bottom:8px;">
-    <div class="about">
-      <div class="about-mark">TTW</div>
-      <div>
-        <h2 style="margin-bottom:14px;">About The Thread Within</h2>
-        <p>The Thread Within is a knitting and craft brand making digital tools and printable resources for makers, built by someone who'd rather knit than do sums twice.</p>
-        <p>Follow along on <a href="#">YouTube</a> for more, in both English and Greek, or browse the full shop below.</p>
-      </div>
-    </div>
-  </section>
-</div>
- 
-<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
- 
-<div class="wrap">
-  <section id="shop">
-    <div class="section-head">
-      <div class="eyebrow">From the shop</div>
-      <h2>More from The Thread Within</h2>
-    </div>
-    <div class="product-grid">
-      <div class="product-card">
-        <div class="product-photo">
-          <img src="images/woodland.webp" alt="Woodland colorwork chart bundle — fox, hedgehog, squirrel, and rabbit charts">
-        </div>
-        <h3>Woodland Colorwork Chart Bundle</h3>
-        <p>Fox, hedgehog, squirrel, and rabbit colorwork charts, ready to knit into your own projects.</p>
-        <a href="https://www.etsy.com/uk/shop/TheThreadWithin" target="_blank" rel="noopener" class="btn btn-secondary btn-small">Buy on Etsy</a>
-      </div>
-      <div class="product-card">
-        <div class="product-photo">
-          <img src="images/tracker.webp" alt="Printable knitting project tracker sheet">
-        </div>
-        <h3>Printable Craft Trackers</h3>
-        <p>PDF trackers for knitting, sock, crochet, blanket, and amigurumi projects — print and go.</p>
-        <a href="https://www.etsy.com/uk/shop/TheThreadWithin" target="_blank" rel="noopener" class="btn btn-secondary btn-small">Buy on Etsy</a>
-      </div>
-      <div class="product-card">
-        <div class="product-photo">
-          <img src="images/calculator.webp" alt="Raglan Calculator tool interface">
-        </div>
-        <h3>Raglan Calculator</h3>
-        <p>The tool on this page — enter your gauge and measurements, get a complete pattern.</p>
-        <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:8px;">Buy below</a>
-      </div>
-    </div>
-  </section>
-</div>
- 
-<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 11 Q10 22 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
- 
-<div class="wrap">
-  <section class="hero" style="padding-top:48px;">
+  <section class="hero">
     <div>
       <div class="eyebrow">Raglan Calculator</div>
       <h1>The maths, <em>done</em>.<br>The knitting, yours.</h1>
       <p class="lead">Enter your gauge and measurements — get a complete, personalised top-down raglan pattern in seconds. Exact stitch counts, increase rate, a schematic diagram, and instructions you can save or print.</p>
       <div class="cta-row">
-        <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary">Get the full version — £15</a>
-        <a href="#try" class="btn btn-secondary">Try it free</a>
+        <a href="#try" class="btn btn-primary">Try it free</a>
+        <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-secondary">Get the full version — £15</a>
       </div>
+      <p class="micro">One payment, no subscription · Secure checkout with Stripe</p>
+      <!-- TODO: once confirmed, add e.g. "Instant access" and your refund policy to the line above -->
     </div>
     <div class="diagram-card">
-      <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg">
- 
-        <!-- neckline variant chips -->
+      <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Raglan jumper schematic with neckline options">
         <g font-family="Karla" font-size="8.5" fill="#6b6178" text-anchor="middle">
-          <!-- crew -->
           <path d="M38 34 Q48 45 58 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
           <line x1="20" y1="34" x2="38" y2="34" stroke="#3a3444" stroke-width="1.3"/>
           <line x1="58" y1="34" x2="76" y2="34" stroke="#3a3444" stroke-width="1.3"/>
           <text x="48" y="54">Crew</text>
- 
-          <!-- V-neck -->
           <path d="M112 34 L128 48 L144 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
           <text x="128" y="54">V-neck</text>
- 
-          <!-- boat -->
           <path d="M182 34 Q204 42 226 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
           <text x="204" y="54">Boat</text>
- 
-          <!-- off-shoulder -->
           <line x1="262" y1="40" x2="300" y2="40" stroke="#3a3444" stroke-width="1.3"/>
           <text x="281" y="54">Off-shoulder</text>
         </g>
- 
         <line x1="10" y1="66" x2="310" y2="66" stroke="#ddd5e0" stroke-width="1"/>
- 
-        <!-- ===== main flat sketch ===== -->
- 
-        <!-- raglan seams (shoulder to underarm), shared edge of sleeve + torso -->
         <line x1="120" y1="100" x2="78" y2="180" stroke="#c98f9e" stroke-width="1.5" stroke-dasharray="4 3"/>
         <line x1="200" y1="100" x2="242" y2="180" stroke="#c98f9e" stroke-width="1.5" stroke-dasharray="4 3"/>
- 
-        <!-- left sleeve -->
         <path d="M120 100 L54 122 L14 228 L46 240 L78 180 Z" fill="none" stroke="#3a3444" stroke-width="1.4" stroke-linejoin="round"/>
-        <!-- cuff ribbing ticks -->
-        <g stroke="#8b7c9e" stroke-width="1">
-          <line x1="20" y1="222" x2="24" y2="234"/>
-          <line x1="27" y1="219" x2="31" y2="231"/>
-          <line x1="34" y1="216" x2="38" y2="228"/>
-        </g>
- 
-        <!-- right sleeve -->
+        <g stroke="#8b7c9e" stroke-width="1"><line x1="20" y1="222" x2="24" y2="234"/><line x1="27" y1="219" x2="31" y2="231"/><line x1="34" y1="216" x2="38" y2="228"/></g>
         <path d="M200 100 L266 122 L306 228 L274 240 L242 180 Z" fill="none" stroke="#3a3444" stroke-width="1.4" stroke-linejoin="round"/>
-        <g stroke="#8b7c9e" stroke-width="1">
-          <line x1="300" y1="222" x2="296" y2="234"/>
-          <line x1="293" y1="219" x2="289" y2="231"/>
-          <line x1="286" y1="216" x2="282" y2="228"/>
-        </g>
- 
-        <!-- torso -->
+        <g stroke="#8b7c9e" stroke-width="1"><line x1="300" y1="222" x2="296" y2="234"/><line x1="293" y1="219" x2="289" y2="231"/><line x1="286" y1="216" x2="282" y2="228"/></g>
         <path d="M78 180 L60 336 L260 336 L242 180" fill="none" stroke="#3a3444" stroke-width="1.4" stroke-linejoin="round"/>
- 
-        <!-- shoulder line + neckline (crew, default) -->
         <path d="M120 100 L145 100 Q160 112 175 100 L200 100" fill="none" stroke="#3a3444" stroke-width="1.4"/>
- 
-        <!-- hem ribbing ticks -->
-        <g stroke="#8b7c9e" stroke-width="1">
-          <line x1="90" y1="326" x2="90" y2="336"/>
-          <line x1="110" y1="326" x2="110" y2="336"/>
-          <line x1="130" y1="326" x2="130" y2="336"/>
-          <line x1="150" y1="326" x2="150" y2="336"/>
-          <line x1="170" y1="326" x2="170" y2="336"/>
-          <line x1="190" y1="326" x2="190" y2="336"/>
-          <line x1="210" y1="326" x2="210" y2="336"/>
-          <line x1="230" y1="326" x2="230" y2="336"/>
-        </g>
- 
-        <!-- chest dimension arrow -->
-        <g stroke="#c98f9e" stroke-width="1">
-          <line x1="78" y1="200" x2="242" y2="200"/>
-          <line x1="78" y1="195" x2="78" y2="205"/>
-          <line x1="242" y1="195" x2="242" y2="205"/>
-        </g>
+        <g stroke="#8b7c9e" stroke-width="1"><line x1="90" y1="326" x2="90" y2="336"/><line x1="110" y1="326" x2="110" y2="336"/><line x1="130" y1="326" x2="130" y2="336"/><line x1="150" y1="326" x2="150" y2="336"/><line x1="170" y1="326" x2="170" y2="336"/><line x1="190" y1="326" x2="190" y2="336"/><line x1="210" y1="326" x2="210" y2="336"/><line x1="230" y1="326" x2="230" y2="336"/></g>
+        <g stroke="#c98f9e" stroke-width="1"><line x1="78" y1="200" x2="242" y2="200"/><line x1="78" y1="195" x2="78" y2="205"/><line x1="242" y1="195" x2="242" y2="205"/></g>
         <text x="160" y="215" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">chest</text>
- 
-        <!-- labels -->
         <text x="160" y="90" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">neck</text>
         <text x="18" y="180" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
         <text x="302" y="180" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
@@ -584,104 +167,86 @@ Index · HTML
     </div>
   </section>
 </div>
- 
-<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 11 Q10 22 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
- 
+
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><use href="#wave" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
+
 <div class="wrap">
-  <section id="features">
-    <div class="section-head">
-      <div class="eyebrow">What it does</div>
-      <h2>Every raglan decision, worked out for you</h2>
-    </div>
-    <div class="features">
-      <div class="feature">
-        <div class="feature-num">01</div>
-        <div>
-          <h3>Enter your gauge and measurements</h3>
-          <p>Stitches and rows per 10cm, chest, and desired ease — the calculator takes it from there.</p>
-        </div>
-      </div>
-      <div class="feature">
-        <div class="feature-num">02</div>
-        <div>
-          <h3>Get exact stitch counts</h3>
-          <p>Cast-on numbers, raglan increase rate, and where each increase falls — no swatching guesswork.</p>
-        </div>
-      </div>
-      <div class="feature">
-        <div class="feature-num">03</div>
-        <div>
-          <h3>Choose your neckline</h3>
-          <p>Crew, V-neck, boat neck, or off-shoulder construction, calculated to fit your own gauge and shape.</p>
-        </div>
-      </div>
-      <div class="feature">
-        <div class="feature-num">04</div>
-        <div>
-          <h3>See your schematic</h3>
-          <p>A full SVG diagram of your jumper's shape, alongside estimated yarn yardage.</p>
-        </div>
-      </div>
-    </div>
-  </section>
- 
   <section id="try">
     <div class="try-it">
       <h2>Try it free</h2>
       <p>Enter your gauge and measurements to see your crew-neck stitch breakdown. The full version adds sleeve taper, rib details, V-neck/boat/off-shoulder options, every size, and a printable pattern.</p>
- 
       <div class="calc-box">
         <div class="calc-inputs">
-          <label>
-            Stitch gauge <span>(sts per 10cm)</span>
-            <input type="number" id="calc-sts-gauge" value="22" min="1" step="0.5">
-          </label>
-          <label>
-            Row gauge <span>(rows per 10cm)</span>
-            <input type="number" id="calc-row-gauge" value="30" min="1" step="0.5">
-          </label>
-          <label>
-            Neck circumference <span>(cm)</span>
-            <input type="number" id="calc-neck" value="38" min="1" step="0.5">
-          </label>
-          <label>
-            Chest circumference <span>(cm)</span>
-            <input type="number" id="calc-chest" value="96" min="1" step="0.5">
-          </label>
-          <label>
-            Armhole depth <span>(cm)</span>
-            <input type="number" id="calc-arm-depth" value="20" min="1" step="0.5">
-          </label>
+          <label>Stitch gauge <span>(sts per 10cm)</span><input type="number" id="calc-sts-gauge" value="22" min="1" step="0.5"></label>
+          <label>Row gauge <span>(rows per 10cm)</span><input type="number" id="calc-row-gauge" value="30" min="1" step="0.5"></label>
+          <label>Neck circumference <span>(cm)</span><input type="number" id="calc-neck" value="38" min="1" step="0.5"></label>
+          <label>Chest circumference <span>(cm)</span><input type="number" id="calc-chest" value="96" min="1" step="0.5"></label>
+          <label>Armhole depth <span>(cm)</span><input type="number" id="calc-arm-depth" value="20" min="1" step="0.5"></label>
         </div>
         <button class="btn btn-secondary" id="calc-run" type="button">Calculate</button>
- 
         <div class="calc-results" id="calc-results">
-          <div class="calc-result-row">
-            <span>Cast on (neck)</span>
-            <strong id="res-neck-sts">—</strong>
-          </div>
-          <div class="calc-result-row">
-            <span>Back sts</span>
-            <strong id="res-back">—</strong>
-          </div>
-          <div class="calc-result-row">
-            <span>Front sts</span>
-            <strong id="res-front">—</strong>
-          </div>
-          <div class="calc-result-row">
-            <span>Each sleeve sts</span>
-            <strong id="res-sleeve">—</strong>
-          </div>
-          <div class="calc-result-row">
-            <span>Raglan rounds to underarm</span>
-            <strong id="res-rounds">—</strong>
-          </div>
-          <div class="calc-result-row">
-            <span>Chest sts after dividing</span>
-            <strong id="res-chest-sts">—</strong>
-          </div>
+          <div class="calc-result-row"><span>Cast on (neck)</span><strong id="res-neck-sts">—</strong></div>
+          <div class="calc-result-row"><span>Back sts</span><strong id="res-back">—</strong></div>
+          <div class="calc-result-row"><span>Front sts</span><strong id="res-front">—</strong></div>
+          <div class="calc-result-row"><span>Each sleeve sts</span><strong id="res-sleeve">—</strong></div>
+          <div class="calc-result-row"><span>Raglan rounds to underarm</span><strong id="res-rounds">—</strong></div>
+          <div class="calc-result-row"><span>Chest sts after dividing</span><strong id="res-chest-sts">—</strong></div>
         </div>
- 
+
+        <div class="email-capture" id="email-capture">
+          <h3>Swatch not matching?</h3>
+          <p>Get the free Gauge Fixer in your inbox, plus new calculators as they launch.</p>
+          <style>
+.ml-form-embedContainer{max-width:460px;margin:18px auto 0;text-align:left}
+.ml-form-embedContainer p{max-width:none;margin:0 0 10px;text-align:left;font-size:.88rem;color:var(--ink-soft)}
+.ml-form-embedContainer .horizontal-fields{width:100%;margin-bottom:10px}
+.ml-form-embedContainer input[type=text],.ml-form-embedContainer input[type=email]{width:100%;font:inherit;font-size:1rem;padding:9px 10px;min-height:42px;border:1px solid var(--line);border-radius:4px;background:var(--cream);color:var(--ink)}
+.ml-form-embedContainer input:focus-visible,.ml-form-embedContainer button:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+.ml-form-embedContainer .ml-form-checkboxRow{margin:4px 0 14px}
+.ml-form-embedContainer .ml-form-checkboxRow label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.ml-form-embedContainer .ml-form-checkboxRow input{margin-top:5px;flex-shrink:0;accent-color:var(--sage-dark)}
+.ml-form-embedContainer .ml-form-checkboxRow .label-description p{margin:0}
+.ml-form-embedContainer button{width:100%;min-height:46px;background:var(--terracotta);color:var(--paper);border:0;border-radius:3px;font:700 .95rem 'Karla',sans-serif;cursor:pointer}
+.ml-form-embedContainer button:hover{box-shadow:0 6px 16px rgba(193,112,79,.35)}
+.ml-mobileButton-horizontal{display:none}
+.ml-form-embedContainer .ml-error input[type=text],.ml-form-embedContainer .ml-error input[type=email]{border-color:#b4491f}
+.ml-form-embedContainer .ml-error .label-description p{color:#b4491f}
+.ml-form-successBody{text-align:center;padding:8px 0}
+.ml-form-successBody h4{font:500 1.15rem 'Fraunces',serif;margin-bottom:6px;color:var(--ink)}
+.ml-form-embedSubmitLoad{display:inline-block;width:20px;height:20px}
+.ml-form-embedSubmitLoad:after{content:" ";display:block;width:11px;height:11px;margin:1px;border-radius:50%;border:4px solid #fff;border-color:#fff #fff #fff transparent;animation:mlspin 1.2s linear infinite}
+@keyframes mlspin{to{transform:rotate(360deg)}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+</style>
+<div id="mlb2-46957347" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-46957347">
+  <div class="ml-form-embedBody row-form">
+    <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/subscribe" data-code="" method="post" target="_blank">
+      <div class="ml-form-formContent">
+        <div class="horizontal-fields"><div class="ml-field-group ml-field-name"><input type="text" class="form-control" name="fields[name]" placeholder="First name" aria-label="First name" autocomplete="given-name"></div></div>
+        <div class="horizontal-fields"><div class="ml-field-group ml-field-email ml-validate-email ml-validate-required"><input type="email" class="form-control" name="fields[email]" placeholder="Email" aria-label="Email" autocomplete="email"></div></div>
+      </div>
+      <div class="ml-form-checkboxRow ml-validate-required">
+        <label class="checkbox"><input type="checkbox"><div class="label-description"><p>Yes, send me the Gauge Fixer link and occasional updates from The Thread Within.</p></div></label>
+      </div>
+      <input type="hidden" name="ml-submit" value="1">
+      <div class="ml-button-horizontal primary">
+        <button type="submit" class="primary">Send me the link</button>
+        <button disabled="disabled" style="display:none;" type="button" class="loading"><div class="ml-form-embedSubmitLoad"></div><span class="sr-only">Loading...</span></button>
+      </div>
+      <p class="micro" style="margin-top:12px;text-align:center">You can unsubscribe anytime. See our <a href="/privacy/" style="color:var(--terracotta)">Privacy Policy</a>.</p>
+      <input type="hidden" name="anticsrf" value="true">
+    </form>
+  </div>
+  <div class="ml-form-successBody row-success" style="display:none">
+    <div class="ml-form-successContent"><h4>Thank you!</h4><p style="text-align:center">You're on the list. Check your inbox for your Gauge Fixer link.</p></div>
+  </div>
+</div>
+<script>function ml_webform_success_46957347(){var $=ml_jQuery||jQuery;$('.ml-subscribe-form-46957347 .row-success').show();$('.ml-subscribe-form-46957347 .row-form').hide();}</script>
+<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
+<script>fetch("https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/takel")</script>
+          <p class="micro">No spam. Unsubscribe anytime.</p>
+        </div>
+
         <div class="calc-locked">
           <p class="locked-label">🔒 Unlocked in the full version</p>
           <ul>
@@ -696,62 +261,134 @@ Index · HTML
       </div>
     </div>
   </section>
- 
+
+  <section id="features">
+    <div class="section-head">
+      <div class="eyebrow">What it does</div>
+      <h2>Every raglan decision, worked out for you</h2>
+    </div>
+    <div class="features">
+      <div class="feature"><div class="feature-num">01</div><div><h3>Enter your gauge and measurements</h3><p>Stitches and rows per 10cm, chest, and desired ease — the calculator takes it from there.</p></div></div>
+      <div class="feature"><div class="feature-num">02</div><div><h3>Get exact stitch counts</h3><p>Cast-on numbers, raglan increase rate, and where each increase falls — no guesswork.</p></div></div>
+      <div class="feature"><div class="feature-num">03</div><div><h3>Choose your neckline</h3><p>Crew, V-neck, boat neck, or off-shoulder construction, calculated to fit your own gauge and shape.</p></div></div>
+      <div class="feature"><div class="feature-num">04</div><div><h3>See your schematic</h3><p>A full SVG diagram of your jumper's shape, alongside estimated yarn yardage.</p></div></div>
+    </div>
+    <!-- TODO: add a screenshot of the full pattern output here (biggest trust gain for a locked product) -->
+  </section>
+
+  <section id="faq">
+    <div class="section-head"><h2>Questions</h2></div>
+    <div class="faq">
+      <details><summary>Do I need to swatch?</summary><p>Yes. The calculator is only as accurate as your gauge, so measure stitches and rows per 10cm over a washed swatch.</p></details>
+      <details><summary>Which yarn weights does it work with?</summary><p>Any. It works from your own gauge, not a fixed yarn weight. The yardage estimate is a guide, so buy a little extra.</p></details>
+      <details><summary>Is it suitable for beginners?</summary><p>If you can knit in the round and work paired increases, yes. The calculator handles the numbers; the technique is still yours.</p></details>
+      <!-- TODO: uncomment once confirmed, with your real answers
+      <details><summary>What do I actually receive?</summary><p>...web access / download / both, and whether it is lifetime...</p></details>
+      <details><summary>Which sizes does it cover?</summary><p>...tested size range...</p></details>
+      <details><summary>What if it doesn't work for me?</summary><p>...refund policy and support email...</p></details>
+      -->
+    </div>
+  </section>
+
   <section id="buy">
     <div class="buy-card">
       <div>
         <h2>Get your full pattern</h2>
-        <p>Unlock every size, both neckline options, yardage estimates, and your printable schematic.</p>
+        <p>Unlock every size, all four necklines (crew, V-neck, boat neck and off-shoulder), yardage estimates, and your printable schematic.</p>
       </div>
       <div class="buy-right">
         <div class="price">£15</div>
         <br>
         <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:8px;">Buy now</a>
+        <p class="micro">One payment · Secure checkout with Stripe</p>
+      </div>
+    </div>
+    <!-- TODO: add one real testimonial (YouTube comment or Etsy review) directly above or below this card -->
+  </section>
+</div>
+
+<div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><use href="#wave" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
+
+<div class="wrap">
+  <section id="shop">
+    <div class="section-head">
+      <div class="eyebrow">From the shop</div>
+      <h2>More from The Thread Within</h2>
+    </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-photo"><img src="images/woodland.webp" alt="Woodland colorwork chart bundle — fox, hedgehog, squirrel, and rabbit charts" loading="lazy"></div>
+        <h3>Woodland Colorwork Chart Bundle</h3>
+        <p>Fox, hedgehog, squirrel, and rabbit colorwork charts, ready to knit into your own projects.</p>
+        <a href="https://www.etsy.com/uk/shop/TheThreadWithin" target="_blank" rel="noopener" class="btn btn-secondary btn-small">Buy on Etsy</a>
+      </div>
+      <div class="product-card">
+        <div class="product-photo"><img src="images/tracker.webp" alt="Printable knitting project tracker sheet" loading="lazy"></div>
+        <h3>Printable Craft Trackers</h3>
+        <p>PDF trackers for knitting, sock, crochet, blanket, and amigurumi projects — print and go.</p>
+        <a href="https://www.etsy.com/uk/shop/TheThreadWithin" target="_blank" rel="noopener" class="btn btn-secondary btn-small">Buy on Etsy</a>
+      </div>
+      <div class="product-card">
+        <div class="product-photo"><img src="images/calculator.webp" alt="Raglan Calculator tool interface" loading="lazy"></div>
+        <h3>Raglan Calculator</h3>
+        <p>The tool on this page — enter your gauge and measurements, get a complete pattern.</p>
+        <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary btn-small">Buy now</a>
+      </div>
+    </div>
+    <!-- TODO: swap the two Etsy links for the direct listing URLs -->
+  </section>
+
+  <section id="about" style="padding-top:8px;">
+    <div class="about">
+      <div class="about-mark">TTW</div>
+      <div>
+        <h2 style="margin-bottom:14px;">About The Thread Within</h2>
+        <p>The Thread Within is a knitting and craft brand making digital tools and printable resources for makers, built by someone who'd rather knit than do sums twice.</p>
+        <p>Follow along on <a href="https://www.youtube.com/@thethreadwithin" target="_blank" rel="noopener">YouTube</a> for more, in both English and Greek.</p>
       </div>
     </div>
   </section>
 </div>
- 
+
 <footer>
-  <div class="wrap">&copy; 2026 The Thread Within</div>
+  <div class="wrap">&copy; 2026 The Thread Within · <a href="/privacy/">Privacy</a></div>
 </footer>
- 
+
 <script>
 (function () {
   const runBtn = document.getElementById('calc-run');
- 
   function r(n) { return Math.round(n); }
   function toEven(n) { return 2 * Math.round(n / 2); }
- 
+
   function calculate() {
     const stG10 = parseFloat(document.getElementById('calc-sts-gauge').value) || 1;
     const rowG10 = parseFloat(document.getElementById('calc-row-gauge').value) || 1;
     const sg = stG10 / 10;
     const rg = rowG10 / 10;
- 
+
     const neckCirc = parseFloat(document.getElementById('calc-neck').value) || 0;
     const chestCirc = parseFloat(document.getElementById('calc-chest').value) || 0;
     const armDepth = parseFloat(document.getElementById('calc-arm-depth').value) || 0;
- 
+
     // Neck cast-on, divided 2:2:1:1 back:front:sleeve:sleeve
     const neckSts = Math.max(8, toEven(neckCirc * sg));
     const sleeve0 = Math.max(2, r(neckSts / 6));
     const back0 = r(neckSts * 2 / 6);
     const front0 = neckSts - back0 - 2 * sleeve0;
- 
+
     // Raglan increases, 8 sts/round, every RS row
     const N = Math.max(1, r((armDepth * rg) / 2));
- 
+
     const backF = back0 + 2 * N;
     const frontF = front0 + 2 * N;
     const sleeveF = sleeve0 + 2 * N;
- 
+
     // Chest stitches after dividing, back-solved from target chest
     const chestTarget = r(chestCirc * sg);
     let underarmEach = r((chestTarget - backF - frontF) / 2);
     if (underarmEach < 1) underarmEach = 1;
     const chestActualSts = backF + frontF + 2 * underarmEach;
- 
+
     document.getElementById('res-neck-sts').textContent = neckSts + ' sts';
     document.getElementById('res-back').textContent = backF + ' sts';
     document.getElementById('res-front').textContent = frontF + ' sts';
@@ -759,11 +396,11 @@ Index · HTML
     document.getElementById('res-rounds').textContent = N + ' rounds';
     document.getElementById('res-chest-sts').textContent = chestActualSts + ' sts';
   }
- 
+
   runBtn.addEventListener('click', calculate);
   calculate();
 })();
 </script>
- 
+
 </body>
 </html>
