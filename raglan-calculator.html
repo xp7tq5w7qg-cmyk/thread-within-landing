@@ -447,27 +447,33 @@
             </div>
             <div class="field">
               <label>Chest / bust circ.
-                <span class="hint">incl. ease</span>
+                <span class="hint">actual body measurement, no ease</span>
               </label>
-              <input type="number" id="chest" value="100" min="40">
+              <input type="number" id="chest" value="90" min="40">
             </div>
           </div>
           <div class="field-row">
+            <div class="field">
+              <label>Chest ease
+                <span class="hint">+ looser fit, − negative ease</span>
+              </label>
+              <input type="number" id="chestEase" value="10" min="-30">
+            </div>
             <div class="field">
               <label>Raglan / armhole depth
                 <span class="hint">neck seam to underarm</span>
               </label>
               <input type="number" id="armDepth" value="20" min="5">
             </div>
+          </div>
+          <div class="field-row">
             <div class="field">
               <label>Body length
                 <span class="hint">underarm to hem</span>
               </label>
               <input type="number" id="bodyLen" value="40" min="10">
             </div>
-          </div>
-          <div class="field-row" id="vDepthRow" style="display:none;">
-            <div class="field">
+            <div class="field" id="vDepthField" style="display:none;">
               <label>V-neck depth
                 <span class="hint">shoulder to point of V</span>
               </label>
@@ -476,19 +482,29 @@
           </div>
           <div class="field-row">
             <div class="field">
-              <label>Upper arm circ.</label>
-              <input type="number" id="upperArm" value="32" min="15">
+              <label>Upper arm circ.
+                <span class="hint">actual body measurement, no ease</span>
+              </label>
+              <input type="number" id="upperArm" value="28" min="15">
             </div>
+            <div class="field">
+              <label>Arm ease
+                <span class="hint">+ looser fit, − negative ease</span>
+              </label>
+              <input type="number" id="armEase" value="4" min="-15">
+            </div>
+          </div>
+          <div class="field-row">
             <div class="field">
               <label>Cuff circumference</label>
               <input type="number" id="cuff" value="20" min="10">
             </div>
-          </div>
-          <div class="field full">
-            <label>Sleeve length
-              <span class="hint">underarm to cuff (before ribbing)</span>
-            </label>
-            <input type="number" id="sleeveLen" value="43" min="15">
+            <div class="field">
+              <label>Sleeve length
+                <span class="hint">underarm to cuff (before ribbing)</span>
+              </label>
+              <input type="number" id="sleeveLen" value="43" min="15">
+            </div>
           </div>
         </fieldset>
 
@@ -545,7 +561,7 @@
   </div>
 
   <footer>
-    All four necklines share the same underlying shaping: 4 raglan lines increasing 8 sts per round (1 st each side, every RS row), equal front and back stitch counts (no separate front-neck scoop shaping), and a straight, unshaped body. What differs between tabs is only how the neckline itself is cast on and finished — round neck joins in the round and ribs first; V-neck starts flat at two front edges and joins partway through; boat neck uses a wide, shallow edge; off-shoulder uses a deep fold-over band, ideally with elastic run through it. All measurements and gauge can be worked in cm or inches — toggle at the top of the form — and every figure below updates to match. The underarm cast-on is capped at a realistic ~5cm per side; if your neck and chest measurements would need more than that to match up, the tool will flag it and point you to a deeper raglan depth instead. All figures are rounded to whole stitches/rounds — swatch and re-check gauge before committing to a size.
+    All four necklines share the same underlying shaping: 4 raglan lines increasing 8 sts per round (1 st each side, every RS row), equal front and back stitch counts (no separate front-neck scoop shaping), and a straight, unshaped body. What differs between tabs is only how the neckline itself is cast on and finished — round neck joins in the round and ribs first; V-neck starts flat at two front edges and joins partway through; boat neck uses a wide, shallow edge; off-shoulder uses a deep fold-over band, ideally with elastic run through it. All measurements and gauge can be worked in cm or inches — toggle at the top of the form — and every figure below updates to match. Chest and upper arm are entered as your actual body measurement plus a separate ease value — positive for a looser fit, negative for a close, stretchy fit — so the finished garment size (body + ease) is what the rest of the pattern is built from. The underarm cast-on is capped at a realistic ~5cm per side; if your neck and chest measurements would need more than that to match up, the tool will flag it and point you to a deeper raglan depth instead. All figures are rounded to whole stitches/rounds — swatch and re-check gauge before committing to a size.
   </footer>
 </div>
 
@@ -567,10 +583,14 @@ function calc(){
   const sg = stG10/gRef, rg = rowG10/gRef;
 
   const neckCirc = parseFloat(document.getElementById('neck').value) || 0;
-  const chestCirc = parseFloat(document.getElementById('chest').value) || 0;
+  const bodyChest = parseFloat(document.getElementById('chest').value) || 0;
+  const chestEaseVal = parseFloat(document.getElementById('chestEase').value) || 0;
+  let chestCirc = bodyChest + chestEaseVal; // finished chest = body measurement + ease (ease may be negative)
   const armDepth = parseFloat(document.getElementById('armDepth').value) || 0;
   const bodyLen = parseFloat(document.getElementById('bodyLen').value) || 0;
-  const upperArm = parseFloat(document.getElementById('upperArm').value) || 0;
+  const bodyUpperArm = parseFloat(document.getElementById('upperArm').value) || 0;
+  const armEaseVal = parseFloat(document.getElementById('armEase').value) || 0;
+  let upperArm = bodyUpperArm + armEaseVal; // finished upper arm = body measurement + ease
   const cuffCirc = parseFloat(document.getElementById('cuff').value) || 0;
   const sleeveLen = parseFloat(document.getElementById('sleeveLen').value) || 0;
 
@@ -579,6 +599,17 @@ function calc(){
   const ribCuff = parseFloat(document.getElementById('ribCuff').value) || 0;
 
   const warnings = [];
+
+  const minChestLen = unit==='in' ? 20/CM_PER_IN : 20;
+  if(chestCirc < minChestLen){
+    warnings.push({t:"Negative ease too extreme", m:`Body chest plus ease comes out to ${chestCirc.toFixed(1)}${uAbbr()}, which is too tight to build a garment from. Ease has been floored so the finished chest is ${minChestLen.toFixed(1)}${uAbbr()} — make the ease less negative if you want a true close fit smaller than that.`});
+    chestCirc = minChestLen;
+  }
+  const minArmLen = unit==='in' ? 10/CM_PER_IN : 10;
+  if(upperArm < minArmLen){
+    warnings.push({t:"Negative arm ease too extreme", m:`Upper arm plus ease comes out to ${upperArm.toFixed(1)}${uAbbr()}, which is too tight to build a sleeve from. Ease has been floored so the finished upper arm is ${minArmLen.toFixed(1)}${uAbbr()}.`});
+    upperArm = minArmLen;
+  }
 
   // 1. Neck cast-on, divided 2:2:1:1 back:front:sleeve:sleeve
   const neckSts = Math.max(8, toEven(neckCirc*sg));
@@ -612,20 +643,18 @@ function calc(){
   const chestActualSts = backF + frontF + 2*underarmEach;
   const chestActualCm = chestActualSts/sg;
 
-  // 4. Sleeve underarm cast-on, back-solved from target upper arm, with the same
-  // realistic cap — and never allowed to drift wildly from the body's underarm
-  // amount, since both cross the same physical gap at the same point.
-  const sleeveTarget = r(upperArm*sg);
-  let sleeveUnderarm = sleeveTarget - sleeveF;
-  if(sleeveUnderarm < 0){
-    warnings.push({t:"Sleeve narrower than target", m:"At this raglan depth the sleeve already has more stitches than your upper-arm measurement needs. The tool has set the sleeve underarm cast-on to 0 — consider a shallower raglan depth or a roomier upper-arm measurement."});
-    sleeveUnderarm = 0;
-  } else if(sleeveUnderarm > maxUnderarmSts){
-    warnings.push({t:"Sleeve underarm cast-on capped", m:`Reaching this upper arm at this raglan depth would need an unusually large underarm addition (${sleeveUnderarm} sts). It's been capped at a realistic ~${maxUnderarmLen.toFixed(1)}${uAbbr()} (${maxUnderarmSts} sts) — increase 'Raglan / armhole depth' for more width from the increases themselves, or reduce the upper-arm measurement.`});
-    sleeveUnderarm = maxUnderarmSts;
-  }
+  // 4. Sleeve underarm pickup: the sleeve crosses the exact same cast-on gap as
+  // the body at the underarm, so it must pick up the same number of stitches
+  // cast on there — it's not a second free number to solve independently.
+  const sleeveUnderarm = underarmEach;
   const sleeveJoinSts = sleeveF + sleeveUnderarm;
   const upperArmActualCm = sleeveJoinSts/sg;
+  const upperArmDiffLen = Math.abs(upperArmActualCm - upperArm);
+  const notableDiffLen = unit==='in' ? 1/CM_PER_IN : 1;
+  if(upperArmDiffLen > notableDiffLen){
+    const dir = upperArmActualCm > upperArm ? "roomier" : "narrower";
+    warnings.push({t:"Sleeve width set by the underarm gap", m:`The sleeve picks up the same ${sleeveUnderarm} sts cast on for the body's underarm, since both cross the same gap — so its width isn't solved independently from your upper-arm measurement. At this raglan depth that works out to about ${upperArmActualCm.toFixed(1)}${uAbbr()} (${dir} than the ${upperArm}${uAbbr()} you asked for). Adjust 'Raglan / armhole depth' to bring the sleeve closer to your target.`});
+  }
 
   // 5. Body length in rounds
   const bodyPlainCm = Math.max(0, bodyLen - ribHem);
@@ -994,7 +1023,7 @@ function setMode(m, fromHash){
   document.getElementById('tabV').classList.toggle('active', m==='v');
   document.getElementById('tabBoat').classList.toggle('active', m==='boat');
   document.getElementById('tabOff').classList.toggle('active', m==='offshoulder');
-  document.getElementById('vDepthRow').style.display = m==='v' ? 'grid' : 'none';
+  document.getElementById('vDepthField').style.display = m==='v' ? 'block' : 'none';
   updateNeckHint();
   render();
   if(!fromHash){
@@ -1006,7 +1035,7 @@ document.getElementById('tabV').addEventListener('click', ()=>setMode('v'));
 document.getElementById('tabBoat').addEventListener('click', ()=>setMode('boat'));
 document.getElementById('tabOff').addEventListener('click', ()=>setMode('offshoulder'));
 
-const LENGTH_FIELDS = ['neck','chest','armDepth','bodyLen','upperArm','cuff','sleeveLen','vDepth','ribNeck','ribHem','ribCuff'];
+const LENGTH_FIELDS = ['neck','chest','chestEase','armDepth','bodyLen','upperArm','armEase','cuff','sleeveLen','vDepth','ribNeck','ribHem','ribCuff'];
 function setUnit(u){
   if(u === unit) return;
   const prev = unit;
