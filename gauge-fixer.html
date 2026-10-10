@@ -144,11 +144,57 @@ footer a{color:var(--terracotta)}
 <div class="big" id="a4" aria-live="polite"></div>
 <p class="hint">This is an estimate. Denser fabric uses more yarn and looser fabric uses less. The extra amount covers the difference.</p>
 </section>
-<!-- EMAIL CAPTURE: hidden until MailerLite is set up. Paste the embed, then delete the word "hidden". -->
-<div class="card email-capture" hidden>
+<div class="card email-capture">
   <h2>Keep the Gauge Fixer handy</h2>
   <p>Get the link in your inbox, plus new calculators as they launch.</p>
-  <!-- PASTE MAILERLITE EMBED HERE -->
+  <style>
+.ml-form-embedContainer{max-width:460px;margin:18px auto 0;text-align:left}
+.ml-form-embedContainer p{max-width:none;margin:0 0 10px;text-align:left;font-size:.88rem;color:var(--ink-soft)}
+.ml-form-embedContainer .horizontal-fields{width:100%;margin-bottom:10px}
+.ml-form-embedContainer input[type=text],.ml-form-embedContainer input[type=email]{width:100%;font:inherit;font-size:1rem;padding:9px 10px;min-height:42px;border:1px solid var(--line);border-radius:4px;background:var(--cream);color:var(--ink)}
+.ml-form-embedContainer input:focus-visible,.ml-form-embedContainer button:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+.ml-form-embedContainer .ml-form-checkboxRow{margin:4px 0 14px}
+.ml-form-embedContainer .ml-form-checkboxRow label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.ml-form-embedContainer .ml-form-checkboxRow input{margin-top:5px;flex-shrink:0;accent-color:var(--sage-dark)}
+.ml-form-embedContainer .ml-form-checkboxRow .label-description p{margin:0}
+.ml-form-embedContainer button{width:100%;min-height:46px;background:var(--terracotta);color:var(--paper);border:0;border-radius:3px;font:700 .95rem 'Karla',sans-serif;cursor:pointer}
+.ml-form-embedContainer button:hover{box-shadow:0 6px 16px rgba(193,112,79,.35)}
+.ml-mobileButton-horizontal{display:none}
+.ml-form-embedContainer .ml-error input[type=text],.ml-form-embedContainer .ml-error input[type=email]{border-color:#b4491f}
+.ml-form-embedContainer .ml-error .label-description p{color:#b4491f}
+.ml-form-successBody{text-align:center;padding:8px 0}
+.ml-form-successBody h4{font:500 1.15rem 'Fraunces',serif;margin-bottom:6px;color:var(--ink)}
+.ml-form-embedSubmitLoad{display:inline-block;width:20px;height:20px}
+.ml-form-embedSubmitLoad:after{content:" ";display:block;width:11px;height:11px;margin:1px;border-radius:50%;border:4px solid #fff;border-color:#fff #fff #fff transparent;animation:mlspin 1.2s linear infinite}
+@keyframes mlspin{to{transform:rotate(360deg)}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+</style>
+<div id="mlb2-46957347" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-46957347">
+  <div class="ml-form-embedBody row-form">
+    <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/subscribe" data-code="" method="post" target="_blank">
+      <div class="ml-form-formContent">
+        <div class="horizontal-fields"><div class="ml-field-group ml-field-name"><input type="text" class="form-control" name="fields[name]" placeholder="First name" aria-label="First name" autocomplete="given-name"></div></div>
+        <div class="horizontal-fields"><div class="ml-field-group ml-field-email ml-validate-email ml-validate-required"><input type="email" class="form-control" name="fields[email]" placeholder="Email" aria-label="Email" autocomplete="email"></div></div>
+      </div>
+      <div class="ml-form-checkboxRow ml-validate-required">
+        <label class="checkbox"><input type="checkbox"><div class="label-description"><p>Yes, send me the Gauge Fixer link and occasional updates from The Thread Within.</p></div></label>
+      </div>
+      <input type="hidden" name="ml-submit" value="1">
+      <div class="ml-button-horizontal primary">
+        <button type="submit" class="primary">Send me the link</button>
+        <button disabled="disabled" style="display:none;" type="button" class="loading"><div class="ml-form-embedSubmitLoad"></div><span class="sr-only">Loading...</span></button>
+      </div>
+      <p class="micro" style="margin-top:12px;text-align:center">You can unsubscribe anytime. See our <a href="/privacy/" style="color:var(--terracotta)">Privacy Policy</a>.</p>
+      <input type="hidden" name="anticsrf" value="true">
+    </form>
+  </div>
+  <div class="ml-form-successBody row-success" style="display:none">
+    <div class="ml-form-successContent"><h4>Thank you!</h4><p style="text-align:center">You're on the list. Check your inbox for your Gauge Fixer link.</p></div>
+  </div>
+</div>
+<script>function ml_webform_success_46957347(){var $=ml_jQuery||jQuery;$('.ml-subscribe-form-46957347 .row-success').show();$('.ml-subscribe-form-46957347 .row-form').hide();}</script>
+<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
+<script>fetch("https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/takel")</script>
 </div>
 </main>
 <div class="wrap" style="max-width:760px">
@@ -161,7 +207,7 @@ footer a{color:var(--terracotta)}
 </div>
 </div>
 <div class="stitch-row"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><use href="#wave" stroke="#ddd5e0" stroke-width="2" fill="none"/></svg></div>
-<footer><div class="wrap">&copy; 2026 The Thread Within · <a href="/">Back to the shop</a></div></footer>
+<footer><div class="wrap">&copy; 2026 The Thread Within · <a href="/">Back to the shop</a> · <a href="/privacy/">Privacy</a></div></footer>
 <script>
 const $=id=>document.getElementById(id);
 const num=id=>parseFloat($(id).value);
