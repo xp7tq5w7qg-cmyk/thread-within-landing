@@ -4,11 +4,11 @@
 <meta name="p:domain_verify" content="fd2f4818b94f556e9289b46743d9b972"/>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raglan Calculator — The Thread Within</title>
-<meta name="description" content="Enter your gauge and measurements and get a personalised top-down raglan pattern: exact stitch counts, increase rate and a schematic. Try it free.">
+<title>Top-Down Raglan Calculator — The Thread Within</title>
+<meta name="description" content="Try a free top-down raglan stitch calculator using your gauge and measurements. Explore the full £15 tool for neckline options and printable pattern instructions.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thethreadwithin.store">
-<meta property="og:title" content="Raglan Calculator — The Thread Within">
+<meta property="og:title" content="Top-Down Raglan Calculator — The Thread Within">
 <meta property="og:description" content="The maths, done. The knitting, yours. Try the top-down raglan calculator free.">
 <meta property="og:image" content="https://thethreadwithin.store/images/calculator.webp">
 <link rel="canonical" href="https://thethreadwithin.store/">
@@ -108,8 +108,29 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
 .tool-card p{color:var(--ink-soft);font-size:.92rem;margin-bottom:18px;flex-grow:1}
 @media(max-width:760px){.tools-grid{grid-template-columns:1fr}}
 </style>
+<style>
+.btn-primary{background:var(--terracotta);color:var(--paper)}
+a{color:var(--terracotta)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--sage-dark);outline-offset:4px}
+.btn{min-height:44px;text-align:center;cursor:pointer}
+.brand{gap:18px;flex-wrap:wrap}.brand nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.brand nav a{margin-left:0}
+.calc-status{margin-top:16px;color:var(--ink-soft);font-size:.92rem}.calc-status.error{color:#8a263d;background:#fff0f3;padding:14px;border-left:3px solid #8a263d}
+.calc-results[hidden]{display:none}.calc-result-row{gap:12px}.calc-result-row strong{text-align:right;flex-shrink:0}
+section[id],div[id=email-capture]{scroll-margin-top:24px}
+@media(max-width:480px){.wrap{padding:0 18px}.hero{gap:24px;padding-top:26px}.try-it{padding:22px 14px}.calc-box{padding:18px 12px}.calc-inputs{grid-template-columns:1fr}.calc-result-row{flex-wrap:wrap}.brand nav{width:100%}.brand nav .btn{width:100%}.cta-row .btn{width:100%}.buy-card{padding:28px 20px}.diagram-card{padding:18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+<style>
+.derek-note{border-top:1px solid var(--line);padding:36px 0 8px;text-align:center}
+.derek-note .wrap{max-width:680px}
+.derek-note .eyebrow{margin-bottom:8px}
+.derek-note h2{font-size:1.5rem;margin-bottom:12px}
+.derek-note p:not(.eyebrow){color:var(--ink-soft);margin-bottom:14px}
+.derek-note a{display:inline-block;min-height:44px;padding:8px 0;color:var(--terracotta);text-underline-offset:3px}
+</style>
 </head>
 <body>
+<a class="sr-only" href="#try">Skip to calculator</a>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wave" d="M0 11 Q10 0 20 11 T40 11 T60 11 T80 11 T100 11 T120 11 T140 11 T160 11 T180 11 T200 11 T220 11 T240 11 T260 11 T280 11 T300 11 T320 11 T340 11 T360 11 T380 11 T400 11"/></defs></svg>
 
@@ -118,8 +139,8 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
 <header>
   <div class="wrap brand">
     <div class="brand-name">The Thread <span>Within</span></div>
-    <nav>
-      <a href="#try">Try it free</a>
+    <nav aria-label="Main navigation">
+      <a href="#try">Try the free calculator</a>
       <a href="#free-tools">Free tools</a>
       <a href="#shop">Shop</a>
       <a href="#about">About</a>
@@ -132,14 +153,13 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
   <section class="hero">
     <div>
       <div class="eyebrow">Raglan Calculator</div>
-      <h1>The maths, <em>done</em>.<br>The knitting, yours.</h1>
-      <p class="lead">Enter your gauge and measurements — get a complete, personalised top-down raglan pattern in seconds. Exact stitch counts, increase rate, a schematic diagram, and instructions you can save or print.</p>
+      <h1>Your gauge.<br>Your measurements.<br><em>Your raglan.</em></h1>
+      <p class="lead">Plan your next top-down jumper with numbers based on your own swatch. Try the free crew-neck stitch demo, then explore the full calculator for neckline options, sleeve shaping and printable instructions.</p>
       <div class="cta-row">
-        <a href="#try" class="btn btn-primary">Try it free</a>
+        <a href="#try" class="btn btn-primary">Try the free calculator</a>
         <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-secondary">Get the full version — £15</a>
       </div>
-      <p class="micro">One payment, no subscription · Secure checkout with Stripe</p>
-      <!-- TODO: once confirmed, add e.g. "Instant access" and your refund policy to the line above -->
+      <p class="micro">The maths, done. The knitting, yours.<br>£15 for the full version · One payment · No subscription · Stripe checkout</p>
     </div>
     <div class="diagram-card">
       <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Raglan jumper schematic with neckline options">
@@ -172,7 +192,7 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
         <text x="302" y="180" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">sleeve</text>
         <text x="160" y="360" text-anchor="middle" font-family="Karla" font-size="9" fill="#6b6178">body</text>
       </svg>
-      <p class="diagram-caption">Your schematic, generated from your own numbers.</p>
+      <p class="diagram-caption">Example schematic showing the neckline options. This illustration does not update with the demo.</p>
     </div>
   </section>
 </div>
@@ -182,78 +202,33 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
 <div class="wrap">
   <section id="try">
     <div class="try-it">
-      <h2>Try it free</h2>
-      <p>Enter your gauge and measurements to see your crew-neck stitch breakdown. The full version adds sleeve taper, rib details, V-neck/boat/off-shoulder options, every size, and a printable pattern.</p>
+      <h2>Try your crew-neck stitch numbers</h2>
+      <p>No email needed for this demo. Enter your washed swatch gauge and desired finished measurements. This simplified example uses increases every other round; it is a starting point, not a complete knitting pattern.</p>
+      <noscript><p>This interactive demo needs JavaScript. You can still read about the full calculator below.</p></noscript>
       <div class="calc-box">
         <div class="calc-inputs">
-          <label>Stitch gauge <span>(sts per 10cm)</span><input type="number" id="calc-sts-gauge" value="22" min="1" step="0.5"></label>
-          <label>Row gauge <span>(rows per 10cm)</span><input type="number" id="calc-row-gauge" value="30" min="1" step="0.5"></label>
-          <label>Neck circumference <span>(cm)</span><input type="number" id="calc-neck" value="38" min="1" step="0.5"></label>
-          <label>Chest circumference <span>(cm)</span><input type="number" id="calc-chest" value="96" min="1" step="0.5"></label>
-          <label>Armhole depth <span>(cm)</span><input type="number" id="calc-arm-depth" value="20" min="1" step="0.5"></label>
+          <label>Stitch gauge <span>(sts per 10cm)</span><input type="number" required inputmode="decimal" id="calc-sts-gauge" value="22" min="1" step="0.5"></label>
+          <label>Row gauge <span>(rows per 10cm)</span><input type="number" required inputmode="decimal" id="calc-row-gauge" value="30" min="1" step="0.5"></label>
+          <label>Neck circumference <span>(cm)</span><input type="number" required inputmode="decimal" id="calc-neck" value="38" min="1" step="0.5"></label>
+          <label>Finished chest circumference <span>(cm, including your chosen ease)</span><input type="number" required inputmode="decimal" id="calc-chest" value="96" min="1" step="0.5"></label>
+          <label>Armhole depth <span>(cm)</span><input type="number" required inputmode="decimal" id="calc-arm-depth" value="20" min="1" step="0.5"></label>
         </div>
         <button class="btn btn-secondary" id="calc-run" type="button">Calculate</button>
-        <div class="calc-results" id="calc-results">
+        <p id="calc-status" class="calc-status" role="status" aria-live="polite"></p>
+        <div class="calc-results" id="calc-results" aria-label="Calculator results">
           <div class="calc-result-row"><span>Cast on (neck)</span><strong id="res-neck-sts">—</strong></div>
           <div class="calc-result-row"><span>Back sts</span><strong id="res-back">—</strong></div>
           <div class="calc-result-row"><span>Front sts</span><strong id="res-front">—</strong></div>
           <div class="calc-result-row"><span>Each sleeve sts</span><strong id="res-sleeve">—</strong></div>
-          <div class="calc-result-row"><span>Raglan rounds to underarm</span><strong id="res-rounds">—</strong></div>
+          <div class="calc-result-row"><span>Increase rounds</span><strong id="res-rounds">—</strong></div>
+          <div class="calc-result-row"><span>Total yoke rounds</span><strong id="res-total-rounds">—</strong></div>
+          <div class="calc-result-row"><span>Underarm cast-on, each side</span><strong id="res-underarm">—</strong></div>
           <div class="calc-result-row"><span>Chest sts after dividing</span><strong id="res-chest-sts">—</strong></div>
+          <div class="calc-result-row"><span>Calculated finished chest</span><strong id="res-chest-cm">—</strong></div>
+          <div class="calc-result-row"><span>Calculated yoke depth</span><strong id="res-depth">—</strong></div>
         </div>
 
-        <div class="email-capture" id="email-capture">
-          <h3>Swatch not matching?</h3>
-          <p>Get the free Gauge Fixer in your inbox, plus new calculators as they launch.</p>
-          <style>
-.ml-form-embedContainer{max-width:460px;margin:18px auto 0;text-align:left}
-.ml-form-embedContainer p{max-width:none;margin:0 0 10px;text-align:left;font-size:.88rem;color:var(--ink-soft)}
-.ml-form-embedContainer .horizontal-fields{width:100%;margin-bottom:10px}
-.ml-form-embedContainer input[type=text],.ml-form-embedContainer input[type=email]{width:100%;font:inherit;font-size:1rem;padding:9px 10px;min-height:42px;border:1px solid var(--line);border-radius:4px;background:var(--cream);color:var(--ink)}
-.ml-form-embedContainer input:focus-visible,.ml-form-embedContainer button:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
-.ml-form-embedContainer .ml-form-checkboxRow{margin:4px 0 14px}
-.ml-form-embedContainer .ml-form-checkboxRow label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
-.ml-form-embedContainer .ml-form-checkboxRow input{margin-top:5px;flex-shrink:0;accent-color:var(--sage-dark)}
-.ml-form-embedContainer .ml-form-checkboxRow .label-description p{margin:0}
-.ml-form-embedContainer button{width:100%;min-height:46px;background:var(--terracotta);color:var(--paper);border:0;border-radius:3px;font:700 .95rem 'Karla',sans-serif;cursor:pointer}
-.ml-form-embedContainer button:hover{box-shadow:0 6px 16px rgba(193,112,79,.35)}
-.ml-mobileButton-horizontal{display:none}
-.ml-form-embedContainer .ml-error input[type=text],.ml-form-embedContainer .ml-error input[type=email]{border-color:#b4491f}
-.ml-form-embedContainer .ml-error .label-description p{color:#b4491f}
-.ml-form-successBody{text-align:center;padding:8px 0}
-.ml-form-successBody h4{font:500 1.15rem 'Fraunces',serif;margin-bottom:6px;color:var(--ink)}
-.ml-form-embedSubmitLoad{display:inline-block;width:20px;height:20px}
-.ml-form-embedSubmitLoad:after{content:" ";display:block;width:11px;height:11px;margin:1px;border-radius:50%;border:4px solid #fff;border-color:#fff #fff #fff transparent;animation:mlspin 1.2s linear infinite}
-@keyframes mlspin{to{transform:rotate(360deg)}}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-</style>
-<div id="mlb2-46957347" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-46957347">
-  <div class="ml-form-embedBody row-form">
-    <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/subscribe" data-code="" method="post" target="_blank">
-      <div class="ml-form-formContent">
-        <div class="horizontal-fields"><div class="ml-field-group ml-field-name"><input type="text" class="form-control" name="fields[name]" placeholder="First name" aria-label="First name" autocomplete="given-name"></div></div>
-        <div class="horizontal-fields"><div class="ml-field-group ml-field-email ml-validate-email ml-validate-required"><input type="email" class="form-control" name="fields[email]" placeholder="Email" aria-label="Email" autocomplete="email"></div></div>
-      </div>
-      <div class="ml-form-checkboxRow ml-validate-required">
-        <label class="checkbox"><input type="checkbox"><div class="label-description"><p>Yes, send me the Gauge Fixer link and occasional updates from The Thread Within.</p></div></label>
-      </div>
-      <input type="hidden" name="ml-submit" value="1">
-      <div class="ml-button-horizontal primary">
-        <button type="submit" class="primary">Send me the link</button>
-        <button disabled="disabled" style="display:none;" type="button" class="loading"><div class="ml-form-embedSubmitLoad"></div><span class="sr-only">Loading...</span></button>
-      </div>
-      <p class="micro" style="margin-top:12px;text-align:center">You can unsubscribe anytime. See our <a href="/privacy/" style="color:var(--terracotta)">Privacy Policy</a>.</p>
-      <input type="hidden" name="anticsrf" value="true">
-    </form>
-  </div>
-  <div class="ml-form-successBody row-success" style="display:none">
-    <div class="ml-form-successContent"><h4>Thank you!</h4><p style="text-align:center">You're on the list. Check your inbox for your Gauge Fixer link.</p></div>
-  </div>
-</div>
-<script>function ml_webform_success_46957347(){var $=ml_jQuery||jQuery;$('.ml-subscribe-form-46957347 .row-success').show();$('.ml-subscribe-form-46957347 .row-form').hide();}</script>
-<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
-<script>fetch("https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/takel")</script>
-        </div>
+
 
         <div class="calc-locked">
           <p class="locked-label">🔒 Unlocked in the full version</p>
@@ -261,7 +236,7 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
             <li>Sleeve taper — decrease schedule down to your cuff</li>
             <li>V-neck, boat neck, and off-shoulder construction, not just crew</li>
             <li>Rib depth for neck, hem, and cuff, converted to exact rounds</li>
-            <li>Every size, not just one sample</li>
+            <li>Calculations based on your own gauge and measurements</li>
             <li>Full written pattern text and printable schematic</li>
           </ul>
           <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary">Unlock the full version — £15</a>
@@ -295,31 +270,82 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
     </div>
   </section>
 
+  <section aria-label="Free Gauge Fixer signup">
+        <div class="email-capture" id="email-capture">
+          <h3>Swatch not matching?</h3>
+          <p>Get the free Gauge Fixer in your inbox, plus new calculators as they launch.</p>
+          <style>
+.ml-form-embedContainer{max-width:460px;margin:18px auto 0;text-align:left}
+.ml-form-embedContainer p{max-width:none;margin:0 0 10px;text-align:left;font-size:.88rem;color:var(--ink-soft)}
+.ml-form-embedContainer .horizontal-fields{width:100%;margin-bottom:10px}
+.ml-form-embedContainer input[type=text],.ml-form-embedContainer input[type=email]{width:100%;font:inherit;font-size:1rem;padding:9px 10px;min-height:42px;border:1px solid var(--line);border-radius:4px;background:var(--cream);color:var(--ink)}
+.ml-form-embedContainer input:focus-visible,.ml-form-embedContainer button:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+.ml-form-embedContainer .ml-form-checkboxRow{margin:4px 0 14px}
+.ml-form-embedContainer .ml-form-checkboxRow label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.ml-form-embedContainer .ml-form-checkboxRow input{margin-top:5px;flex-shrink:0;accent-color:var(--sage-dark)}
+.ml-form-embedContainer .ml-form-checkboxRow .label-description p{margin:0}
+.ml-form-embedContainer button{width:100%;min-height:46px;background:var(--terracotta);color:var(--paper);border:0;border-radius:3px;font:700 .95rem 'Karla',sans-serif;cursor:pointer}
+.ml-form-embedContainer button:hover{box-shadow:0 6px 16px rgba(193,112,79,.35)}
+.ml-mobileButton-horizontal{display:none}
+.ml-form-embedContainer .ml-error input[type=text],.ml-form-embedContainer .ml-error input[type=email]{border-color:#b4491f}
+.ml-form-embedContainer .ml-error .label-description p{color:#b4491f}
+.ml-form-successBody{text-align:center;padding:8px 0}
+.ml-form-successBody h4{font:500 1.15rem 'Fraunces',serif;margin-bottom:6px;color:var(--ink)}
+.ml-form-embedSubmitLoad{display:inline-block;width:20px;height:20px}
+.ml-form-embedSubmitLoad:after{content:" ";display:block;width:11px;height:11px;margin:1px;border-radius:50%;border:4px solid #fff;border-color:#fff #fff #fff transparent;animation:mlspin 1.2s linear infinite}
+@keyframes mlspin{to{transform:rotate(360deg)}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+</style>
+<div id="mlb2-46957347" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-46957347">
+  <div class="ml-form-embedBody row-form">
+    <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/subscribe" data-code="" method="post" target="_blank">
+      <div class="ml-form-formContent">
+        <div class="horizontal-fields"><div class="ml-field-group ml-field-name"><input type="text" class="form-control" name="fields[name]" placeholder="First name" aria-label="First name" autocomplete="given-name"></div></div>
+        <div class="horizontal-fields"><div class="ml-field-group ml-field-email ml-validate-email ml-validate-required"><input type="email" class="form-control" required name="fields[email]" placeholder="Email" aria-label="Email" autocomplete="email"></div></div>
+      </div>
+      <div class="ml-form-checkboxRow ml-validate-required">
+        <label class="checkbox"><input type="checkbox" required><div class="label-description"><p>Yes, send me the Gauge Fixer link and occasional updates from The Thread Within.</p></div></label>
+      </div>
+      <input type="hidden" name="ml-submit" value="1">
+      <div class="ml-button-horizontal primary">
+        <button type="submit" class="primary">Send me the link</button>
+        <button disabled="disabled" style="display:none;" type="button" class="loading"><div class="ml-form-embedSubmitLoad"></div><span class="sr-only">Loading...</span></button>
+      </div>
+      <p class="micro" style="margin-top:12px;text-align:center">You can unsubscribe anytime. See our <a href="/privacy/" style="color:var(--terracotta)">Privacy Policy</a>.</p>
+      <input type="hidden" name="anticsrf" value="true">
+    </form>
+  </div>
+  <div class="ml-form-successBody row-success" style="display:none">
+    <div class="ml-form-successContent"><h4>Thank you!</h4><p style="text-align:center">You're on the list. Check your inbox for your Gauge Fixer link.</p></div>
+  </div>
+</div>
+<script>function ml_webform_success_46957347(){var $=window.ml_jQuery||window.jQuery;if(!$)return;$('.ml-subscribe-form-46957347 .row-success').show();$('.ml-subscribe-form-46957347 .row-form').hide();}</script>
+<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
+<script>fetch("https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/takel")</script>
+        </div>
+  </section>
+
   <section id="features">
     <div class="section-head">
       <div class="eyebrow">What it does</div>
-      <h2>Every raglan decision, worked out for you</h2>
+      <h2>From your swatch to your next jumper</h2>
     </div>
     <div class="features">
       <div class="feature"><div class="feature-num">01</div><div><h3>Enter your gauge and measurements</h3><p>Stitches and rows per 10cm, chest, and desired ease — the calculator takes it from there.</p></div></div>
-      <div class="feature"><div class="feature-num">02</div><div><h3>Get exact stitch counts</h3><p>Cast-on numbers, raglan increase rate, and where each increase falls — no guesswork.</p></div></div>
-      <div class="feature"><div class="feature-num">03</div><div><h3>Choose your neckline</h3><p>Crew, V-neck, boat neck, or off-shoulder construction, calculated to fit your own gauge and shape.</p></div></div>
+      <div class="feature"><div class="feature-num">02</div><div><h3>Get exact stitch counts</h3><p>Work through cast-on numbers and raglan increases, using your own swatch as the starting point.</p></div></div>
+      <div class="feature"><div class="feature-num">03</div><div><h3>Choose your neckline</h3><p>Crew, V-neck, boat neck, or off-shoulder construction, with calculations based on your measurements.</p></div></div>
       <div class="feature"><div class="feature-num">04</div><div><h3>See your schematic</h3><p>A full SVG diagram of your jumper's shape, alongside estimated yarn yardage.</p></div></div>
     </div>
-    <!-- TODO: add a screenshot of the full pattern output here (biggest trust gain for a locked product) -->
   </section>
 
   <section id="faq">
     <div class="section-head"><h2>Questions</h2></div>
     <div class="faq">
       <details><summary>Do I need to swatch?</summary><p>Yes. The calculator is only as accurate as your gauge, so measure stitches and rows per 10cm over a washed swatch.</p></details>
-      <details><summary>Which yarn weights does it work with?</summary><p>Any. It works from your own gauge, not a fixed yarn weight. The yardage estimate is a guide, so buy a little extra.</p></details>
+      <details><summary>Which yarn weights does it work with?</summary><p>It uses your measured gauge rather than a fixed yarn weight. Swatch first to check that you like the fabric. Yarn quantities are estimates, so allow a margin.</p></details>
+      <details><summary>How do I include ease?</summary><p>Use your desired finished jumper chest measurement: your body chest measurement plus the extra room you want. For example, a 96 cm chest with 8 cm of positive ease means entering 104 cm.</p></details>
+      <details><summary>What does the free demo include?</summary><p>A simplified crew-neck stitch breakdown using increases every other round. It shows total yoke rounds, increase rounds, underarm stitches and the calculated chest measurement. It does not check sleeve fit or neck stretch and does not provide a complete pattern.</p></details>
       <details><summary>Is it suitable for beginners?</summary><p>If you can knit in the round and work paired increases, yes. The calculator handles the numbers; the technique is still yours.</p></details>
-      <!-- TODO: uncomment once confirmed, with your real answers
-      <details><summary>What do I actually receive?</summary><p>...web access / download / both, and whether it is lifetime...</p></details>
-      <details><summary>Which sizes does it cover?</summary><p>...tested size range...</p></details>
-      <details><summary>What if it doesn't work for me?</summary><p>...refund policy and support email...</p></details>
-      -->
     </div>
   </section>
 
@@ -327,16 +353,15 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
     <div class="buy-card">
       <div>
         <h2>Get your full pattern</h2>
-        <p>Unlock every size, all four necklines (crew, V-neck, boat neck and off-shoulder), yardage estimates, and your printable schematic.</p>
+        <p>Get sleeve shaping, all four necklines (crew, V-neck, boat neck and off-shoulder), yarn estimates and a printable schematic in the full calculator.</p>
       </div>
       <div class="buy-right">
         <div class="price">£15</div>
         <br>
-        <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:8px;">Buy now</a>
+        <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:8px;">Get the calculator — £15</a>
         <p class="micro">One payment · Secure checkout with Stripe</p>
       </div>
     </div>
-    <!-- TODO: add one real testimonial (YouTube comment or Etsy review) directly above or below this card -->
   </section>
 </div>
 
@@ -365,10 +390,9 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
         <div class="product-photo"><img src="images/calculator.webp" alt="Raglan Calculator tool interface" loading="lazy"></div>
         <h3>Raglan Calculator</h3>
         <p>The tool on this page — enter your gauge and measurements, get a complete pattern.</p>
-        <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary btn-small">Buy now</a>
+        <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary btn-small">Get the calculator — £15</a>
       </div>
     </div>
-    <!-- TODO: swap the two Etsy links for the direct listing URLs -->
   </section>
 
   <section id="about" style="padding-top:8px;">
@@ -376,13 +400,21 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
       <div class="about-mark">TTW</div>
       <div>
         <h2 style="margin-bottom:14px;">About The Thread Within</h2>
-        <p>The Thread Within is a knitting and craft brand making digital tools and printable resources for makers, built by someone who'd rather knit than do sums twice.</p>
+        <p>The Thread Within is a knitting and craft brand making digital tools and printable resources for makers, created by Piyi, a knitter who would rather spend more time making and less time redoing the maths.</p>
         <p>Follow along on <a href="https://www.youtube.com/@thethreadwithin" target="_blank" rel="noopener">YouTube</a> for more, in both English and Greek.</p>
       </div>
     </div>
   </section>
 </div>
 
+<aside class="derek-note" aria-labelledby="derek-heading">
+  <div class="wrap">
+    <p class="eyebrow">Meet the knitting supervisor</p>
+    <h2 id="derek-heading">Derek’s Little World</h2>
+    <p>Derek is my Cavapoo, knitting supervisor and occasional yarn inspector. I’m exploring tools and patterns for dog jumpers — with a little inspiration from him.</p>
+    <a href="https://www.instagram.com/derekslittleworld/" target="_blank" rel="noopener noreferrer">Follow Derek’s adventures on Instagram <span class="sr-only">(opens in a new tab)</span>↗</a>
+  </div>
+</aside>
 <footer>
   <div class="wrap">&copy; 2026 The Thread Within · <a href="/privacy/">Privacy</a></div>
 </footer>
@@ -390,50 +422,68 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
 <script>
 (function () {
   const runBtn = document.getElementById('calc-run');
-  function r(n) { return Math.round(n); }
-  function toEven(n) { return 2 * Math.round(n / 2); }
-
-  function calculate() {
-    const stG10 = parseFloat(document.getElementById('calc-sts-gauge').value) || 1;
-    const rowG10 = parseFloat(document.getElementById('calc-row-gauge').value) || 1;
-    const sg = stG10 / 10;
-    const rg = rowG10 / 10;
-
-    const neckCirc = parseFloat(document.getElementById('calc-neck').value) || 0;
-    const chestCirc = parseFloat(document.getElementById('calc-chest').value) || 0;
-    const armDepth = parseFloat(document.getElementById('calc-arm-depth').value) || 0;
-
-    // Neck cast-on, divided 2:2:1:1 back:front:sleeve:sleeve
-    const neckSts = Math.max(8, toEven(neckCirc * sg));
-    const sleeve0 = Math.max(2, r(neckSts / 6));
-    const back0 = r(neckSts * 2 / 6);
-    const front0 = neckSts - back0 - 2 * sleeve0;
-
-    // Raglan increases, 8 sts/round, every RS row
-    const N = Math.max(1, r((armDepth * rg) / 2));
-
-    const backF = back0 + 2 * N;
-    const frontF = front0 + 2 * N;
-    const sleeveF = sleeve0 + 2 * N;
-
-    // Chest stitches after dividing, back-solved from target chest
-    const chestTarget = r(chestCirc * sg);
-    let underarmEach = r((chestTarget - backF - frontF) / 2);
-    if (underarmEach < 1) underarmEach = 1;
-    const chestActualSts = backF + frontF + 2 * underarmEach;
-
-    document.getElementById('res-neck-sts').textContent = neckSts + ' sts';
-    document.getElementById('res-back').textContent = backF + ' sts';
-    document.getElementById('res-front').textContent = frontF + ' sts';
-    document.getElementById('res-sleeve').textContent = sleeveF + ' sts';
-    document.getElementById('res-rounds').textContent = N + ' rounds';
-    document.getElementById('res-chest-sts').textContent = chestActualSts + ' sts';
+  const results = document.getElementById('calc-results');
+  const status = document.getElementById('calc-status');
+  const inputs = Array.from(document.querySelectorAll('.calc-inputs input'));
+  function showError(message) {
+    results.hidden = true;
+    results.querySelectorAll('strong').forEach(el => { el.textContent = '—'; });
+    status.className = 'calc-status error';
+    status.textContent = message;
   }
-
+  function calculate() {
+    const values = inputs.map(el => Number(el.value));
+    if (inputs.some((el, i) => !el.value.trim() || !el.checkValidity() || !Number.isFinite(values[i]) || values[i] <= 0)) {
+      showError('Enter a positive number in every field, using increments of 0.5.');
+      return;
+    }
+    const [stG10, rowG10, neckCirc, chestCirc, armDepth] = values;
+    const sg = stG10 / 10, rg = rowG10 / 10;
+    const neckSts = Math.max(8, 2 * Math.round(neckCirc * sg / 2));
+    const sleeve0 = Math.max(2, Math.round(neckSts / 6));
+    const back0 = Math.round(neckSts / 3);
+    const front0 = neckSts - back0 - 2 * sleeve0;
+    const totalRounds = Math.round(armDepth * rg);
+    if (totalRounds < 2 || front0 < 2 || chestCirc <= neckCirc) {
+      showError('These measurements do not work with this simplified demo. Check your gauge, neck, finished chest and yoke depth.');
+      return;
+    }
+    // Each two-round repeat has one increase round followed by one plain round.
+    const increases = Math.floor(totalRounds / 2);
+    const back = back0 + 2 * increases, front = front0 + 2 * increases;
+    const sleeve = sleeve0 + 2 * increases;
+    const underarm = Math.round((chestCirc * sg - back - front) / 2);
+    if (underarm < 1) {
+      showError('The yoke is already too wide for your requested chest with increases every other round. This demo cannot resolve that combination. Check your measurements; a different increase schedule or construction is needed.');
+      return;
+    }
+    const chestSts = back + front + 2 * underarm;
+    const chestActual = chestSts / sg;
+    const output = {
+      'res-neck-sts': neckSts + ' sts', 'res-back': back + ' sts',
+      'res-front': front + ' sts', 'res-sleeve': sleeve + ' sts',
+      'res-rounds': increases + ' rounds', 'res-total-rounds': totalRounds + ' rounds',
+      'res-underarm': underarm + ' sts', 'res-chest-sts': chestSts + ' sts',
+      'res-chest-cm': chestActual.toFixed(1) + ' cm',
+      'res-depth': (totalRounds / rg).toFixed(1) + ' cm'
+    };
+    Object.entries(output).forEach(([id, value]) => { document.getElementById(id).textContent = value; });
+    results.hidden = false;
+    status.className = 'calc-status';
+    status.textContent = 'Simplified estimate: increase 8 stitches every other round. Chest and depth are rounded to whole stitches and rounds. Sleeve fit and neck stretch are not checked.';
+    if (2 * underarm / chestSts > 0.15) {
+      status.className = 'calc-status error';
+      status.textContent += ' A large share of the chest comes from underarm cast-ons (' + underarm + ' stitches each side). Review the construction before knitting; this is not a fit-validated pattern.';
+    }
+  }
   runBtn.addEventListener('click', calculate);
+  inputs.forEach(el => el.addEventListener('input', () => {
+    results.hidden = true;
+    status.className = 'calc-status';
+    status.textContent = 'Measurements changed. Select Calculate to update your results.';
+  }));
   calculate();
 })();
 </script>
-
 </body>
 </html>
