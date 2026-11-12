@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, follow">
 <title>Gauge Fixer — The Thread Within</title>
-<meta name="description" content="Your swatch doesn't match the pattern? Enter both gauges and get the right size, new stitch and row counts, and how much yarn to buy. Free.">
+<meta name="description" content="Compare pattern and swatch gauges, explore finished sizes and convert stitch and row counts. A free planning tool from The Thread Within.">
 <link rel="canonical" href="https://thethreadwithin.store/gauge-fixer/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thethreadwithin.store/gauge-fixer/">
 <meta property="og:title" content="Gauge Fixer — The Thread Within">
-<meta property="og:description" content="Your swatch is off? Get the numbers that still work.">
+<meta property="og:description" content="A little help understanding what your swatch means for fit.">
 <meta property="og:image" content="https://thethreadwithin.store/images/calculator.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,6 +73,7 @@ footer{padding:16px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
 footer a{color:var(--terracotta)}
 @media(max-width:480px){.grid{grid-template-columns:1fr}.crow{grid-template-columns:1fr 1fr}.crow .x{justify-self:start}}
 @media(max-width:700px){.brand nav a:not(.btn){display:none}.card{padding:20px}.buy-card{flex-direction:column;text-align:center}}
+.intro p{color:var(--ink-soft);font-size:.96rem;margin-top:12px}
 </style>
 </head>
 <body>
@@ -91,10 +92,17 @@ footer a{color:var(--terracotta)}
 <main>
 <div class="eyebrow">Free tool</div>
 <h1>Gauge <em>Fixer</em></h1>
-<p class="lede">Your swatch doesn't match the pattern? Fill in the boxes below, then scroll down for your answers. They update as you type.</p>
+<p class="lede">A yarn you love, a pattern you’d like to knit — and a swatch that has other ideas. Let’s see what those numbers mean for your project.</p>
+<section class="card intro" aria-labelledby="piyi-help">
+<h2 id="piyi-help"><strong>A little help before you cast on from Piyi ❤️</strong></h2>
+<p>You’ve made your swatch, counted carefully, and the numbers still don’t match the pattern. Do you change needles, try another size, or adjust the stitch count?</p>
+<p>I made the Gauge Fixer to help you explore the numbers before deciding. Enter the pattern’s gauge and your own washed, dried swatch gauge to see how the same stitch and row counts could change the finished measurements.</p>
+<p>Add the pattern’s finished sizes to compare them at your gauge, or enter a few stitch and row counts to convert. You can round stitch counts to suit a repeat, too.</p>
+<p>Think of the results as a starting point for checking fit. A different size also changes sleeves, armholes and shaping, and converted counts need to work with the rest of your pattern. Start with a fabric you like, then check the measurements that matter to you.</p>
+</section>
 <section class="card">
 <h2>Your numbers</h2>
-<p class="hint">Gauge means how many stitches and rows fit in a square of fabric. The pattern gives its gauge. For yours, knit a small swatch and count.</p>
+<p class="hint">Measure your swatch after washing and drying it as you plan to treat the finished piece. Enter both gauges over the same distance and in the same stitch pattern. The example numbers below are just a place to start.</p>
 <div class="grid">
 <div class="sub">The pattern's gauge</div>
 <div><label for="ps">Stitches</label><input id="ps" type="number" inputmode="decimal" step="any" value="20"></div>
@@ -102,21 +110,21 @@ footer a{color:var(--terracotta)}
 <div class="sub">Your gauge</div>
 <div><label for="ms">Stitches</label><input id="ms" type="number" inputmode="decimal" step="any" value="22"></div>
 <div><label for="mr">Rows</label><input id="mr" type="number" inputmode="decimal" step="any" value="30"></div>
-<div class="full"><label for="unit">Both gauges are counted over</label>
-<select id="unit"><option value="10">10 cm</option><option value="4">4 inches</option></select></div>
+<div class="full"><label for="unit">Gauge reference and measurement units</label>
+<select id="unit"><option value="10">10 cm</option><option value="4">4 inches</option></select><p class="hint" style="margin-top:6px">Choose 10 cm or 4 inches for both gauges. Enter all finished measurements in cm or inches respectively. Changing this setting reinterprets your entries; it does not convert them.</p></div>
 
 <div class="sub">Sizes (optional)</div>
 <div class="full"><label for="sizes">Sizes in the pattern: finished measurements, separated by commas</label><input id="sizes" value="86, 94, 102, 110, 118"></div>
-<div class="full"><label for="target">The measurement you want your finished piece to be</label><input id="target" type="number" inputmode="decimal" step="any" value="100"></div>
+<div class="full"><label for="target">Your desired finished measurement (include any ease)</label><input id="target" type="number" inputmode="decimal" step="any" value="100"></div>
 
 <div class="sub">Yarn (optional)</div>
 <div><label for="py">Yarn the pattern says you need</label><input id="py" type="number" inputmode="decimal" step="any" value="1000"></div>
 <div><label for="yu">Measured in</label><select id="yu"><option>yards</option><option>metres</option></select></div>
-<div><label for="sk">Length in one skein of your yarn</label><input id="sk" type="number" inputmode="decimal" step="any" value="220"></div>
+<div><label for="sk">Length per ball / skein (same unit as pattern yarn)</label><input id="sk" type="number" inputmode="decimal" step="any" value="220"></div>
 <div><label for="buf">Extra to be safe (%)</label><input id="buf" type="number" inputmode="decimal" step="any" value="10"></div>
 </div>
 
-<h3>Counts to convert</h3>
+<h3>A few pattern counts to explore</h3>
 <p class="hint">Type the numbers from the pattern, like cast-on stitches or how many rows to knit. Mark each as stitches or rows.</p>
 <div id="counts"></div>
 <button id="add" type="button">+ Add another number</button>
@@ -130,79 +138,32 @@ footer a{color:var(--terracotta)}
 
 <section class="card" id="answers">
 <h2>Your answers</h2>
-<h3>1. Will the pattern fit as written?</h3>
+<h3>1. How would the measurements change?</h3>
 <div class="big" id="a1" aria-live="polite"></div>
 <div id="a1b" class="hint"></div>
 
-<h3>2. Which size should you knit?</h3>
+<h3>2. Which listed size is closest?</h3>
 <div class="big" id="a2" aria-live="polite"></div>
 <div class="scroll"><table id="sizeTable"></table></div>
 
-<h3>3. Your new stitch and row counts</h3>
+<h3>3. Converted stitch and row counts</h3>
 <div class="scroll"><table id="outCounts"></table></div>
 
-<h3>4. How much yarn you need</h3>
+<h3>4. A rough yarn planning estimate</h3>
 <div class="big" id="a4" aria-live="polite"></div>
-<p class="hint">This is an estimate. Denser fabric uses more yarn and looser fabric uses less. The extra amount covers the difference.</p>
+<p class="hint">This rough formula uses the change in stitch and row gauge as a guide; it does not measure actual yarn consumption or account for fibre, needle size or stitch structure. It also does not adjust for choosing a different pattern size above. Extra yarn is a planning allowance, not a guarantee. For a closer estimate, measure yarn use in a representative swatch and compare your pattern’s quantities.</p>
 </section>
-<div class="card email-capture">
-  <h2>Keep the Gauge Fixer handy</h2>
-  <p>Get the link in your inbox, plus new calculators as they launch.</p>
-  <style>
-.ml-form-embedContainer{max-width:460px;margin:18px auto 0;text-align:left}
-.ml-form-embedContainer p{max-width:none;margin:0 0 10px;text-align:left;font-size:.88rem;color:var(--ink-soft)}
-.ml-form-embedContainer .horizontal-fields{width:100%;margin-bottom:10px}
-.ml-form-embedContainer input[type=text],.ml-form-embedContainer input[type=email]{width:100%;font:inherit;font-size:1rem;padding:9px 10px;min-height:42px;border:1px solid var(--line);border-radius:4px;background:var(--cream);color:var(--ink)}
-.ml-form-embedContainer input:focus-visible,.ml-form-embedContainer button:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
-.ml-form-embedContainer .ml-form-checkboxRow{margin:4px 0 14px}
-.ml-form-embedContainer .ml-form-checkboxRow label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
-.ml-form-embedContainer .ml-form-checkboxRow input{margin-top:5px;flex-shrink:0;accent-color:var(--sage-dark)}
-.ml-form-embedContainer .ml-form-checkboxRow .label-description p{margin:0}
-.ml-form-embedContainer button{width:100%;min-height:46px;background:var(--terracotta);color:var(--paper);border:0;border-radius:3px;font:700 .95rem 'Karla',sans-serif;cursor:pointer}
-.ml-form-embedContainer button:hover{box-shadow:0 6px 16px rgba(193,112,79,.35)}
-.ml-mobileButton-horizontal{display:none}
-.ml-form-embedContainer .ml-error input[type=text],.ml-form-embedContainer .ml-error input[type=email]{border-color:#b4491f}
-.ml-form-embedContainer .ml-error .label-description p{color:#b4491f}
-.ml-form-successBody{text-align:center;padding:8px 0}
-.ml-form-successBody h4{font:500 1.15rem 'Fraunces',serif;margin-bottom:6px;color:var(--ink)}
-.ml-form-embedSubmitLoad{display:inline-block;width:20px;height:20px}
-.ml-form-embedSubmitLoad:after{content:" ";display:block;width:11px;height:11px;margin:1px;border-radius:50%;border:4px solid #fff;border-color:#fff #fff #fff transparent;animation:mlspin 1.2s linear infinite}
-@keyframes mlspin{to{transform:rotate(360deg)}}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-</style>
-<div id="mlb2-46957347" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-46957347">
-  <div class="ml-form-embedBody row-form">
-    <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/subscribe" data-code="" method="post" target="_blank">
-      <div class="ml-form-formContent">
-        <div class="horizontal-fields"><div class="ml-field-group ml-field-name"><input type="text" class="form-control" name="fields[name]" placeholder="First name" aria-label="First name" autocomplete="given-name"></div></div>
-        <div class="horizontal-fields"><div class="ml-field-group ml-field-email ml-validate-email ml-validate-required"><input type="email" class="form-control" name="fields[email]" placeholder="Email" aria-label="Email" autocomplete="email"></div></div>
-      </div>
-      <div class="ml-form-checkboxRow ml-validate-required">
-        <label class="checkbox"><input type="checkbox"><div class="label-description"><p>Yes, send me the Gauge Fixer link and occasional updates from The Thread Within.</p></div></label>
-      </div>
-      <input type="hidden" name="ml-submit" value="1">
-      <div class="ml-button-horizontal primary">
-        <button type="submit" class="primary">Send me the link</button>
-        <button disabled="disabled" style="display:none;" type="button" class="loading"><div class="ml-form-embedSubmitLoad"></div><span class="sr-only">Loading...</span></button>
-      </div>
-      <p class="micro" style="margin-top:12px;text-align:center">You can unsubscribe anytime. See our <a href="/privacy/" style="color:var(--terracotta)">Privacy Policy</a>.</p>
-      <input type="hidden" name="anticsrf" value="true">
-    </form>
-  </div>
-  <div class="ml-form-successBody row-success" style="display:none">
-    <div class="ml-form-successContent"><h4>Thank you!</h4><p style="text-align:center">You're on the list. Check your inbox for your Gauge Fixer link.</p></div>
-  </div>
-</div>
-<script>function ml_webform_success_46957347(){var $=ml_jQuery||jQuery;$('.ml-subscribe-form-46957347 .row-success').show();$('.ml-subscribe-form-46957347 .row-form').hide();}</script>
-<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
-<script>fetch("https://assets.mailerlite.com/jsonp/2698370/forms/200890528989972238/takel")</script>
-</div>
+<section class="card email-capture" aria-labelledby="keep-handy">
+  <h2 id="keep-handy">Keep this handy for your next project</h2>
+  <p>Bookmark this page so you can come back whenever your swatch has other ideas. You’ll also find the link in the email I sent you.</p>
+  <p style="margin-top:16px;color:var(--sage-dark)">Happy Knitting</p>
+</section>
 </main>
 <div class="wrap" style="max-width:760px">
 <div class="buy-card">
   <div>
     <h2>Knitting a raglan jumper?</h2>
-    <p>Skip the calculations entirely. Our easy, interactive calculator turns your gauge and measurements into a full top-down raglan pattern in seconds.</p>
+    <p>Planning a top-down raglan? I’ve made a calculator to bring your stitch counts and shaping together too. Try the free preview, or explore the full version for neckline choices, sleeve shaping and written instructions.</p>
   </div>
   <a class="btn" href="/#try">Try the Raglan Calculator</a>
 </div>
@@ -239,18 +200,18 @@ function renderInputs(){
 function calc(){
   const ps=num('ps'),pr=num('pr'),ms=num('ms'),mr=num('mr'),base=+$('unit').value;
   const unitName=base===10?'cm':'in';
-  const ok=[ps,pr,ms,mr].every(v=>v>0);
+  const ok=[ps,pr,ms,mr].every(v=>Number.isFinite(v)&&v>0);
   if(!ok){['a1','a2','a4'].forEach(k=>$(k).textContent='Fill in all four gauge numbers above.');$('a1b').textContent='';$('sizeTable').innerHTML='';$('outCounts').innerHTML='';return}
   const fs=ms/ps,fr=mr/pr;
   const dw=(1/fs-1)*100,dl=(1/fr-1)*100;
 
   // 1
-  if(Math.abs(dw)<.5&&Math.abs(dl)<.5){$('a1').innerHTML='<b class="good">Yes.</b> Your gauge matches. Knit the pattern as written.';$('a1b').textContent=''}
+  if(Math.abs(dw)<.5&&Math.abs(dl)<.5){$('a1').innerHTML='<b class="good">A close match.</b> Your gauge changes width and length by less than 0.5%. Check the pattern’s intended measurements and ease before choosing a size.';$('a1b').textContent=''}
   else{
     const bad=Math.abs(dw)>5||Math.abs(dl)>5;
     const w=dw>0?'wider':'narrower',l=dl>0?'longer':'shorter';
-    $('a1').innerHTML=`<b class="${bad?'bad':'good'}">${bad?'Not quite.':'Close enough.'}</b> Knitted as written, your piece would come out ${fmt(Math.abs(dw))}% ${w} and ${fmt(Math.abs(dl))}% ${l} than the pattern.`;
-    $('a1b').textContent=bad?'Use the new counts below instead of the pattern\'s numbers.':'A difference this small can often be fixed when you block.';
+    $('a1').innerHTML=`<b class="${bad?'bad':'good'}">${bad?'A difference to check.':'A small difference.'}</b> Knitted as written, your piece would come out ${fmt(Math.abs(dw))}% ${w} and ${fmt(Math.abs(dl))}% ${l} than the pattern.`;
+    $('a1b').textContent='Compare the size options or explore converted counts below. Check shaping and repeats before using them; blocking is not a reliable way to correct a gauge mismatch.';
   }
 
   // 2
@@ -263,26 +224,27 @@ function calc(){
     $('sizeTable').innerHTML='<tr><th>Size in the pattern</th><th>What you would really get</th></tr>'+out.map((x,i)=>`<tr class="${i===best&&t>0?'pick':''}"><td>${fmt(x.s)} ${unitName}</td><td>${fmt(x.a)} ${unitName}${i===best&&t>0?' ← closest':''}</td></tr>`).join('');
     if(t>0){
       const need=t/base*ms;
-      $('a2').innerHTML=`Knit the <b>${fmt(out[best].s)} ${unitName}</b> size. In your yarn it comes out at ${fmt(out[best].a)} ${unitName}.<br>To make exactly ${fmt(t)} ${unitName} you need about <b>${snap(need,m,o)} stitches</b> across.`;
+      $('a2').innerHTML=`The <b>${fmt(out[best].s)} ${unitName}</b> listed size is closest to your target at this stitch gauge: approximately <b>${fmt(out[best].a)} ${unitName}</b>.<br>A rounded count of <b>${Math.max(0,snap(need,m,o))} stitches</b> gives approximately ${fmt(Math.max(0,snap(need,m,o))/ms*base)} ${unitName}. Check sleeves, armholes, length and shaping before choosing this size. Use either a different size’s counts or a planned count conversion; don’t apply both adjustments to the same count.`;
     }else $('a2').textContent='Enter the measurement you want above.';
   }
 
   // 3
-  const valid=rows.filter(r=>r.v>=0);
+  const valid=rows.filter(r=>Number.isFinite(r.v)&&r.v>=0);
   if(!valid.length){$('outCounts').innerHTML=''}
   else $('outCounts').innerHTML='<tr><th></th><th>Pattern says</th><th>You knit</th></tr>'+valid.map(r=>{
     const raw=r.v*(r.t==='s'?fs:fr);
-    const n=r.t==='s'?snap(raw,m,o):Math.round(raw);
+    const n=r.t==='s'?Math.max(0,snap(raw,m,o)):Math.round(raw);
     return `<tr><td>${esc(r.l)||'(no label)'} <span class="hint" style="margin:0">${r.t==='s'?'stitches':'rows'}</span></td><td>${r.v}</td><td class="n">${n}</td></tr>`}).join('');
 
   // 4
-  const py=num('py'),sk=num('sk'),b=num('buf')||0,u=$('yu').value;
-  if(!(py>0)){$('a4').textContent='Enter the yarn amount from the pattern above.'}
+  const py=num('py'),sk=num('sk'),b=num('buf'),u=$('yu').value;
+  if(!(Number.isFinite(py)&&py>0)){$('a4').textContent='Enter the yarn amount from the pattern above.'}
+  else if(!Number.isFinite(b)||b<0){$('a4').textContent='Enter a safety allowance of zero or more.'}
   else{
-    const f=(ms+mr)/(ps+pr),est=py*f,buf=est*(1+b/100);
+    const f=(ms+mr)/(ps+pr),est=py*f,buf=Math.ceil(est*(1+b/100));
     let h=`Plan for about <b>${Math.round(buf)} ${u}</b>.`;
     if(sk>0){const c=Math.ceil(buf/sk);h+=` That is <b>${c} skein${c===1?'':'s'}</b>.`}
-    h+=`<br><span class="hint">The pattern says ${fmt(py,0)} ${u}. Your tighter or looser gauge changes it to about ${Math.round(est)}, plus ${fmt(b,0)}% extra.</span>`;
+    h+=`<br><span class="hint">The pattern says ${fmt(py,0)} ${u}. The rough gauge adjustment gives about ${Math.round(est)} ${u}, plus ${fmt(b,0)}% extra. This is not a measured yarn-use calculation.</span>`;
     $('a4').innerHTML=h;
   }
 }
