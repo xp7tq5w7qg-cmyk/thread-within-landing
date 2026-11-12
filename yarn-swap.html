@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yarn Swap — The Thread Within</title>
-<meta name="description" content="Swapping yarn? Check weight, yardage, drape and fibre in one go, and see how many skeins to buy. Free.">
+<meta name="description" content="Compare yarn weight, length per 100 g and general fibre characteristics, with estimated replacement skeins and optional cost comparison. Free.">
 <link rel="canonical" href="https://thethreadwithin.store/yarn-swap/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thethreadwithin.store/yarn-swap/">
 <meta property="og:title" content="Yarn Swap — The Thread Within">
-<meta property="og:description" content="Swap yarn without guessing: weight, yardage, drape and fibre, checked in one go.">
+<meta property="og:description" content="Found a yarn you’d love to use instead? Let’s compare the labels and see what’s worth checking before you begin.">
 <meta property="og:image" content="https://thethreadwithin.store/images/calculator.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,6 +63,9 @@ ul{padding-left:18px;margin:8px 0 0;font:.95rem/1.5 'Karla',sans-serif}li{margin
 footer{padding:16px 0 48px;text-align:center;color:var(--mute);font-size:.85rem}
 @media(max-width:480px){.row{grid-template-columns:1fr}}
 @media(max-width:700px){.brand nav a:not(.btn){display:none}.card{padding:20px}.buy-card{flex-direction:column;text-align:center}}
+.intro p{color:var(--mute);font-size:.96rem;margin-top:12px}
+.intro .signoff{color:var(--acc)}
+.field-note{font-size:.85rem;color:var(--mute);margin-top:8px}
 </style>
 </head>
 <body>
@@ -81,29 +84,38 @@ footer{padding:16px 0 48px;text-align:center;color:var(--mute);font-size:.85rem}
 <main>
 <div class="eyebrow">Free tool</div>
 <h1>Yarn <em>Swap</em></h1>
-<p class="sub">Swap yarn without guessing: weight, yardage, drape and fibre, checked in one go.</p>
+<p class="sub">Found a yarn you’d love to use instead? Let’s compare the labels and see what’s worth checking before you begin.</p>
+<section class="card intro" aria-labelledby="piyi-help">
+  <h2 id="piyi-help"><strong>A little help before you cast on from Piyi ❤️</strong></h2>
+  <p>Perhaps the pattern yarn is hard to find, a little outside your budget, or you’ve already got something lovely in your stash. A different yarn might work — but matching the weight on the label is only part of the picture.</p>
+  <p>I made Yarn Swap to help you compare the two. Add their label details to check length per 100 g, explore general differences in fibre behaviour, and estimate how many balls or skeins would cover the pattern’s total length with a little extra.</p>
+  <p>If you add both prices in the same currency, you can compare costs too. The replacement quantity includes your chosen buffer, so the cost comparison includes that extra yarn.</p>
+  <p>The score is a rough comparison of these details, not a guarantee of matching gauge, drape or fit. Yarn construction and fibre blends matter too. Let a washed swatch help you decide whether you like the fabric before committing to the project.</p>
+  <p class="signoff">Happy Knitting</p>
+</section>
 <div class="card"><h2>Pattern yarn (original)</h2>
-<div class="row"><div><label>Weight</label><select id="ow"></select></div><div><label>Fibre</label><select id="of"></select></div></div>
-<div class="row"><div><label>Length per skein</label><input id="oy" type="number" inputmode="decimal" placeholder="e.g. 200"></div><div><label>Grams per skein</label><input id="og" type="number" inputmode="decimal" placeholder="e.g. 100"></div></div>
-<label>Skeins the pattern calls for</label><input id="on" type="number" inputmode="decimal" placeholder="e.g. 6">
-<label>Price per skein (optional)</label><input id="op" type="number" inputmode="decimal" placeholder="e.g. 14.50"></div>
+<div class="row"><div><label for="ow">Weight</label><select id="ow"></select></div><div><label for="of">Fibre</label><select id="of"></select></div></div>
+<div class="row"><div><label for="oy">Length per ball / skein</label><input id="oy" type="number" inputmode="decimal" placeholder="e.g. 200"></div><div><label for="og">Grams per ball / skein</label><input id="og" type="number" inputmode="decimal" placeholder="e.g. 100"></div></div>
+<label for="on">Balls / skeins the pattern calls for</label><input id="on" type="number" inputmode="decimal" placeholder="e.g. 6">
+<label for="op">Price per ball / skein (optional)</label><input id="op" type="number" inputmode="decimal" placeholder="e.g. 14.50"></div>
 
 <div class="card"><h2>Substitute yarn</h2>
-<div class="row"><div><label>Weight</label><select id="sw"></select></div><div><label>Fibre</label><select id="sf"></select></div></div>
-<div class="row"><div><label>Length per skein</label><input id="sy" type="number" inputmode="decimal" placeholder="e.g. 150"></div><div><label>Grams per skein</label><input id="sg" type="number" inputmode="decimal" placeholder="e.g. 50"></div></div>
-<label>Price per skein (optional)</label><input id="sp" type="number" inputmode="decimal" placeholder="e.g. 6.80">
-<div class="row"><div><label>Length unit</label><select id="un"><option value="1">metres</option><option value="0.9144">yards</option></select></div><div><label>Safety buffer</label><select id="bf"><option value="0.05">5%</option><option value="0.1" selected>10%</option><option value="0.15">15%</option></select></div></div>
+<div class="row"><div><label for="sw">Weight</label><select id="sw"></select></div><div><label for="sf">Fibre</label><select id="sf"></select></div></div>
+<div class="row"><div><label for="sy">Length per ball / skein</label><input id="sy" type="number" inputmode="decimal" placeholder="e.g. 150"></div><div><label for="sg">Grams per ball / skein</label><input id="sg" type="number" inputmode="decimal" placeholder="e.g. 50"></div></div>
+<label for="sp">Price per ball / skein (optional)</label><input id="sp" type="number" inputmode="decimal" placeholder="e.g. 6.80">
+<div class="row"><div><label for="un">Length unit for both yarns</label><select id="un"><option value="1">metres</option><option value="0.9144">yards</option></select></div><div><label for="bf">Safety buffer</label><select id="bf"><option value="0.05">5%</option><option value="0.1" selected>10%</option><option value="0.15">15%</option></select></div></div>
+<p class="field-note">Use the same length unit for both yarns and the same currency for both prices. Use yarn-label values rather than assuming every ball weighs 100 g.</p>
 </div>
 <div class="card" style="padding:0;border:0;background:none"><button id="go" class="go" type="button">Check the match</button></div>
 
-<div id="res" class="card"></div>
+<div id="res" class="card" role="region" aria-label="Yarn comparison results" aria-live="polite"></div>
 <p class="more">Need to know how much yarn a whole project takes? Try the <a href="/yarn-estimator/">Yarn Estimator</a>. Swatch not matching? <a href="/#email-capture">Get the free Gauge Fixer by email</a>.</p>
 </main>
 <div class="wrap" style="max-width:700px">
 <div class="buy-card">
   <div>
     <h2>Knitting a raglan jumper?</h2>
-    <p>Skip the calculations entirely. Our easy, interactive calculator turns your gauge and measurements into a full top-down raglan pattern in seconds.</p>
+    <p>If your next project is a top-down raglan, I’ve made a calculator to help with the stitch counts and shaping too. Try the free preview, or explore the full version for neckline choices, sleeve shaping and written instructions.</p>
   </div>
   <a class="btn" href="/#try">Try the Raglan Calculator</a>
 </div>
@@ -122,28 +134,29 @@ fill('ow',W,4);fill('sw',W,4);
 $('go').onclick=()=>{
  const u=+$('un').value,n=id=>parseFloat($(id).value);
  const oy=n('oy')*u,og=n('og'),on=n('on'),sy=n('sy')*u,sg=n('sg');
- if(![oy,og,on,sy,sg].every(v=>v>0)){alert('Please fill in length, grams and skein count for both yarns.');return}
+ if(![oy,og,on,sy,sg].every(v=>Number.isFinite(v)&&v>0)){$('res').style.display='none';alert('Enter positive numbers for both yarn lengths and ball weights, and the number of balls in the pattern.');return}
  const bf=+$('bf').value,op=n('op'),sp=n('sp');
  const om=oy/og*100,sm=sy/sg*100,diff=(sm-om)/om*100;
  const total=oy*on,need=total*(1+bf),skeins=Math.ceil(need/sy);
  const ofb=F[$('of').value],sfb=F[$('sf').value];
  const wd=Math.abs($('ow').value-$('sw').value),dd=Math.abs(ofb[0]-sfb[0]),ed=Math.abs(ofb[1]-sfb[1]);
  let s=100-Math.min(45,Math.abs(diff)*1.8)-wd*18-dd*7-ed*5;s=Math.max(0,Math.round(s));
- const v=s>=80?['Great match','var(--good)']:s>=60?['Swatch before you commit','var(--warn)']:['Risky substitution','var(--bad)'];
+ const v=s>=80?['Similar label details','var(--good)']:s>=60?['Swatch before you commit','var(--warn)']:['More differences to check','var(--bad)'];
  const notes=[];
- if(wd)notes.push(`Weight category differs by ${wd} step${wd>1?'s':''}. Expect a different gauge: go up or down a needle size and re-check your swatch.`);
- if(Math.abs(diff)>10)notes.push(`${sm>om?'Lighter':'Heavier'} per gram than the original (${Math.abs(diff).toFixed(0)}% ${sm>om?'more':'less'} length), so the fabric will feel ${sm>om?'thinner':'denser'}.`);
- if(dd>=2)notes.push(`Drape changes: original is ${DR[ofb[0]]}, substitute is ${DR[sfb[0]]}. Fitted pieces may hang differently.`);
- if(ed>=2)notes.push(`Elasticity changes: original has ${EL[ofb[1]]}, substitute has ${EL[sfb[1]]}. Check ribbing and fit.`);
+ if(wd)notes.push(`Weight category differs by ${wd} step${wd>1?'s':''}. Gauge and fabric may differ. Swatch with a suitable needle or hook, then check the washed result.`);
+ if(Math.abs(diff)>10)notes.push(`The substitute has ${Math.abs(diff).toFixed(0)}% ${sm>om?'more':'less'} length per 100 g. This may indicate a different thickness or construction; it does not predict the finished fabric on its own.`);
+ if(dd>=2)notes.push(`General fibre guide: the original is rated ${DR[ofb[0]]} and the substitute ${DR[sfb[0]]}. Actual drape depends on the yarn construction, blend and gauge; check your swatch.`);
+ if(ed>=2)notes.push(`General fibre guide: the original is rated ${EL[ofb[1]]} and the substitute ${EL[sfb[1]]}. Check stretch and recovery in your washed swatch, especially for ribbing.`);
  if(ofb[1]<=2&&sfb[1]>=4||sfb[1]<=2&&ofb[1]>=4)notes.push('Consider adjusting ease: stretchy and non-stretch fibres fit differently at the same size.');
- if(!notes.length)notes.push('No red flags. Still swatch and wash it, because fibre content alone does not tell the whole story.');
+ if(!notes.length)notes.push('These label details look similar. Still swatch and wash it: fibre type alone does not tell the whole story.');
  const fm=x=>Math.round(x/u);const un=u==1?'m':'yd';
  let cost='';
  if(op>0&&sp>0){const oc=op*on,sc=sp*skeins;cost=`<tr><td>Original cost</td><td>${oc.toFixed(2)}</td></tr><tr><td>Substitute cost</td><td>${sc.toFixed(2)}</td></tr><tr><td>Difference</td><td style="color:${sc<=oc?'var(--good)':'var(--bad)'}">${sc<=oc?'saves ':'costs '}${Math.abs(oc-sc).toFixed(2)}</td></tr>`}
  const r=$('res');r.style.display='block';
- r.innerHTML=`<div class="score" style="color:${v[1]}">${s}/100</div><div class="verdict" style="color:${v[1]}">${v[0]}</div>
- <div class="big">Buy ${skeins} skein${skeins>1?'s':''}</div><div style="color:var(--mute);font:14px 'Karla',sans-serif">for ${fm(total)} ${un} plus ${bf*100}% buffer (${fm(need)} ${un})</div>
+ r.innerHTML=`<div class="score" style="color:${v[1]}">${s}/100</div><p class="field-note">A comparison guide based on label details and general fibre assumptions — not a percentage chance of success.</p><div class="verdict" style="color:${v[1]}">${v[0]}</div>
+ <div class="big">Plan for ${skeins} ball${skeins>1?'s':''} / skein${skeins>1?'s':''}</div><div style="color:var(--mute);font:14px 'Karla',sans-serif">for ${fm(total)} ${un} plus ${bf*100}% buffer (${fm(need)} ${un})</div>
  <table><tr><td>Original per 100g</td><td>${fm(om)} ${un}</td></tr><tr><td>Substitute per 100g</td><td>${fm(sm)} ${un}</td></tr><tr><td>Yardage difference</td><td>${diff>0?'+':''}${diff.toFixed(1)}%</td></tr>${cost}</table>
+ <p class="field-note">Quantity matches the original pattern’s total length plus your buffer. It does not adjust for a different gauge, size or stitch pattern.</p>
  <ul>${notes.map(x=>`<li>${x}</li>`).join('')}</ul>`;
  r.scrollIntoView({behavior:'smooth'});
 };
