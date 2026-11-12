@@ -346,11 +346,31 @@
   }
   .copied-msg.show{ opacity:1; }
 
-  footer{
+  .before-begin{
     max-width:1040px; margin:26px auto 0; padding:0 4px;
     font-size:11.5px; color:var(--ink-soft); line-height:1.6;
     font-family:'Space Mono', monospace;
   }
+.welcome-note{color:var(--ink-soft,#6b6178);max-width:72ch;line-height:1.65;margin:12px 0}
+.before-begin h2{font-family:inherit;font-size:1.1rem;margin:0 0 12px;color:inherit}
+.before-begin p{margin:0 0 12px}
+.before-begin ul{padding-left:22px;text-align:left;margin:0}
+.before-begin li{margin:0 0 10px;line-height:1.6}
+.terms-guide{max-width:1040px;margin:26px auto 0;padding:24px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.terms-guide h2{font-size:1.3rem;margin:0 0 12px}
+.terms-guide p{line-height:1.65;margin-bottom:16px}
+.terms-guide summary{cursor:pointer;font-weight:700;padding:12px 0}
+.terms-guide table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:.9rem;line-height:1.6}
+.terms-guide th,.terms-guide td{text-align:left;vertical-align:top;padding:12px 8px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.terms-guide th:first-child{width:30%}
+@media(max-width:520px){.terms-guide{padding:18px 12px}.terms-guide th:first-child{width:34%}.terms-guide th,.terms-guide td{padding:10px 5px}}
+.before-begin{margin:0 auto 24px;padding:20px 24px;background:var(--panel);border:1px solid var(--line);border-radius:16px;font-family:inherit;font-size:.9rem}
+.before-begin summary{cursor:pointer;font-weight:700;padding:8px 0}
+.before-begin details ul{margin-top:10px}
+.pattern-heading{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.pattern-heading h2{font-size:1.15rem;margin:0}
+.pattern-heading a{color:var(--sage-deep);font-size:.85rem;text-underline-offset:3px}
+#terms-heading{scroll-margin-top:24px}
 </style>
 </head>
 <body>
@@ -359,15 +379,30 @@
   <header class="top">
     <div class="eyebrow">The Thread Within · Knitting Tools</div>
     <h1>Top-Down Raglan <em>Calculator</em></h1>
-    <p class="lede">Enter your gauge and finished measurements. The numbers below update live — cast-on counts, raglan increases, underarm stitches, and sleeve shaping, all worked out for you.</p>
-
+    <p class="lede">You’ve got the yarn and an idea of the jumper you’d like to wear. Let’s work through the numbers together.</p>
+    <p class="welcome-note">Start with your washed swatch, choose a neckline, then add your body measurements, preferred ease and lengths. The stitch counts, schematic and instructions will update as you go.</p>
+    <p class="welcome-note">I’d recommend reading through the pattern and checking any fit notes before casting on. When you’re happy with your choices, copy the instructions to keep beside your knitting.</p>
     <ol class="howto">
-      <li><b>Choose cm or inches</b> at the top of the measurements panel. Switching converts whatever you've already entered rather than resetting it, and every label, hint, and pattern instruction updates to match.</li>
-      <li><b>Pick a neckline tab</b> in the results panel — Round neck, V-neck, Boat neck, or Off shoulder. This changes the construction method, not just the label.</li>
-      <li><b>Fill in gauge and measurements</b> on the left. A couple of fields only appear for certain necklines — a V-neck depth field shows up only on the V-neck tab, for instance — and the hint under "Neck circumference" changes per tab to suggest a sensible range for that style.</li>
-      <li><b>Read the pattern</b> on the right: stitch counts up top, a schematic, then step-by-step instructions that update as you tweak any field. Use "Copy pattern as text" to save it.</li>
+      <li><b>Choose cm or inches.</b> You can switch later; your entries will be converted for you.</li>
+      <li><b>Choose your neckline.</b> Select Round neck, V-neck, Boat neck or Off shoulder in the results panel. Each uses its own construction.</li>
+      <li><b>Add your numbers.</b> Enter your washed stockinette gauge and body measurements, then add ease separately. Fill in the neckline-specific measurements and choose your body, sleeve and ribbing lengths.</li>
+      <li><b>Check and keep your pattern.</b> Review the counts, schematic, fit notes and instructions as you adjust your entries. Use “Copy pattern as text” when you’re ready to save it.</li>
     </ol>
   </header>
+
+  <section class="before-begin" aria-labelledby="before-begin-heading">
+    <h2 id="before-begin-heading">Before you begin</h2>
+    <p>This calculator makes a straight-body raglan with equal front and back sections and no back-neck short rows. Sleeve width follows the raglan calculation, so check the fit notes before casting on and try on before dividing.</p>
+    <details><summary>Read the construction and measurement notes</summary>
+    <ul>
+      <li><strong>The basic shape:</strong> four raglan lines, equal front and back sections, a straight body and no back-neck short rows.</li>
+      <li><strong>Your neckline:</strong> round neck starts flat with a shaped front scoop, then joins with a centre-front cast-on; pick up its neckband last. Boat neck starts in the round from its full cast-on. The neckline tabs change the opening and finishing instructions.</li>
+      <li><strong>Sleeve fit:</strong> your upper-arm measurement checks the resulting sleeve width; it does not set that width independently. Read the fit notes and try on before separating the body and sleeves.</li>
+      <li><strong>Lengths:</strong> body and sleeve lengths include their ribbing. Raglan depth covers shaping only, excluding the band and set-up.</li>
+      <li><strong>Finishing estimates:</strong> ribbing rounds and neckband pickup counts are guides. Check your swatch and the edge of your garment, and adjust pickup spacing for a flat finish.</li>
+    </ul>
+    </details>
+  </section>
 
   <div class="grid">
     <!-- FORM -->
@@ -544,6 +579,7 @@
     <!-- RESULTS -->
     <div class="panel results-panel">
       <div class="panel-inner">
+        <div class="pattern-heading"><h2>Your pattern</h2><a href="#terms-heading">Knitting terms guide ↓</a></div>
 
         <div class="tabs">
           <button class="tab-btn active" id="tabCrew" type="button">Round neck</button>
@@ -572,13 +608,45 @@
     </div>
   </div>
 
-  <footer>This calculator uses a fixed four-line raglan with equal front and back sections, a straight body, and no back-neck short rows. Round neck starts flat, shapes the front scoop, then joins with a centre-front cast-on; its neckband is picked up last. Boat neck remains worked in the round from its full cast-on. Neckline tabs change the opening and finishing. Upper-arm measurements check the resulting fit rather than independently determining sleeve width. Read fit warnings and try on before dividing. All lengths include their ribbing except raglan depth, which covers shaping only. Ribbing and V-neck pickup counts are estimates: swatch and check them on the garment.</footer>
+  <section class="terms-guide" aria-labelledby="terms-heading">
+    <h2 id="terms-heading">A little guide to the knitting terms</h2>
+    <p>If an abbreviation has you pausing, you can look it up here. These are the terms used in your pattern, and they’re included when you copy it as text too.</p>
+    <details>
+      <summary>Show abbreviations and what they mean</summary>
+      <table><thead><tr><th scope="col">Term</th><th scope="col">What it means</th></tr></thead><tbody>
+<tr><th scope="row">RS — right side</th><td>The side intended to face out when you wear the jumper. In stockinette, this is the smooth side with V-shaped stitches.</td></tr>
+<tr><th scope="row">WS — wrong side</th><td>The inside of the jumper. In stockinette, this is the bumpy, purl side. When working flat, turn the work between RS and WS rows.</td></tr>
+<tr><th scope="row">st / sts</th><td>Stitch / stitches. A number such as 40 sts means 40 stitches on the needle.</td></tr>
+<tr><th scope="row">k / k1</th><td>Knit / knit 1 stitch. For example, k12 means knit the next 12 stitches.</td></tr>
+<tr><th scope="row">p / p1</th><td>Purl / purl 1 stitch. For example, p12 means purl the next 12 stitches.</td></tr>
+<tr><th scope="row">pm — place marker</th><td>Put a stitch marker onto the right-hand needle between stitches. It marks a boundary; it is not a stitch.</td></tr>
+<tr><th scope="row">sl m / slip marker</th><td>Move the marker from the left-hand needle to the right-hand needle without working it. Keep the yarn in the position needed for the next stitch.</td></tr>
+<tr><th scope="row">Beginning-of-round marker</th><td>Marks where one round ends and the next begins. In the boat-neck and off-shoulder set-up, it also serves as the fourth raglan marker.</td></tr>
+<tr><th scope="row">M1L — make 1 left</th><td>Increase 1 stitch with a left lean: lift the strand between the needles from front to back with the left needle, then knit it through the back loop.</td></tr>
+<tr><th scope="row">M1R — make 1 right</th><td>Increase 1 stitch with a right lean: lift the strand between the needles from back to front with the left needle, then knit it through the front loop.</td></tr>
+<tr><th scope="row">k2tog — knit 2 together</th><td>Knit the next 2 stitches together as one. This decreases 1 stitch and leans to the right.</td></tr>
+<tr><th scope="row">ssk — slip, slip, knit</th><td>Slip the next 2 stitches knitwise, one at a time, then knit them together through their back loops. This decreases 1 stitch and leans to the left.</td></tr>
+<tr><th scope="row">1×1 rib</th><td>Alternate knit 1, purl 1. In the round, keep knitting the knit columns and purling the purl columns.</td></tr>
+<tr><th scope="row">Stockinette</th><td>For this jumper: knit RS rows and purl WS rows when working flat; knit every round when working in the round.</td></tr>
+<tr><th scope="row">Row / round</th><td>A row is worked across flat knitting, then you turn. A round goes all the way around joined stitches without turning.</td></tr>
+<tr><th scope="row">Work even / plain round</th><td>Continue without increases or decreases. Here, purl a WS row even or knit a plain round, as directed.</td></tr>
+<tr><th scope="row">Cast on / bind off</th><td>Cast on creates new stitches. Bind off (also called cast off) finishes a live edge so the stitches cannot unravel.</td></tr>
+<tr><th scope="row">Hold stitches</th><td>Leave stitches unworked on waste yarn, a spare cable or a stitch holder until you return to them.</td></tr>
+<tr><th scope="row">Pick up stitches</th><td>Draw new loops through an existing fabric edge onto your needle, as for the neckband or underarm. This differs from returning held live stitches to the needle.</td></tr>
+<tr><th scope="row">Ease</th><td>The difference between body and finished garment measurements. Positive ease adds room; negative ease makes the garment smaller than the body measurement.</td></tr>
+<tr><th scope="row">Block</th><td>Wash or dampen the finished knitting as appropriate for the yarn, gently arrange it to the intended shape and let it dry. Check your yarn care instructions; do not rely on blocking to fix a substantial sizing error.</td></tr>
+      </tbody></table>
+    </details>
+  </section>
+
+
 </div>
 
 <script>
 'use strict';
 let mode = 'crew', unit = 'cm';
 const CM_PER_IN = 2.54;
+const KNITTING_TERMS = [["RS — right side", "The side intended to face out when you wear the jumper. In stockinette, this is the smooth side with V-shaped stitches."], ["WS — wrong side", "The inside of the jumper. In stockinette, this is the bumpy, purl side. When working flat, turn the work between RS and WS rows."], ["st / sts", "Stitch / stitches. A number such as 40 sts means 40 stitches on the needle."], ["k / k1", "Knit / knit 1 stitch. For example, k12 means knit the next 12 stitches."], ["p / p1", "Purl / purl 1 stitch. For example, p12 means purl the next 12 stitches."], ["pm — place marker", "Put a stitch marker onto the right-hand needle between stitches. It marks a boundary; it is not a stitch."], ["sl m / slip marker", "Move the marker from the left-hand needle to the right-hand needle without working it. Keep the yarn in the position needed for the next stitch."], ["Beginning-of-round marker", "Marks where one round ends and the next begins. In the boat-neck and off-shoulder set-up, it also serves as the fourth raglan marker."], ["M1L — make 1 left", "Increase 1 stitch with a left lean: lift the strand between the needles from front to back with the left needle, then knit it through the back loop."], ["M1R — make 1 right", "Increase 1 stitch with a right lean: lift the strand between the needles from back to front with the left needle, then knit it through the front loop."], ["k2tog — knit 2 together", "Knit the next 2 stitches together as one. This decreases 1 stitch and leans to the right."], ["ssk — slip, slip, knit", "Slip the next 2 stitches knitwise, one at a time, then knit them together through their back loops. This decreases 1 stitch and leans to the left."], ["1×1 rib", "Alternate knit 1, purl 1. In the round, keep knitting the knit columns and purling the purl columns."], ["Stockinette", "For this jumper: knit RS rows and purl WS rows when working flat; knit every round when working in the round."], ["Row / round", "A row is worked across flat knitting, then you turn. A round goes all the way around joined stitches without turning."], ["Work even / plain round", "Continue without increases or decreases. Here, purl a WS row even or knit a plain round, as directed."], ["Cast on / bind off", "Cast on creates new stitches. Bind off (also called cast off) finishes a live edge so the stitches cannot unravel."], ["Hold stitches", "Leave stitches unworked on waste yarn, a spare cable or a stitch holder until you return to them."], ["Pick up stitches", "Draw new loops through an existing fabric edge onto your needle, as for the neckband or underarm. This differs from returning held live stitches to the needle."], ["Ease", "The difference between body and finished garment measurements. Positive ease adds room; negative ease makes the garment smaller than the body measurement."], ["Block", "Wash or dampen the finished knitting as appropriate for the yarn, gently arrange it to the intended shape and let it dry. Check your yarn care instructions; do not rely on blocking to fix a substantial sizing error."]];
 const $ = id => document.getElementById(id);
 const LENGTH_FIELDS = ['neck','shoulders','chest','chestEase','armDepth','bodyLen','upperArm','armEase','cuff','sleeveLen','vDepth','ribNeck','ribHem','ribCuff'];
 const FIELDS = ['stGauge','rowGauge','crewFlatRows', ...LENGTH_FIELDS];
@@ -737,7 +805,7 @@ function renderDiagram(d){
   $('schematic').setAttribute('aria-label',`${title}: ${openingLabel} circumference ${actualOpening}, chest circumference ${fmt(d.bodySts/d.sg)}, body length ${bodyLength}, sleeve length ${sleeveLength}.`);
   $('schematicCap').textContent=`Dimensions show calculated stitch/round sizes. Body and sleeve lengths include ribbing. Circumferences are full measurements around the garment, not flat widths. ${mode==='v'?'V depth is measured from the shaping start to the join; the opening circumference is the base calculation before the V is shaped. ':''}Shaping depth excludes the band and set-up. Ribbing may draw in; check its gauge and fit. ${mode==='crew'?'Round neck has a shaped front scoop and a neckband picked up last. No short rows are used.':'No back-neck short rows or front scoop are included.'}`;
 }
-function patternText(){const d=calc();if(d.errors.length) throw new Error('Correct invalid inputs before copying.');return [`TOP-DOWN RAGLAN — ${names[mode]}`,`Needles: ${$('needle').value}; yarn: ${$('yarn').value}`,`Gauge: ${values.stGauge} sts and ${values.rowGauge} rows per 10cm.`,...d.warnings.map(w=>'FIT WARNING: '+w),...sections(d).map(s=>s.title.toUpperCase()+'\n'+s.paragraphs.join('\n'))].join('\n\n');}
+function patternText(){const d=calc();if(d.errors.length) throw new Error('Correct invalid inputs before copying.');return [`TOP-DOWN RAGLAN — ${names[mode]}`,`Needles: ${$('needle').value}; yarn: ${$('yarn').value}`,`Gauge: ${values.stGauge} sts and ${values.rowGauge} rows per 10cm.`,...d.warnings.map(w=>'FIT WARNING: '+w),...sections(d).map(s=>s.title.toUpperCase()+'\n'+s.paragraphs.join('\n')), 'KNITTING TERMS\n'+KNITTING_TERMS.map(([term,meaning])=>term+': '+meaning).join('\n')].join('\n\n');}
 function updateNeckHint(){const ranges={crew:[45,56],boat:[60,72],offshoulder:[80,95]};$('neckHint').textContent=mode==='v'?'Base neck opening before front V shaping':mode==='crew'?'Base opening for stitch allocation; shaped opening and ribbing are checked separately':`Typical starting range ${fmt(ranges[mode][0])}–${fmt(ranges[mode][1])}; check fit.`;}
 function setMode(m,fromHash=false){if(!names[m])return;mode=m;for(const [id,key] of [['tabCrew','crew'],['tabV','v'],['tabBoat','boat'],['tabOff','offshoulder']]){$(id).classList.toggle('active',mode===key);$(id).setAttribute('aria-pressed',String(mode===key));}$('crewRowsField').style.display=mode==='crew'?'block':'none';$('vDepthField').style.display=mode==='v'?'block':'none';$('shoulderField').style.display=mode==='offshoulder'?'block':'none';$('neckField').style.display=mode==='offshoulder'?'none':'block';updateNeckHint();render();if(!fromHash)try{history.replaceState(null,'','#'+hashes[mode]);}catch{}}
 function setUnit(u){if(u===unit)return;unit=u;for(const id of FIELDS){const factor=id==='crewFlatRows'?1:LENGTH_FIELDS.includes(id)?(unit==='in'?1/CM_PER_IN:1):(unit==='in'?1.016:1);$(id).value=Number.isFinite(values[id])?Number((values[id]*factor).toFixed(4)):'';}$('unitCm').classList.toggle('active',unit==='cm');$('unitIn').classList.toggle('active',unit==='in');for(const id of ['gaugeRefSt','gaugeRefRow'])$(id).textContent=unit==='in'?'4in':'10cm';for(const id of ['measureUnitLabel','ribUnitLabel'])$(id).textContent=unit==='in'?'in':'cm';updateNeckHint();render();}
