@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Top-Down Raglan Calculator — The Thread Within</title>
-<meta name="description" content="Try a free top-down raglan stitch calculator using your gauge and measurements. Explore the full £15 tool for neckline options and printable pattern instructions.">
+<meta name="description" content="Try a free top-down raglan stitch calculator using your gauge and measurements. Explore the full £15 tool for four neckline constructions, sleeve shaping and pattern instructions you can copy.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thethreadwithin.store">
 <meta property="og:title" content="Top-Down Raglan Calculator — The Thread Within">
@@ -154,7 +154,7 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
     <div>
       <div class="eyebrow">Raglan Calculator</div>
       <h1>Your gauge.<br>Your measurements.<br><em>Your raglan.</em></h1>
-      <p class="lead">Plan your next top-down jumper with numbers based on your own swatch. Try the free crew-neck stitch demo, then explore the full calculator for neckline options, sleeve shaping and printable instructions.</p>
+      <p class="lead">Plan your next top-down jumper with numbers based on your own swatch. Try the free stitch-count preview, then explore the full calculator for four neckline constructions, sleeve shaping and step-by-step instructions you can copy.</p>
       <div class="cta-row">
         <a href="#try" class="btn btn-primary">Try the free calculator</a>
         <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-secondary">Get the full version — £15</a>
@@ -167,7 +167,7 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
           <path d="M38 34 Q48 45 58 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
           <line x1="20" y1="34" x2="38" y2="34" stroke="#3a3444" stroke-width="1.3"/>
           <line x1="58" y1="34" x2="76" y2="34" stroke="#3a3444" stroke-width="1.3"/>
-          <text x="48" y="54">Crew</text>
+          <text x="48" y="54">Round neck</text>
           <path d="M112 34 L128 48 L144 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
           <text x="128" y="54">V-neck</text>
           <path d="M182 34 Q204 42 226 34" fill="none" stroke="#3a3444" stroke-width="1.3"/>
@@ -202,21 +202,21 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
 <div class="wrap">
   <section id="try">
     <div class="try-it">
-      <h2>Try your crew-neck stitch numbers</h2>
-      <p>No email needed for this demo. Enter your washed swatch gauge and desired finished measurements. This simplified example uses increases every other round; it is a starting point, not a complete knitting pattern.</p>
+      <h2>Try a simplified raglan stitch preview</h2>
+      <p>No email needed. Enter your washed swatch gauge, base neck opening, desired finished chest and raglan shaping depth. This preview shows basic yoke maths with increases every other round. It does not include the full calculator’s shaped round-neck start, centre-front join or picked-up neckband, and is not a knitting pattern.</p>
       <noscript><p>This interactive demo needs JavaScript. You can still read about the full calculator below.</p></noscript>
       <div class="calc-box">
         <div class="calc-inputs">
           <label>Stitch gauge <span>(sts per 10cm)</span><input type="number" required inputmode="decimal" id="calc-sts-gauge" value="22" min="1" step="0.5"></label>
           <label>Row gauge <span>(rows per 10cm)</span><input type="number" required inputmode="decimal" id="calc-row-gauge" value="30" min="1" step="0.5"></label>
-          <label>Neck circumference <span>(cm)</span><input type="number" required inputmode="decimal" id="calc-neck" value="38" min="1" step="0.5"></label>
+          <label>Base neck opening <span>(cm, for stitch allocation)</span><input type="number" required inputmode="decimal" id="calc-neck" value="38" min="1" step="0.5"></label>
           <label>Finished chest circumference <span>(cm, including your chosen ease)</span><input type="number" required inputmode="decimal" id="calc-chest" value="96" min="1" step="0.5"></label>
-          <label>Armhole depth <span>(cm)</span><input type="number" required inputmode="decimal" id="calc-arm-depth" value="20" min="1" step="0.5"></label>
+          <label>Raglan shaping depth <span>(cm, excluding neckband)</span><input type="number" required inputmode="decimal" id="calc-arm-depth" value="20" min="1" step="0.5"></label>
         </div>
         <button class="btn btn-secondary" id="calc-run" type="button">Calculate</button>
         <p id="calc-status" class="calc-status" role="status" aria-live="polite"></p>
         <div class="calc-results" id="calc-results" aria-label="Calculator results">
-          <div class="calc-result-row"><span>Cast on (neck)</span><strong id="res-neck-sts">—</strong></div>
+          <div class="calc-result-row"><span>Base opening stitches (not shaped cast-on)</span><strong id="res-neck-sts">—</strong></div>
           <div class="calc-result-row"><span>Back sts</span><strong id="res-back">—</strong></div>
           <div class="calc-result-row"><span>Front sts</span><strong id="res-front">—</strong></div>
           <div class="calc-result-row"><span>Each sleeve sts</span><strong id="res-sleeve">—</strong></div>
@@ -234,10 +234,10 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
           <p class="locked-label">🔒 Unlocked in the full version</p>
           <ul>
             <li>Sleeve taper — decrease schedule down to your cuff</li>
-            <li>V-neck, boat neck, and off-shoulder construction, not just crew</li>
-            <li>Rib depth for neck, hem, and cuff, converted to exact rounds</li>
+            <li>Shaped round neck, V-neck, boat neck and off-shoulder construction</li>
+            <li>Neck, hem and cuff ribbing rounds estimated from your row gauge</li>
             <li>Calculations based on your own gauge and measurements</li>
-            <li>Full written pattern text and printable schematic</li>
+            <li>Step-by-step pattern text you can copy, plus a measurement schematic</li>
           </ul>
           <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary">Unlock the full version — £15</a>
         </div>
@@ -331,21 +331,22 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
       <h2>From your swatch to your next jumper</h2>
     </div>
     <div class="features">
-      <div class="feature"><div class="feature-num">01</div><div><h3>Enter your gauge and measurements</h3><p>Stitches and rows per 10cm, chest, and desired ease — the calculator takes it from there.</p></div></div>
-      <div class="feature"><div class="feature-num">02</div><div><h3>Get exact stitch counts</h3><p>Work through cast-on numbers and raglan increases, using your own swatch as the starting point.</p></div></div>
-      <div class="feature"><div class="feature-num">03</div><div><h3>Choose your neckline</h3><p>Crew, V-neck, boat neck, or off-shoulder construction, with calculations based on your measurements.</p></div></div>
-      <div class="feature"><div class="feature-num">04</div><div><h3>See your schematic</h3><p>A full SVG diagram of your jumper's shape, alongside estimated yarn yardage.</p></div></div>
+      <div class="feature"><div class="feature-num">01</div><div><h3>Enter your gauge and measurements</h3><p>Use your washed stitch and row gauge in cm or inches, body measurements, ease and desired lengths. Read the calculated fit warnings before knitting.</p></div></div>
+      <div class="feature"><div class="feature-num">02</div><div><h3>Calculate your stitch counts</h3><p>Get cast-on and raglan counts, underarm stitches, body rounds, sleeve decrease schedules and ribbing instructions. Upper-arm measurements check the resulting sleeve fit.</p></div></div>
+      <div class="feature"><div class="feature-num">03</div><div><h3>Choose your neckline</h3><p>Round neck starts flat with front-neck and raglan shaping, then adds centre-front stitches to join in the round; pick up its neckband last. V-neck has its own flat shaping. Boat neck starts in the round. Off-shoulder cast-on uses your around-shoulders measurement.</p></div></div>
+      <div class="feature"><div class="feature-num">04</div><div><h3>See your schematic</h3><p>See a neckline-specific schematic with calculated garment measurements, then copy the step-by-step pattern as text to keep with your project.</p></div></div>
     </div>
+    <p class="micro">The full calculator uses a straight body and equal front/back sections, without back-neck short rows. Round-neck flat rows default to 10 and can be adjusted; their depth depends on row gauge. Check fit before dividing, and check neckband pickup counts on the garment.</p>
   </section>
 
   <section id="faq">
     <div class="section-head"><h2>Questions</h2></div>
     <div class="faq">
       <details><summary>Do I need to swatch?</summary><p>Yes. The calculator is only as accurate as your gauge, so measure stitches and rows per 10cm over a washed swatch.</p></details>
-      <details><summary>Which yarn weights does it work with?</summary><p>It uses your measured gauge rather than a fixed yarn weight. Swatch first to check that you like the fabric. Yarn quantities are estimates, so allow a margin.</p></details>
-      <details><summary>How do I include ease?</summary><p>Use your desired finished jumper chest measurement: your body chest measurement plus the extra room you want. For example, a 96 cm chest with 8 cm of positive ease means entering 104 cm.</p></details>
-      <details><summary>What does the free demo include?</summary><p>A simplified crew-neck stitch breakdown using increases every other round. It shows total yoke rounds, increase rounds, underarm stitches and the calculated chest measurement. It does not check sleeve fit or neck stretch and does not provide a complete pattern.</p></details>
-      <details><summary>Is it suitable for beginners?</summary><p>If you can knit in the round and work paired increases, yes. The calculator handles the numbers; the technique is still yours.</p></details>
+      <details><summary>Which yarn weights does it work with?</summary><p>It uses your measured gauge rather than a fixed yarn weight. Swatch first to check that you like the fabric. The raglan calculator does not estimate yarn quantities; use the separate Yarn Estimator for a starting estimate.</p></details>
+      <details><summary>How do I include ease?</summary><p>In the free preview, enter your finished chest measurement, including ease: a 96 cm chest plus 8 cm ease means 104 cm. In the full calculator, enter your chest measurement and ease separately.</p></details>
+      <details><summary>What does the free demo include?</summary><p>A simplified raglan yoke breakdown using increases every other round. It shows base opening stitches, section counts at the divide, underarm stitches and calculated chest and yoke depth. It does not generate the full calculator’s round-neck shaping or check sleeve fit and neck stretch. The base opening count is not the shaped round-neck cast-on.</p></details>
+      <details><summary>Is it suitable for beginners?</summary><p>It is aimed at knitters comfortable reading pattern instructions, working raglan increases, dividing body and sleeves, and shaping sleeves. Round neck and V-neck also use flat knitting and picked-up neckbands. It provides the numbers and instructions rather than technique lessons.</p></details>
     </div>
   </section>
 
@@ -353,7 +354,7 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
     <div class="buy-card">
       <div>
         <h2>Get your full pattern</h2>
-        <p>Get sleeve shaping, all four necklines (crew, V-neck, boat neck and off-shoulder), yarn estimates and a printable schematic in the full calculator.</p>
+        <p>Generate instructions for a straight-body top-down raglan with round neck, V-neck, boat neck or off-shoulder construction. Includes sleeve taper, ribbing, fit warnings, a measurement schematic and a pattern you can copy as text.</p>
       </div>
       <div class="buy-right">
         <div class="price">£15</div>
@@ -389,7 +390,7 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
       <div class="product-card">
         <div class="product-photo"><img src="images/calculator.webp" alt="Raglan Calculator tool interface" loading="lazy"></div>
         <h3>Raglan Calculator</h3>
-        <p>The tool on this page — enter your gauge and measurements, get a complete pattern.</p>
+        <p>The full calculator — turn your gauge and measurements into neckline-specific raglan instructions, sleeve shaping and a schematic.</p>
         <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary btn-small">Get the calculator — £15</a>
       </div>
     </div>
