@@ -3,118 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, follow">
 <title>Thank you — The Thread Within</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cream: #f3efee;
-    --sage: #8b7c9e;
-    --sage-dark: #5c5470;
-    --terracotta: #c98f9e;
-    --ink: #3a3444;
-    --ink-soft: #6b6178;
-    --line: #ddd5e0;
-    --paper: #fdfbfc;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'Karla', sans-serif;
-    font-size: 17px;
-    line-height: 1.6;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-  h1, h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    color: var(--ink);
-  }
-  .card {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    max-width: 560px;
-    width: 100%;
-    padding: 48px 40px;
-    text-align: center;
-  }
-  .mark {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--sage);
-    color: var(--cream);
-    font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 24px;
-  }
-  .eyebrow {
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--sage-dark);
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  h1 {
-    font-size: clamp(1.6rem, 4vw, 2.1rem);
-    margin-bottom: 16px;
-  }
-  p.lead {
-    color: var(--ink-soft);
-    max-width: 42ch;
-    margin: 0 auto 32px;
-  }
-  .btn {
-    display: inline-block;
-    padding: 15px 32px;
-    border-radius: 3px;
-    font-family: 'Karla', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    text-decoration: none;
-    background: var(--terracotta);
-    color: var(--paper);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(201,143,158,0.4);
-  }
-  .note {
-    margin-top: 28px;
-    padding-top: 24px;
-    border-top: 1px dashed var(--line);
-    font-size: 0.88rem;
-    color: var(--ink-soft);
-  }
-  .note a { color: var(--terracotta); }
+:root{--cream:#f3efee;--sage:#8b7c9e;--sage-dark:#5c5470;--terracotta:#c98f9e;--ink:#3a3444;--ink-soft:#6b6178;--line:#ddd5e0;--paper:#fdfbfc}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'Karla',sans-serif;font-size:17px;line-height:1.6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+h1,h2{font-family:'Fraunces',serif;font-weight:500;color:var(--ink)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:8px;max-width:560px;width:100%;padding:48px 40px;text-align:center}
+.mark{width:56px;height:56px;border-radius:50%;background:var(--sage);color:var(--cream);font-family:'Fraunces',serif;font-size:1.3rem;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.eyebrow{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-dark);font-weight:700;margin-bottom:12px}
+h1{font-size:clamp(1.6rem,4vw,2.1rem);line-height:1.25;margin-bottom:16px}
+p.lead{color:var(--ink-soft);max-width:42ch;margin:0 auto 28px}
+.btn{display:inline-block;padding:15px 24px;min-height:48px;border-radius:3px;font-family:'Karla',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;background:var(--terracotta);color:var(--ink);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(201,143,158,.4)}
+a:focus-visible{outline:3px solid var(--sage-dark);outline-offset:4px}
+.getting-started{margin-top:28px;padding-top:24px;border-top:1px dashed var(--line);text-align:left}
+h2{font-size:1.25rem;margin-bottom:12px}
+.getting-started ol{padding-left:22px;color:var(--ink-soft)}
+.getting-started li{margin-bottom:12px}
+.keep{color:var(--ink-soft);margin-top:16px;font-size:.94rem}
+.signoff{margin-top:20px;color:var(--sage-dark)}
+.note{margin-top:24px;padding-top:20px;border-top:1px dashed var(--line);font-size:.88rem;color:var(--ink-soft)}
+.note a{color:var(--sage-dark);overflow-wrap:anywhere}
+@media(max-width:480px){body{padding:16px}.card{padding:32px 22px}.btn{width:100%}}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}.btn:hover{transform:none}}
 </style>
 </head>
 <body>
-
-<div class="card">
-  <div class="mark">TTW</div>
-  <div class="eyebrow">Order confirmed</div>
-  <h1>Thank you for your purchase</h1>
-  <p class="lead">Your Raglan Calculator is ready to download. Save the file, then open it in any browser — no installation needed.</p>
-
-  <a href="raglan-calculator.html" download class="btn">Download your calculator</a>
-
+<main class="card">
+  <div class="mark" aria-label="The Thread Within">TTW</div>
+  <div class="eyebrow">Your Raglan Calculator</div>
+  <h1>Thank you for supporting my little knitting corner ❤️</h1>
+  <p class="lead">Your Raglan Calculator is ready. I hope it helps you spend less time working through the numbers and more time making a jumper you’ll love wearing.</p>
+  <a href="/raglan-calculator.html" download class="btn">Download your Raglan Calculator</a>
+  <section class="getting-started" aria-labelledby="getting-started-heading">
+    <h2 id="getting-started-heading">A little help getting started</h2>
+    <ol>
+      <li>Save the HTML file somewhere you can find it again. It’s an interactive calculator rather than a PDF pattern, and there’s nothing to install.</li>
+      <li>Open it in a browser such as Safari or Chrome. If your phone’s file preview doesn’t show the pattern, try opening the saved file in a full browser.</li>
+      <li>Have your washed swatch and measurements handy, then read “Before you begin” inside the calculator.</li>
+    </ol>
+    <p class="keep">You can come back to the saved file whenever you’re planning another jumper.</p>
+  </section>
+  <p class="signoff">Happy Knitting<br>Piyi ❤️</p>
   <div class="note">
-    <p>Trouble with the download, or didn't receive a receipt? Email <a href="mailto:hello@thethreadwithin.store">hello@thethreadwithin.store</a> and I'll sort it out.</p>
+    <p>Need a hand opening your file, or can’t find your receipt? Email <a href="mailto:hello@thethreadwithin.store">hello@thethreadwithin.store</a> and I’ll help.</p>
   </div>
-</div>
-
+</main>
 </body>
 </html>
