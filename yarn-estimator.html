@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thethreadwithin.store/yarn-estimator/">
 <meta property="og:title" content="Yarn Estimator — The Thread Within">
-<meta property="og:description" content="Enough yarn to finish, without a cupboard of leftovers.">
+<meta property="og:description" content="A little help planning how much yarn to buy.">
 <meta property="og:image" content="https://thethreadwithin.store/images/calculator.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,6 +72,11 @@ input,select{width:100%;font:inherit;font-weight:400;font-size:1rem;margin-top:4
 footer{padding:16px 0 48px;text-align:center;color:var(--mute);font-size:.85rem}
 @media(max-width:480px){.grid{grid-template-columns:1fr}}
 @media(max-width:700px){.brand nav a:not(.btn){display:none}.panel{padding:20px}.buy-card{flex-direction:column;text-align:center}}
+.intro h2{font-size:1.22rem;line-height:1.35;margin-bottom:14px}
+.intro p{font-size:.96rem;color:var(--mute);margin-bottom:12px}
+.intro .signoff{color:var(--acc);margin-bottom:0}
+[hidden]{display:none!important}
+.field-hint{display:block;font-size:.78rem;font-weight:400;color:var(--mute);margin-top:5px}
 </style>
 </head>
 <body>
@@ -90,11 +95,26 @@ footer{padding:16px 0 48px;text-align:center;color:var(--mute);font-size:.85rem}
 <main>
 <div class="eyebrow">Free tool</div>
 <h1>Yarn <em>Estimator</em></h1>
-<p class="sub">Enough yarn to finish, without a cupboard of leftovers. Estimates by size, stitch and yarn weight.</p>
+<p class="sub">A project in mind, a yarn you love — and a little help working out how much to buy.</p>
+<section class="panel intro" aria-labelledby="piyi-help">
+  <h2 id="piyi-help"><strong>A little help before you cast on from Piyi ❤️</strong></h2>
+  <p>You’ve got a project in mind, and now comes the question: how much yarn should you buy?</p>
+  <p>I made this estimator to give you a starting point. Choose knitting or crochet, add your project measurements, then select your yarn weight and stitch pattern. Enter the metres and grams from your yarn label to turn the estimate into a number of balls or skeins.</p>
+  <p>There’s a little extra included too: the safety margin starts at 10%, and you can adjust it to suit your plans.</p>
+  <p>Every yarn and pair of hands makes a slightly different fabric, so treat this as a guide. If you’re following a pattern, compare its yarn requirements too — and check your yarn-label details before shopping.</p>
+  <p class="signoff">Happy Knitting</p>
+</section>
 <div class="panel">
   <div class="seg" id="craft" role="group" aria-label="Craft">
     <button type="button" data-v="knit" aria-pressed="true">Knit</button>
     <button type="button" data-v="crochet" aria-pressed="false">Crochet</button>
+  </div>
+  <div id="crochet-terms" hidden>
+    <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">Crochet terminology</p>
+    <div class="seg" id="terminology" role="group" aria-label="Crochet terminology">
+      <button type="button" data-terms="us" aria-pressed="true">US terms</button>
+      <button type="button" data-terms="uk" aria-pressed="false">UK terms</button>
+    </div>
   </div>
   <div class="grid">
     <label class="full">Project
@@ -118,10 +138,10 @@ footer{padding:16px 0 48px;text-align:center;color:var(--mute);font-size:.85rem}
         <option value="lace">Lace</option><option value="fing">Fingering / 4-ply</option><option value="sport">Sport</option><option value="dk" selected>DK</option><option value="wors">Worsted</option><option value="aran">Aran</option><option value="chunky">Chunky</option>
       </select></label>
     <label>Stitch pattern<select id="stitch"></select></label>
-    <label>My gauge, optional (sts / 10 cm)<input id="gauge" type="number" inputmode="decimal" placeholder="from your swatch"></label>
+    <label>My stitch gauge, optional (sts / 10 cm)<input id="gauge" type="number" inputmode="decimal" min="0.1" step="any" placeholder="from your swatch"><span class="field-hint">A rough adjustment to the estimate, not a measurement of actual yarn use.</span></label>
     <label>Safety margin (%)<input id="buf" type="number" inputmode="decimal" value="10" min="0" max="50"></label>
-    <label>Metres per skein<input id="skm" type="number" inputmode="decimal" min="1"></label>
-    <label>Grams per skein<input id="skg" type="number" inputmode="decimal" value="100" min="1"></label>
+    <label>Metres per ball / skein<input id="skm" type="number" inputmode="decimal" min="1"></label>
+    <label>Grams per ball / skein<input id="skg" type="number" inputmode="decimal" value="100" min="1"></label>
   </div>
 </div>
 
@@ -130,12 +150,12 @@ footer{padding:16px 0 48px;text-align:center;color:var(--mute);font-size:.85rem}
   <div class="stats">
     <span><b id="yd">0</b> yards</span>
     <span><b id="g">0</b> g</span>
-    <span><b id="sk">0</b> skeins</span>
-    <span><b id="left">0</b> m left over</span>
+    <span><b id="sk">0</b> balls / skeins</span>
+    <span><b id="left">0</b> m above estimate</span>
   </div>
   <div class="strip" id="strip"><div class="buf" id="sbuf"></div><div class="base" id="sbase"></div></div>
-  <div class="legend"><span style="--c:var(--acc)">The project</span><span style="--c:var(--buf)">Safety margin</span><span style="--c:var(--bg);">Leftover in last skein</span></div>
-  <p class="note">An estimate for plain shaping. Swatch first, enter your own gauge for a closer figure, and buy all skeins from one dye lot.</p>
+  <div class="legend"><span style="--c:var(--acc)">The project</span><span style="--c:var(--buf)">Safety margin</span><span style="--c:var(--bg);">Extra from whole balls / skeins</span></div>
+  <p class="note">An estimate for simple shapes, using assumed yarn usage and stitch-pattern adjustments. The optional gauge field makes a rough stitch-gauge adjustment; it does not measure how much yarn your fabric uses. Your safety margin is included, metres round up to the next 10, and balls / skeins round up from that same amount. The extra shown is above the estimate, not a promise of leftovers. Check your yarn label and buy one dye lot where possible.</p>
 </div>
 <p class="more">Swatch doesn't match the pattern? <a href="/#email-capture">Get the free Gauge Fixer by email</a>.</p>
 </main>
@@ -143,7 +163,7 @@ footer{padding:16px 0 48px;text-align:center;color:var(--mute);font-size:.85rem}
 <div class="buy-card">
   <div>
     <h2>Knitting a raglan jumper?</h2>
-    <p>Skip the calculations entirely. Our easy, interactive calculator turns your gauge and measurements into a full top-down raglan pattern in seconds.</p>
+    <p>If you’re planning a top-down raglan, I’ve made a calculator to help with your stitch counts and shaping too. Try the free preview, or explore the full version for neckline choices, sleeve shaping and written instructions.</p>
   </div>
   <a class="btn" href="/#try">Try the Raglan Calculator</a>
 </div>
@@ -161,7 +181,8 @@ vest:{n:["Chest (cm)","Body length (cm)"],v:[98,62],bonus:1.03,chest:1,sl:0},
 hat:{n:["Head circumference (cm)","Height incl. brim (cm)"],v:[56,22],bonus:1.1,chest:0,sl:0},
 scarf:{n:["Width (cm)","Length (cm)"],v:[20,160],bonus:1,chest:0,sl:0}};
 var $=function(i){return document.getElementById(i)};
-var craft="knit",skAuto=true;
+var craft="knit",terminology="us",skAuto=true;
+var UK_CROCHET=["Treble crochet","Half treble crochet","Double crochet","Shells / granny"];
 function setGarment(){
  var g=G[$("garment").value];
  [1,2,3].forEach(function(i){
@@ -172,10 +193,17 @@ function setGarment(){
  $("lease").style.display=g.chest?"":"none";
  calc();
 }
-function setStitches(){
- var s=$("stitch");s.innerHTML="";
- ST[craft].forEach(function(x,i){var o=document.createElement("option");o.value=x[1];o.textContent=x[0];s.appendChild(o)});
+function setStitches(preserveSelection){
+ $("crochet-terms").hidden=craft!=="crochet";
+ var s=$("stitch"),previous=s.value;s.innerHTML="";
+ ST[craft].forEach(function(x,i){var o=document.createElement("option");o.value=x[1];o.textContent=craft==="crochet"&&terminology==="uk"?UK_CROCHET[i]:x[0];s.appendChild(o)});
+ if(preserveSelection)s.value=previous;
 }
+document.querySelectorAll("#terminology button").forEach(function(b){b.onclick=function(){
+ terminology=b.dataset.terms;
+ document.querySelectorAll("#terminology button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b))});
+ setStitches(true);calc();
+}});
 function setSkein(){ if(skAuto)$("skm").value=W[$("weight").value].sk/(100/ (+$("skg").value||100)) }
 function fmt(n){return Math.round(n).toLocaleString("en-GB")}
 function calc(){
@@ -186,10 +214,10 @@ function calc(){
  else{var c=a[0]+(+$("ease").value);area=c*a[1]+(g.sl?2*0.30*c*a[2]:0)}
  var w=W[$("weight").value],gf=+$("gauge").value>0?(+$("gauge").value/w.g):1;
  var base=area*g.bonus*w.m*gf*(+$("stitch").value);
- var bp=Math.max(0,+$("buf").value||0)/100,tot=base*(1+bp);
+ var bp=Math.min(50,Math.max(0,+$("buf").value||0))/100,tot=Math.ceil(base*(1+bp)/10)*10;
  var sm=+$("skm").value||1,sg=+$("skg").value||100,n=Math.max(1,Math.ceil(tot/sm-1e-9));
  if(!(area>0)){n=0;tot=0;base=0}
- $("m").textContent=fmt(Math.ceil(tot/10)*10);
+ $("m").textContent=fmt(tot);
  $("yd").textContent=fmt(tot*1.0936);
  $("g").textContent=fmt(tot*sg/sm);
  $("sk").textContent=n;
