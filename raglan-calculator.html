@@ -371,6 +371,24 @@
 .pattern-heading h2{font-size:1.15rem;margin:0}
 .pattern-heading a{color:var(--sage-deep);font-size:.85rem;text-underline-offset:3px}
 #terms-heading{scroll-margin-top:24px}
+
+  .step-sketch{margin:10px 0 12px; max-width:370px; padding:8px 12px 10px; border:1px solid #dcd1e1; border-radius:10px; background:#fcf9fc; break-inside:avoid;}
+  .step-sketch svg{display:block; width:100%; height:auto;}
+  .step-sketch text{font:600 12px Karla, sans-serif; fill:#362b43; text-anchor:middle;}
+  .step-sketch figcaption{font-size:.85rem; line-height:1.4; color:#51455d;}
+  .step-sketch path{stroke-linecap:round; stroke-linejoin:round; stroke-width:2;}
+  .step-sketch .fabric{fill:#f1e6f2; stroke:#6b5a78;}
+  .step-sketch .opening{fill:#fff; stroke:#6b5a78;}
+  .step-sketch .highlight{fill:none; stroke:#a24e78; stroke-width:3.5;}
+  .step-sketch .guide,.step-sketch .return{fill:none; stroke:#a24e78; stroke-dasharray:4 3;}
+  .step-sketch .direction{fill:none; stroke:#3f4a34;}
+  .step-sketch .raglan-dot{fill:#a24e78; stroke:#fff;}
+  .step-sketch .start-dot{fill:#3f4a34; stroke:#fff;}
+  .step-sketch .working{fill:#dde4d5; stroke:#687b5a;}
+  .step-sketch .rib{fill:#d8a6bb; stroke:#a24e78;}
+  .increase-summary{margin:10px 0 12px; padding:10px 12px; border:1px solid #dcd1e1; border-radius:10px; background:#fcf9fc; overflow-wrap:anywhere; break-inside:avoid;}
+  .step .increase-summary p{margin:0;}
+  .step .increase-summary p+p{margin-top:6px;}
 </style>
 </head>
 <body>
@@ -746,38 +764,40 @@ function calc(v = values, selectedMode = mode){
 let currentSections=[];
 function sections(d){
   const s=[];
-  const add=(title,...paragraphs)=>s.push({title,paragraphs});
-  add('Requested and calculated fit',`Chest including ease: requested ${fmt(d.chest)}, calculated ${fmt(d.bodySts/d.sg)}. Upper arm including ease: requested ${fmt(d.arm)}, calculated ${fmt(d.sleeveSts/d.sg)}. Opening and shaping depth are preserved. The calculator selects the closest combination within its construction by minimising the combined squared chest and upper-arm differences, with equal weight. Read any fit warnings before knitting.`);
+  const add=(sketch,title,...paragraphs)=>s.push({sketch,title,paragraphs});
+  add('fit','Requested and calculated fit',`Chest including ease: requested ${fmt(d.chest)}, calculated ${fmt(d.bodySts/d.sg)}. Upper arm including ease: requested ${fmt(d.arm)}, calculated ${fmt(d.sleeveSts/d.sg)}. Opening and shaping depth are preserved. The calculator selects the closest combination within its construction by minimising the combined squared chest and upper-arm differences, with equal weight. Read any fit warnings before knitting.`);
   const bodyAt=k=>d.back0+2*d.bodyIncreaseSlots.filter(x=>x<=k).length;
   const sleeveAt=k=>d.sleeve0+2*d.sleeveIncreaseSlots.filter(x=>x<=k).length;
   const frontBase=mode==='crew'?4:2;
   const flatPairs=mode==='crew'?d.crewPairs:mode==='v'?d.vN:0;
   if(mode==='crew'||mode==='v'){
-    add('Cast on and work flat',`Cast on ${d.initialCO} stitches, no ribbing. Place markers during cast-on: Front ${frontBase/2} — pm — Sleeve ${d.sleeve0} — pm — Back ${d.back0} — pm — Sleeve ${d.sleeve0} — pm — Front ${frontBase/2}. The next row is shaping row 1 (RS); no extra set-up rows. Work ${2*flatPairs} rows flat. Purl all even-numbered WS rows.`,
+    add('flat','Cast on and work flat',`Cast on ${d.initialCO} stitches, no ribbing. Place markers during cast-on: Front ${frontBase/2} — pm — Sleeve ${d.sleeve0} — pm — Back ${d.back0} — pm — Sleeve ${d.sleeve0} — pm — Front ${frontBase/2}. The next row is shaping row 1 (RS); no extra set-up rows. Work ${2*flatPairs} rows flat. Purl all even-numbered WS rows.`,
       mode==='crew'?`On the following RS rows, cast on extra stitches at EACH front edge, in addition to any scheduled raglan increases: ${d.crewEdgeAdds.map((n,i)=>'row '+(2*i+1)+': '+n).join('; ')}. Use cable cast-on at the start and backward-loop cast-on at the end.`:`On shaping rows ${list(d.edgeRows.map(n=>2*n-1))}, add 1 stitch at EACH front edge, in addition to scheduled raglan increases.`);
     const frontAtJoin=frontBase+2*d.bodyIncreaseSlots.filter(x=>x<=flatPairs).length+(mode==='crew'?2*d.crewEdgeAdds.reduce((a,b)=>a+b,0):2*d.edgeRows.length);
-    add('Join at centre front',`After row ${2*flatPairs}: Back ${bodyAt(flatPairs)}, combined fronts ${frontAtJoin}, each sleeve ${sleeveAt(flatPairs)} stitches.`,
+    add('join','Join at centre front',`After row ${2*flatPairs}: Back ${bodyAt(flatPairs)}, combined fronts ${frontAtJoin}, each sleeve ${sleeveAt(flatPairs)} stitches.`,
       mode==='crew'?`With RS facing, cable cast on ${d.crewCentre} centre-front stitches at the start of row ${2*flatPairs+1}. Place a beginning-of-round marker before the new stitches. Knit the new stitches and work across the old stitches, applying ONLY the increases scheduled for this row below. At its end join to the first centre-front stitch without twisting. This row is included in the schedule, not an extra increase round.`:`After the final WS row, with RS facing, start row ${2*flatPairs+1} at the first front edge and work across, applying ONLY scheduled increases. At its end join to the first front edge without adding stitches; place the beginning-of-round marker at centre front. ${flatPairs===d.N?'Shaping depth is already complete: work this joining round plain, then divide.':''}`,
       `The front and back have equal counts once the neckline additions are complete. Continue in the round through shaping row/round ${2*d.N}. Row numbering continues from the flat section.`);
   }else{
     const band=mode==='offshoulder'?2*d.neckRows:d.neckRows;
-    add(mode==='offshoulder'?'Fold-over band':'Neckband',`Cast on ${d.neckSts} stitches based on ${mode==='offshoulder'?'around-shoulders':'neck'} circumference ${fmt(d.openingCirc)}. Join without twisting. Work ${band} rounds of 1×1 rib. ${mode==='offshoulder'?'Fold in half and sew loosely; add elastic if needed.':''}`);
-    add('Set up markers',`Knit Back ${d.back0} — pm — Sleeve ${d.sleeve0} — pm — Front ${d.front0} — pm — Sleeve ${d.sleeve0} — beginning-of-round marker. The beginning-of-round marker is also the fourth raglan marker. Start shaping round 1 next.`);
+    add('band',mode==='offshoulder'?'Fold-over band':'Neckband',`Cast on ${d.neckSts} stitches based on ${mode==='offshoulder'?'around-shoulders':'neck'} circumference ${fmt(d.openingCirc)}. Join without twisting. Work ${band} rounds of 1×1 rib. ${mode==='offshoulder'?'Fold in half and sew loosely; add elastic if needed.':''}`);
+    add('markers','Set up markers',`Knit Back ${d.back0} — pm — Sleeve ${d.sleeve0} — pm — Front ${d.front0} — pm — Sleeve ${d.sleeve0} — beginning-of-round marker. The beginning-of-round marker is also the fourth raglan marker. Start shaping round 1 next.`);
   }
-  add('Independent body and sleeve increases',`Body increase rows/rounds: ${d.bodyIncreaseSlots.length?list(d.bodyIncreaseSlots.map(n=>2*n-1)):'none'}. On each of these, add 1 stitch at EACH end of the back and EACH end of the front (4 stitches total). In flat knitting, the front ends at the neckline are excluded: add only at the two front raglan boundaries.`,
-    `Sleeve increase rows/rounds: ${d.sleeveIncreaseSlots.length?list(d.sleeveIncreaseSlots.map(n=>2*n-1)):'none'}. On each of these, add 1 stitch at EACH end of EACH sleeve (4 stitches total). Do not add stitches on a sleeve side when only the body is scheduled, or on a body side when only sleeves are scheduled.`,
+  add('increases','Independent body and sleeve increases',
+    `Body rows/rounds: ${d.bodyIncreaseSlots.length?list(d.bodyIncreaseSlots.map(n=>2*n-1))+' · +1 at each raglan edge of the front and back (+4 total)':'none'}.`,
+    `Sleeve rows/rounds: ${d.sleeveIncreaseSlots.length?list(d.sleeveIncreaseSlots.map(n=>2*n-1))+' · +1 at each raglan edge of both sleeves (+4 total)':'none'}.`,
+    `Follow each schedule independently. When both are listed, increase on both sides of each marker (+8 total).${flatPairs?' While working flat, any neckline edge increases follow the separate neckline instructions.':''}`,
     `At each marker, work to 1 stitch before it; M1L only if the section BEFORE the marker is scheduled, k1, slip marker, k1, then M1R only if the section AFTER it is scheduled. If a front section has only one stitch and the increase would fall at the row edge without a usable strand, use a backward-loop increase at that edge instead; it replaces that raglan increase and does not add an extra stitch.`,
     `For the marker at the beginning of a round, work its after-marker increase near the start and its before-marker increase near the end, applying the appropriate section schedule. Work all other rows/rounds even (purl WS while flat, knit in the round).`,
     `Work ${2*d.N} shaping rows/rounds total, including the flat section if present. Body: ${d.bodyIncreases} increase events; sleeves: ${d.sleeveIncreases}. Approximate shaping depth ${fmt(2*d.N/d.rg)}. Held counts at division: back ${d.backF}, front ${d.frontF}, each sleeve ${d.sleeveF}.`);
-  add('Divide for body and sleeves',`At division: back ${d.backF}, front ${d.frontF}, each sleeve ${d.sleeveF} sts. Work body stitches; hold each sleeve and cast on ${d.underarmEach} underarm stitches in its place. Body total: ${d.bodySts} sts, approximately ${fmt(d.bodySts/d.sg)}.`);
-  add('Body',`Work ${d.bodyRows} plain rounds. Work ${d.hemRows} rounds of 1×1 rib. Bind off elastically. Total underarm-to-hem length is approximately ${fmt((d.bodyRows+d.hemRows)/d.rg)} including ribbing.`);
-  add('Sleeves — work twice',`Return ${d.sleeveF} held stitches to the needles. Pick up ${d.underarmEach} stitches across the underarm cast-on: ${d.sleeveSts} total. Place beginning-of-round marker at the centre of the underarm. If you pick up extra corner stitches to close holes, decrease those extras back to ${d.sleeveSts} before starting the schedule.`,
+  add('divide','Divide for body and sleeves',`At division: back ${d.backF}, front ${d.frontF}, each sleeve ${d.sleeveF} sts. Work body stitches; hold each sleeve and cast on ${d.underarmEach} underarm stitches in its place. Body total: ${d.bodySts} sts, approximately ${fmt(d.bodySts/d.sg)}.`);
+  add('body','Body',`Work ${d.bodyRows} plain rounds. Work ${d.hemRows} rounds of 1×1 rib. Bind off elastically. Total underarm-to-hem length is approximately ${fmt((d.bodyRows+d.hemRows)/d.rg)} including ribbing.`);
+  add('sleeves','Sleeves — work twice',`Return ${d.sleeveF} held stitches to the needles. Pick up ${d.underarmEach} stitches across the underarm cast-on: ${d.sleeveSts} total. Place beginning-of-round marker at the centre of the underarm. If you pick up extra corner stitches to close holes, decrease those extras back to ${d.sleeveSts} before starting the schedule.`,
     d.decreaseRounds ? `Count sleeve rounds from the underarm. On rounds ${list(d.decreaseRows)}, work k1, k2tog, knit to last 3 sts, ssk, k1 (2 sts decreased). Knit all other rounds plain. Work ${d.sleeveRows} rounds total before ribbing, ending with exactly ${d.cuffSts} sts.` : `Work ${d.sleeveRows} rounds even on ${d.cuffSts} sts.`,
     `Work ${d.cuffRows} rounds of 1×1 rib, then bind off elastically. Total sleeve length including cuff is approximately ${fmt((d.sleeveRows+d.cuffRows)/d.rg)}. Actual cuff circumference at stockinette gauge: ${fmt(d.cuffSts/d.sg)}; ribbing will draw in.`);
-  if(mode==='crew') add('Pick up the round-neck ribbing',`After the body and sleeves, with RS facing, pick up ${d.back0} stitches across the original back cast-on edge, ${d.sleeve0} across each sleeve cast-on edge, ${d.crewCentre} across the centre-front bridge, and approximately ${d.crewPickup} along each shaped front edge (including the two original front stitches). About ${d.back0+2*d.sleeve0+d.crewCentre+2*d.crewPickup} stitches total. These are picked-up stitches, not live cast-on stitches. Adjust spacing for a flat edge, keeping an even total for 1×1 rib.`, `Join and work ${d.neckRows} rounds of 1×1 rib (approximately ${fmt(d.neckRows/d.rg)}). No V-point decreases. Bind off elastically and check that the opening passes comfortably over the head. The pickup count is an estimate; verify with your ribbing gauge.`);
-  if(mode==='v') add('Pick up the V-neckband' ,`With RS facing, pick up along the original cast-on edge: ${d.back0} stitches across the back plus ${d.sleeve0} across EACH sleeve edge. These are cast-on edges, not live stitches. Also pick up approximately ${d.pickup} stitches along EACH sloping front edge, including its original front-edge stitch. Approximate total: ${d.back0+2*d.sleeve0+2*d.pickup} stitches. Adjust pickup spacing to keep the band flat; this is an estimate, not an exact fit guarantee.`,
+  if(mode==='crew') add('pickup','Pick up the round-neck ribbing',`After the body and sleeves, with RS facing, pick up ${d.back0} stitches across the original back cast-on edge, ${d.sleeve0} across each sleeve cast-on edge, ${d.crewCentre} across the centre-front bridge, and approximately ${d.crewPickup} along each shaped front edge (including the two original front stitches). About ${d.back0+2*d.sleeve0+d.crewCentre+2*d.crewPickup} stitches total. These are picked-up stitches, not live cast-on stitches. Adjust spacing for a flat edge, keeping an even total for 1×1 rib.`, `Join and work ${d.neckRows} rounds of 1×1 rib (approximately ${fmt(d.neckRows/d.rg)}). No V-point decreases. Bind off elastically and check that the opening passes comfortably over the head. The pickup count is an estimate; verify with your ribbing gauge.`);
+  if(mode==='v') add('pickup','Pick up the V-neckband' ,`With RS facing, pick up along the original cast-on edge: ${d.back0} stitches across the back plus ${d.sleeve0} across EACH sleeve edge. These are cast-on edges, not live stitches. Also pick up approximately ${d.pickup} stitches along EACH sloping front edge, including its original front-edge stitch. Approximate total: ${d.back0+2*d.sleeve0+2*d.pickup} stitches. Adjust pickup spacing to keep the band flat; this is an estimate, not an exact fit guarantee.`,
     `Place a marker between stitches at the V point. Work ${d.neckRows} rounds of 1×1 rib with paired decreases at the point: work ssk immediately before the marker and k2tog immediately after it (2 stitches decreased in total per round). Keep knit/purl columns aligned away from the point. Bind off elastically.`);
-  add('Finish and check',`Weave in ends and block gently. Calculated stockinette chest: ${fmt(d.bodySts/d.sg)}; upper arm: ${fmt(d.sleeveSts/d.sg)}. Check fit before dividing and before binding off. Ribbing uses the entered row gauge as an estimate; swatch ribbing or measure it directly for precise lengths.`);
+  add('finish','Finish and check',`Weave in ends and block gently. Calculated stockinette chest: ${fmt(d.bodySts/d.sg)}; upper arm: ${fmt(d.sleeveSts/d.sg)}. Check fit before dividing and before binding off. Ribbing uses the entered row gauge as an estimate; swatch ribbing or measure it directly for precise lengths.`);
   return s;
 }
 function render(){
@@ -791,7 +811,104 @@ function render(){
  $('statStrip').innerHTML=stats.map(([label,n])=>`<div class="stat"><div class="n">${n}</div><div class="l">${label}</div></div>`).join('');
  renderDiagram(d);
  currentSections=sections(d);$('steps').replaceChildren();
- for(const section of currentSections){const div=document.createElement('div');div.className='step';const h=document.createElement('h3');h.textContent=section.title;div.append(h);for(const text of section.paragraphs){const p=document.createElement('p');p.textContent=text;div.append(p);}$('steps').append(div);}
+ for(const section of currentSections){
+   const div=document.createElement('div');
+   div.className='step';
+   const heading=document.createElement('h3');
+   heading.textContent=section.title;
+   div.append(heading);
+   const isIncreaseStep=section.sketch==='increases';
+   const summary=isIncreaseStep?document.createElement('div'):null;
+   if(summary){
+     summary.className='increase-summary';
+     div.append(summary);
+   }else{
+     div.append(stepSketch(section.sketch,d));
+   }
+   for(const [index,text] of section.paragraphs.entries()){
+     const paragraph=document.createElement('p');
+     paragraph.textContent=text;
+     (summary && index<2 ? summary : div).append(paragraph);
+   }
+   $('steps').append(div);
+ }
+}
+function stepSketch(kind,d){
+  const openYoke='M139 112C104 89 115 36 170 37C225 36 236 89 201 112L211 153L242 120L288 140L307 96L235 46Q170 1 105 46L33 96L52 140L98 120L129 153Z';
+  const jumper='M117 32Q170 13 223 32L272 58L322 151L285 170L240 105V191H100V105L55 170L18 151L68 58Z';
+  const neck=mode==='v'?'M137 34Q170 20 203 34L170 75Z':mode==='offshoulder'?'M91 49Q170 23 249 49L241 65Q170 42 99 65Z':mode==='boat'?'M116 34Q170 17 224 34Q170 58 116 34Z':'M137 34Q170 20 203 34Q170 83 137 34Z';
+  const outline=(path,cls='fabric')=>`<path class="${cls}" d="${path}"/>`;
+  const label=(x,y,value)=>`<text x="${x}" y="${y}">${value}</text>`;
+  const arrow=path=>`<path class="direction" d="${path}"/>`;
+  const dots=points=>points.map(([x,y])=>`<circle class="raglan-dot" cx="${x}" cy="${y}" r="4"/>`).join('');
+  const full=outline(jumper)+outline(neck,'opening');
+  const raglans=outline('M137 35L100 105M203 35L240 105','guide');
+  const band=outline(neck,'highlight');
+  let art, caption;
+  switch(kind){
+    case 'fit':
+      art=full+raglans+outline('M101 115H239M101 110V120M239 110V120M37 104L75 84M34 99L40 109M72 79L78 89','highlight')+
+        label(170,139,'Chest circumference')+label(75,45,'Upper arm');
+      caption=`The guides show where to check fit. The calculated circumferences are ${fmt(d.bodySts/d.sg)} at the chest and ${fmt(d.sleeveSts/d.sg)} at the upper arm.`;
+      break;
+    case 'flat':
+      art=outline(openYoke)+outline('M132 53L105 46M208 53L235 46M119 88L98 120M221 88L242 120','guide')+
+        dots([[132,53],[208,53],[119,88],[221,88]])+
+        arrow('M204 123C271 80 227 21 170 21S69 80 136 123M125 121L136 123L131 113')+
+        outline('M127 137C50 83 105 12 170 12S290 83 213 137M225 135L213 137L218 127','return')+
+        label(170,64,`Back · ${d.back0}`)+label(61,95,`Sleeve · ${d.sleeve0}`)+label(279,95,`Sleeve · ${d.sleeve0}`)+
+        label(108,171,`Front · ${mode==='crew'?2:1}`)+label(232,171,`Front · ${mode==='crew'?2:1}`)+label(170,191,'Open centre front');
+      caption='Pink dots mark the four raglan markers. Follow the solid arrow for the knit row, then turn and follow the dashed arrow back for the purl row. The front edges stay separate until the next step.';
+      break;
+    case 'join':
+      art=full+raglans+outline(mode==='v'?'M161 64L170 75L179 64':'M154 51Q170 66 186 51','highlight')+
+        outline(mode==='v'?'M170 71l4 4-4 4-4-4z':'M186 47l4 4-4 4-4-4z','start-dot')+label(170,145,'Centre-front join');
+      caption=mode==='crew'?`Cast on ${d.crewCentre} stitch${d.crewCentre===1?'':'es'} across the pink bridge. Place the beginning-of-round marker before those stitches.`:'Bring the two front edges together at the V point without casting on extra stitches. The green diamond marks the beginning of the round.';
+      break;
+    case 'band':
+      art=full+band+label(170,138,mode==='offshoulder'?'Fold-over ribbing':'Neckband ribbing');
+      caption=mode==='offshoulder'?'Knit the wide ribbed band in the round, then fold it in half.':'Join the cast-on in the round and work the ribbed boat neckband.';
+      break;
+    case 'markers':
+      art=outline('M170 39a115 57 0 1 1 0 114a115 57 0 1 1 0-114Z','opening')+
+        dots([[260,60],[80,132],[260,132]])+outline('M80 54l6 6-6 6-6-6z','start-dot')+
+        label(170,31,`Back · ${d.back0}`)+label(170,176,`Front · ${d.front0}`)+
+        label(98,101,`Sleeve · ${d.sleeve0}`)+label(242,101,`Sleeve · ${d.sleeve0}`)+
+        arrow('M132 51H208M200 46L208 51L200 56');
+      caption='Read around the oval from the green diamond, crossing the back first. The diamond marks both the beginning of the round and the fourth raglan boundary.';
+      break;
+    case 'divide':
+      art=full+outline('M137 35L100 105H240L203 35','guide')+
+        outline('M79 96L100 105M240 105L261 96',d.underarmEach?'highlight':'guide')+
+        label(55,135,'Hold')+label(285,135,'Hold')+label(170,139,'Body stitches');
+      caption=d.underarmEach?`Put each sleeve on hold. The pink lines show where to cast on ${d.underarmEach} underarm stitches on each side to connect the front and back.`:'Put each sleeve on hold and continue across the body stitches with no extra underarm cast-on.';
+      break;
+    case 'body':
+      art=full+outline('M101 106H239V181H101Z','working')+
+        (d.hemRows?outline('M101 183H239V190H101Z','rib'): '')+
+        arrow('M170 120V168M164 159L170 168L176 159')+label(170,102,'Start below underarm');
+      caption=d.hemRows?'Work down from the underarm in the round. The pink strip shows the hem ribbing.':'Work down from the underarm in the round, then bind off at the hem.';
+      break;
+    case 'sleeves':
+      art=full+outline('M241 105L282 80L320 150L286 168Z','working')+
+        (d.cuffRows?outline('M279 159L316 141L321 150L286 169Z','rib'):'')+
+        arrow('M260 107L287 140M285 130L287 140L278 136')+label(236,188,'Work both sleeves');
+      caption=`Return the held sleeve stitches to the needle${d.underarmEach?' and pick up along the underarm edge':''}. Knit towards the cuff and repeat on the other sleeve.`;
+      break;
+    case 'pickup':
+      art=full+band+(mode==='v'?arrow('M152 77L165 77M161 73L165 77L161 81M188 77H175M179 73L175 77L179 81'):'')+
+        label(170,134,mode==='v'?'V-point decreases':'Round-neck ribbing');
+      caption=mode==='v'?'Pick up around the highlighted opening. Work paired decreases either side of the marker at the V point.':'Pick up around the original cast-on, the two shaped front edges and the centre-front bridge.';
+      break;
+    case 'finish':
+      art=full+raglans;
+      caption='Lay the finished jumper flat to block it to shape.';
+      break;
+  }
+  const figure=document.createElement('figure');
+  figure.className='step-sketch';
+  figure.innerHTML=`<svg viewBox="0 0 340 200" aria-hidden="true">${art}</svg><figcaption>${caption}</figcaption>`;
+  return figure;
 }
 function renderDiagram(d){
   // Schematic labels report circumferences, never a misleading flat width.
