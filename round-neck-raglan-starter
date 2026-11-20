@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Round-Neck Raglan Starter — The Thread Within</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --oat: #E4DCEC;
+    --panel: #F8F3FA;
+    --grid-line: rgba(43,33,64,0.07);
+    --ink: #2B2140;
+    --ink-soft: #6B5A78;
+    --sage: #7E8F6E;
+    --sage-deep: #3F4A34;
+    --terracotta: #A24E78;
+    --gold: #C9A15A;
+    --line: rgba(43,33,64,0.15);
+    --warn-bg: #F1DCE6;
+    --warn-ink: #7A2E4A;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0/28px 28px,
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0/28px 28px,
+      var(--oat);
+    color:var(--ink);
+    font-family:'Karla', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding: 28px 16px 60px;
+  }
+  .wrap{ max-width:1040px; margin:0 auto; }
+
+  header.top{ margin-bottom:28px; }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--sage-deep);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px; background:var(--terracotta);
+    display:inline-block;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(28px, 5vw, 42px);
+    line-height:1.05;
+    margin:0 0 10px;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  h1 em{ font-style:italic; color:var(--terracotta); font-weight:500; }
+  .lede{
+    max-width:560px;
+    color:var(--ink-soft);
+    font-size:15px;
+    line-height:1.55;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: minmax(280px, 380px) 1fr;
+    gap:20px;
+    align-items:start;
+  }
+  @media (max-width: 860px){
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:2px;
+    position:relative;
+  }
+  .panel::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--sage-deep), var(--sage) 40%, var(--gold) 75%, var(--terracotta));
+  }
+
+  .panel-inner{ padding:22px 22px 26px; }
+  fieldset{ border:none; margin:0 0 20px; padding:0; }
+  fieldset:last-of-type{ margin-bottom:0; }
+  legend{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--sage-deep);
+    padding:0 0 8px;
+    border-bottom:1px dashed var(--line);
+    width:100%;
+    margin-bottom:12px;
+  }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px 12px; }
+  .field{ margin-bottom:10px; }
+  .field.full{ grid-column: 1 / -1; }
+  label{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:4px;
+  }
+  label .hint{
+    display:block;
+    font-size:11px;
+    color:var(--sage-deep);
+    opacity:0.85;
+    margin-top:1px;
+  }
+  input[type=text], input[type=number]{
+    width:100%;
+    font-family:'Space Mono', monospace;
+    font-size:14px;
+    padding:8px 9px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:#fff;
+    color:var(--ink);
+  }
+
+  input[type=number] { margin-top:5px; min-height:44px; font-size:16px; }
+  h2 { font:600 24px/1.15 'Fraunces', serif; margin:0 0 12px; }
+  p { line-height:1.55; }
+  a { color:var(--sage-deep); text-underline-offset:3px; }
+  .button {
+    display:inline-block; background:var(--sage-deep); color:var(--panel);
+    padding:11px 16px; min-height:44px; border:0; border-radius:2px;
+    font:700 15px/22px 'Karla', sans-serif; text-decoration:none; cursor:pointer;
+  }
+  :is(input, button, a):focus-visible { outline:2px solid var(--terracotta); outline-offset:3px; }
+  .calc-results { margin:16px 0 0; border-top:1px dashed var(--line); }
+  .calc-results div {
+    display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px;
+    align-items:center; padding:10px 0; border-bottom:1px dashed var(--line);
+  }
+  .calc-results dd { margin:0; color:var(--terracotta); font:700 13px 'Space Mono', monospace; }
+  .calc-status, .note { color:var(--ink-soft); font-size:14px; }
+  .calc-status:empty { margin:0; }
+  .calc-status.error { background:var(--warn-bg); color:var(--warn-ink); padding:10px 12px; }
+  .next { margin-top:20px; }
+  .next p { max-width:62ch; }
+  .next .note { margin-bottom:0; }
+  footer { margin-top:20px; font-size:14px; }
+  @media (max-width:420px) { .panel-inner { padding:20px 16px; } }
+
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:1px; margin:16px 0; background:var(--line); border:1px solid var(--line); }
+  .stats div { background:var(--panel); padding:12px; }
+  .stats dt { font-size:13px; color:var(--ink-soft); }
+  .stats dd { margin:4px 0 0; color:var(--terracotta); font:600 22px 'Fraunces',serif; }
+  .steps { margin:0; padding-left:22px; }
+  .steps li { padding-left:4px; margin:18px 0; }
+  .steps p { margin:5px 0; }
+  .field-row { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .unit-toggle { display:flex; gap:6px; margin:0 0 18px; }
+  .unit-toggle button, .print-button { padding:8px 12px; min-height:44px; border:1px solid var(--line); color:var(--ink); background:var(--panel); font:inherit; cursor:pointer; }
+  .unit-toggle button[aria-pressed=true] { color:var(--panel); background:var(--sage-deep); }
+  @media (max-width:360px) { .field-row { grid-template-columns:1fr; } }
+
+  .knit-sketch { margin:12px 0 16px; padding:8px; border:1px solid var(--line); background:#fff; break-inside:avoid; }
+  .knit-sketch svg { display:block; width:100%; height:auto; color:var(--ink); }
+  .knit-sketch text { fill:currentColor; font:600 16px Karla, sans-serif; }
+  .knit-sketch .count { font:700 15px 'Space Mono',monospace; }
+  .knit-sketch .marker { fill:var(--terracotta); stroke:#fff; stroke-width:2; }
+  .knit-sketch .arrow { fill:none; stroke:var(--sage-deep); stroke-width:2; }
+  .knit-sketch figcaption { color:var(--ink-soft); font-size:.85rem; line-height:1.35; margin:6px 2px 0; }
+  @media print {
+    body { background:white; padding:0; color:black; }
+    .grid { display:block; }
+    .inputs, .next, footer, .print-button, .lede { display:none; }
+    .panel, .stats { border:0; }
+    .steps strong { break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div class="eyebrow">The Thread Within · Free Knitting Tool</div>
+    <h1>Round-Neck Raglan <em>Starter</em></h1>
+    <p class="lede">Have your washed stockinette swatch handy? Pop in your numbers and I’ll help you work out the cast-on, shape the front neckline and join your top-down raglan in the round.</p>
+  </header>
+  <noscript><p>Enable JavaScript to calculate your round-neck instructions.</p></noscript>
+  <div class="grid">
+    <section class="panel inputs" aria-labelledby="inputs-heading">
+      <div class="panel-inner">
+        <h2 id="inputs-heading">Your measurements</h2>
+        <p class="note">The example values give you a starting point. Replace them with your own measurements before casting on.</p>
+        <div class="unit-toggle" role="group" aria-label="Measurement units">
+          <button type="button" id="unit-cm" aria-pressed="true">cm</button>
+          <button type="button" id="unit-in" aria-pressed="false">inches</button>
+        </div>
+        <fieldset>
+          <legend>Washed stockinette gauge</legend>
+          <div class="field-row">
+            <div class="field">
+              <label for="stGauge">Stitches <span data-gauge-unit>per 10 cm</span></label>
+              <input type="number" id="stGauge" value="13" step="any" required>
+            </div>
+            <div class="field">
+              <label for="rowGauge">Rows <span data-gauge-unit>per 10 cm</span></label>
+              <input type="number" id="rowGauge" value="18" step="any" required>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Fit and shaping (<span id="length-unit">cm</span>)</legend>
+          <div class="field-row">
+            <div class="field">
+              <label for="neck">Base neck opening<span class="hint">Opening used to allocate stitches before front shaping.</span></label>
+              <input type="number" id="neck" value="50" step="any" required>
+            </div>
+            <div class="field">
+              <label for="chest">Chest circumference<span class="hint">Body measurement before ease.</span></label>
+              <input type="number" id="chest" value="90" step="any" required>
+            </div>
+            <div class="field">
+              <label for="chestEase">Chest ease<span class="hint">Add room with a positive number.</span></label>
+              <input type="number" id="chestEase" value="10" step="any" required>
+            </div>
+            <div class="field">
+              <label for="upperArm">Upper-arm circumference<span class="hint">Body measurement before ease.</span></label>
+              <input type="number" id="upperArm" value="28" step="any" required>
+            </div>
+            <div class="field">
+              <label for="armEase">Upper-arm ease<span class="hint">Add room with a positive number.</span></label>
+              <input type="number" id="armEase" value="4" step="any" required>
+            </div>
+            <div class="field">
+              <label for="armDepth">Raglan shaping depth<span class="hint">Exclude the neckband and any set-up.</span></label>
+              <input type="number" id="armDepth" value="20" step="any" required>
+            </div>
+            <div class="field">
+              <label for="crewFlatRows">Flat neckline rows<span class="hint">Use an even number. 10 rows is a starting point.</span></label>
+              <input type="number" id="crewFlatRows" value="10" step="2" required>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="results-heading">
+      <div class="panel-inner">
+        <h2 id="results-heading">Your round-neck start</h2>
+        <p id="fit-status" class="calc-status" role="status"></p>
+        <div id="results" hidden>
+          <dl class="stats">
+            <div><dt>Cast on</dt><dd id="cast-on"></dd></div>
+            <div><dt>Front neckline lowered by</dt><dd id="front-drop"></dd></div>
+            <div><dt>Join on row</dt><dd id="join-row"></dd></div>
+          </dl>
+          <p class="note" id="project-measurements"></p>
+          <p class="note">The front drop is measured from the back-neck starting level before ribbing. Check the opening will pass comfortably over your head once you add the neckband.</p>
+          <ol class="steps">
+            <li><strong>Cast on and place markers</strong><p id="setup"></p>
+              <figure class="knit-sketch">
+                <svg viewBox="0 0 440 212" role="img" aria-label="Jumper cast-on viewed from above. The two front sections are separated by the centre-front opening. Four raglan markers divide the five sections.">
+                  <path d="M182 133C150 111 151 69 183 49Q220 27 257 49C289 69 290 111 258 133L266 180Q311 178 320 139L371 114Q361 86 342 61Q280 18 220 16Q160 18 98 61Q79 86 69 114L120 139Q129 178 174 180Z" fill="#f7f2f9" stroke="#bcb0c2" stroke-width="1.5"/>
+                  <path d="M183 49L98 61M257 49L342 61M161 102L120 139M279 102L320 139" fill="none" stroke="#a24e78" stroke-width="2" stroke-dasharray="4 4"/>
+                  <path d="M182 133C150 111 151 69 183 49Q220 27 257 49C289 69 290 111 258 133" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                  <circle class="marker" cx="183" cy="49" r="6"/><circle class="marker" cx="257" cy="49" r="6"/><circle class="marker" cx="161" cy="102" r="6"/><circle class="marker" cx="279" cy="102" r="6"/>
+                  <g text-anchor="middle">
+                    <text x="220" y="67">Back</text><text class="count" id="sketch-back" x="220" y="88"></text>
+                    <text x="95" y="98">Sleeve</text><text class="count" id="sketch-left-sleeve" x="95" y="119"></text>
+                    <text x="345" y="98">Sleeve</text><text class="count" id="sketch-right-sleeve" x="345" y="119"></text>
+                    <text x="155" y="155">Front</text><text class="count" x="155" y="173">2</text>
+                    <text x="285" y="155">Front</text><text class="count" x="285" y="173">2</text>
+                  </g>
+                  <text x="220" y="202" text-anchor="middle">Open centre front</text>
+                </svg>
+                <figcaption>Cast on along the dark neckline edge. Pink dots mark the four raglan markers. The centre front stays open while you work flat. You’ll join the two front edges in Step 3 to start knitting in the round.</figcaption>
+              </figure></li>
+            <li><strong>Work the raglan and neckline flat</strong>
+              <p id="flat"></p>
+              <figure class="knit-sketch">
+                <svg viewBox="0 0 440 212" role="img" aria-label="Open jumper yoke with two separate front edges. The solid knit arrow travels from the right front around the back to the left front. The dashed purl arrow returns to the right front after turning.">
+                  <path d="M182 133C150 111 151 69 183 49Q220 27 257 49C289 69 290 111 258 133L266 180Q311 178 320 139L371 114Q361 86 342 61Q280 18 220 16Q160 18 98 61Q79 86 69 114L120 139Q129 178 174 180Z" fill="#f7f2f9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M183 49L98 61M257 49L342 61M161 102L120 139M279 102L320 139" fill="none" stroke="#a24e78" stroke-width="2" stroke-dasharray="4 4"/>
+                  <circle class="marker" cx="183" cy="49" r="6"/><circle class="marker" cx="257" cy="49" r="6"/><circle class="marker" cx="161" cy="102" r="6"/><circle class="marker" cx="279" cy="102" r="6"/>
+                  <text x="220" y="66" text-anchor="middle">Back</text>
+                  <path d="M250 148C333 108 290 25 220 26S107 108 190 148m-11-2 11 2-5-10" fill="none" stroke="#3f4a34" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M172 168C77 110 133 22 220 21S363 110 268 168" fill="none" stroke="#784961" stroke-width="2.5" stroke-dasharray="5 4"/>
+                  <path d="M280 166l-12 2 7-10" fill="none" stroke="#784961" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text x="144" y="157" text-anchor="middle">Front</text>
+                  <text x="296" y="157" text-anchor="middle">Front</text>
+                  <text x="220" y="202" text-anchor="middle">Open centre front</text>
+                </svg>
+                <figcaption>Follow the solid arrow for the right-side knit row, from the right front around the back to the left front. Turn, then follow the dashed arrow back for the wrong-side purl row. Pink dots and dashed raglan lines show where the markers sit. Keep the two front edges separate until you join them in Step 3.</figcaption>
+              </figure>
+              <p id="neckline-rows"></p>
+              <p id="body-rows"></p>
+              <p id="sleeve-rows"></p>
+              <p>On a scheduled increase row, work to one stitch before each raglan marker. Make one left (M1L) if the section before the marker is scheduled, knit one, slip the marker, knit one, then make one right (M1R) if the section after the marker is scheduled. If a front section has only one stitch and there’s no strand available, use a backward-loop increase in place of that raglan increase. Front neckline cast-ons are separate from the raglan increases.</p>
+            </li>
+            <li><strong>Join at centre front</strong><p id="before-join"></p><p id="join"></p>
+              <figure class="knit-sketch">
+                <svg viewBox="0 0 440 242" role="img" aria-label="Jumper yoke after joining. A pink cast-on bridge connects the two front edges. A green diamond marks the beginning of the round before the new stitches.">
+                  <path d="M120 205V139L44 169L21 112L98 61Q160 18 220 16Q280 18 342 61L419 112L396 169L320 139V205Z" fill="#f7f2f9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M182 133C150 111 151 69 183 49Q220 27 257 49C289 69 290 111 258 133Q220 151 182 133Z" fill="#fff" stroke="currentColor" stroke-width="2"/>
+                  <path d="M183 49L98 61M257 49L342 61M161 102L120 139M279 102L320 139" fill="none" stroke="#a24e78" stroke-width="2" stroke-dasharray="4 4"/>
+                  <circle class="marker" cx="183" cy="49" r="6"/><circle class="marker" cx="257" cy="49" r="6"/><circle class="marker" cx="161" cy="102" r="6"/><circle class="marker" cx="279" cy="102" r="6"/>
+                  <path d="M258 133Q220 151 182 133" fill="none" stroke="#a24e78" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M223 157l-12-1 9-7m-9 7 24 1" class="arrow"/>
+                  <path d="M258 125l8 8-8 8-8-8z" fill="#3f4a34" stroke="#fff" stroke-width="1.5"/>
+                  <text x="220" y="87" text-anchor="middle">Neck opening</text>
+                  <text x="220" y="188" text-anchor="middle" id="sketch-bridge"></text>
+                </svg>
+                <figcaption>The pink stitches bridge the centre front. The green diamond is the beginning-of-round marker, immediately before the new stitches.</figcaption>
+              </figure><p id="joined-count"></p></li>
+          </ol>
+          <button class="print-button" type="button" id="print">Print or save as PDF</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel next" aria-labelledby="next-heading">
+    <div class="panel-inner">
+      <h2 id="next-heading">Want the rest of the pattern worked out too?</h2>
+      <p>The full calculator picks up from the join with your remaining yoke increases, the underarm divide, body and sleeve lengths, sleeve taper and ribbing. You can also try a V-neck, boat neck or off-shoulder neckline and copy your full pattern.</p>
+      <a class="button" href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00">Get the full calculator — £15</a>
+      <p class="note">One payment · Stripe checkout</p>
+    </div>
+  </section>
+  <footer><a href="https://thethreadwithin.store/">Back to The Thread Within</a></footer>
+</main>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+const lengthFields = ['neck', 'chest', 'chestEase', 'upperArm', 'armEase', 'armDepth'];
+const fields = ['stGauge', 'rowGauge', ...lengthFields, 'crewFlatRows'];
+const values = Object.fromEntries(fields.map(id => [id, Number($(id).value)]));
+const even = n => 2*Math.round(n/2);
+const schedule = (events, slots) => Array.from({length:events}, (_,i) => Math.round((i+1)*slots/events));
+let unit = 'cm';
+
+function calculateStarter(v) {
+  const errors = [];
+  if (fields.some(id => !Number.isFinite(v[id]))) return {errors:['Fill in every field to calculate your start.']};
+  if (['stGauge','rowGauge','neck','chest','upperArm','armDepth'].some(id => v[id] <= 0)) {
+    return {errors:['Use positive values for gauge, circumferences and shaping depth.']};
+  }
+  const sg = v.stGauge/10, rg = v.rowGauge/10;
+  const chest = v.chest+v.chestEase, arm = v.upperArm+v.armEase;
+  if (chest <= 0 || arm <= 0) return {errors:['Chest and upper-arm measurements plus ease must be greater than zero.']};
+  const openingCirc = v.neck;
+  if (v.stGauge > 200 || [openingCirc,chest,arm].some(n => !Number.isFinite(n) || n > 500)) {
+    return {errors:['Check the units and re-enter your stitch gauge and circumferences.']};
+  }
+  const neckSts = Math.max(16,4*Math.round(openingCirc*sg/4));
+  const sleeve0 = Math.max(2,even(neckSts/6));
+  const back0 = (neckSts-2*sleeve0)/2, front0 = back0;
+  const N = Math.round(v.armDepth*rg/2);
+  if(N<1 || N>2000) errors.push('Raglan depth must allow 1–2,000 increase rounds at this gauge.');
+  // Solve the shared underarm bridge and independent section increases together.
+  const maxUnderarm=Math.max(2,2*Math.floor(5*sg/2));
+  let solution=null;
+  if(errors.length) return {errors};
+  // Minimise squared chest and upper-arm errors in cm, with equal weight.
+  // Preserve opening, depth, alternate-row capacity and shared underarm bridge.
+  for(let ua=2;ua<=maxUnderarm;ua+=2){
+    const bn=Math.max(0,Math.min(N,Math.round((chest*sg/2-ua-back0)/2)));
+    const sn=Math.max(0,Math.min(N,Math.round((arm*sg-ua-sleeve0)/2)));
+    const bodyError=(2*(back0+2*bn)+2*ua)/sg-chest;
+    const sleeveError=(sleeve0+2*sn+ua)/sg-arm;
+    const score=bodyError**2+sleeveError**2;
+    const bridgePreference=Math.abs(ua-Math.min(4*sg,maxUnderarm));
+    if(!solution || score<solution.score-1e-9 || (Math.abs(score-solution.score)<1e-9 && bridgePreference<solution.bridgePreference)) solution={ua,bn,sn,score,bridgePreference};
+  }
+  const underarmEach=solution.ua, bodyIncreases=solution.bn, sleeveIncreases=solution.sn;
+  const bodyIncreaseSlots=schedule(bodyIncreases,N), sleeveIncreaseSlots=schedule(sleeveIncreases,N);
+  const backF=back0+2*bodyIncreases, frontF=backF, sleeveF=sleeve0+2*sleeveIncreases;
+  const bodySts=backF+frontF+2*underarmEach, sleeveSts=sleeveF+underarmEach;
+  if(!Number.isInteger(v.crewFlatRows) || v.crewFlatRows<2 || v.crewFlatRows%2!==0 || v.crewFlatRows>4000) errors.push('Enter an even number of flat neckline rows, from 2 to 4,000.');
+  const crewPairs=v.crewFlatRows/2;
+  if(crewPairs>=N) errors.push('The flat neckline must end before the final raglan increase. Reduce flat rows or increase raglan depth.');
+  if (errors.length) return {errors};
+  const initialCO=back0+2*sleeve0+4;
+  // Reserve a central bridge; concentrate edge cast-ons near the bottom of the scoop.
+  const perSide=Math.max(0,Math.floor((front0-4)/4));
+  const crewEdgeAdds=Array.from({length:crewPairs},(_,i)=>Math.round(perSide*((i+1)/crewPairs)**2)-Math.round(perSide*(i/crewPairs)**2));
+  const crewCentre=front0-4-2*perSide;
+  return {errors,sg,rg,chest,arm,back0,sleeve0,bodySts,sleeveSts,
+    bodyIncreaseSlots,sleeveIncreaseSlots,crewPairs,crewEdgeAdds,crewCentre,initialCO};
+}
+
+function factor(id) {
+  if (unit === 'cm' || id === 'crewFlatRows') return 1;
+  return lengthFields.includes(id) ? 1/2.54 : 1.016;
+}
+
+function fmt(cm) {
+  const displayed = unit === 'in' ? cm/2.54 : cm;
+  return Number(displayed.toFixed(2)) + ' ' + unit;
+}
+
+function render() {
+  const d = calculateStarter(values);
+  const status = $('fit-status');
+  $('results').hidden = d.errors.length > 0;
+  if (d.errors.length) {
+    status.className = 'calc-status error';
+    status.textContent = d.errors.join(' ');
+    return;
+  }
+
+  const fitted = [
+    ['Chest',d.chest,d.bodySts/d.sg,2/d.sg],
+    ['Upper arm',d.arm,d.sleeveSts/d.sg,1/d.sg],
+  ];
+  const constrained = fitted.some(([,target,actual,tolerance]) => Math.abs(actual-target) > tolerance+1e-8);
+  status.className = constrained ? 'calc-status error' : 'calc-status';
+  status.textContent = fitted.map(([name,target,actual]) => name + ' with ease: ' + fmt(target) + ' requested, ' + fmt(actual) + ' estimated.').join(' ');
+  if (constrained) status.textContent += ' Review these measurements before casting on. The closest fit under this increase schedule may differ from your targets.';
+
+  const flatRows = 2*d.crewPairs;
+  const joinRow = flatRows+1;
+  const bodyRows = d.bodyIncreaseSlots.filter(slot => slot <= d.crewPairs+1).map(slot => 2*slot-1);
+  const sleeveRows = d.sleeveIncreaseSlots.filter(slot => slot <= d.crewPairs+1).map(slot => 2*slot-1);
+  const backAtJoin = d.back0+2*bodyRows.filter(row => row < joinRow).length;
+  const sleeveAtJoin = d.sleeve0+2*sleeveRows.filter(row => row < joinRow).length;
+  const frontAtJoin = 4+backAtJoin-d.back0+2*d.crewEdgeAdds.reduce((sum, n) => sum+n,0);
+  const bodyOnJoin = bodyRows.includes(joinRow) ? 2 : 0;
+  const sleeveOnJoin = sleeveRows.includes(joinRow) ? 2 : 0;
+  const neckRows = d.crewEdgeAdds.flatMap((n,i) => n ? ['row '+(2*i+1)+' ('+n+' sts)'] : []);
+  $('sketch-left-sleeve').textContent = d.sleeve0;
+  $('sketch-right-sleeve').textContent = d.sleeve0;
+  $('sketch-back').textContent = d.back0;
+  $('sketch-bridge').textContent = 'Centre-front cast-on · '+d.crewCentre+' sts';
+  $('cast-on').textContent = d.initialCO+' sts';
+  $('front-drop').textContent = fmt(flatRows/d.rg);
+  $('join-row').textContent = joinRow;
+  const gaugeFactor = factor('stGauge');
+  const gaugeRef = unit === 'in' ? '4 in' : '10 cm';
+  $('project-measurements').textContent = 'Gauge per '+gaugeRef+': '+Number((values.stGauge*gaugeFactor).toFixed(4))+' sts and '+Number((values.rowGauge*gaugeFactor).toFixed(4))+' rows. Base opening '+fmt(values.neck)+' · raglan depth '+fmt(values.armDepth)+'.';
+  $('setup').textContent = 'Cast on '+d.initialCO+' stitches without ribbing. Place a marker at each divider: Front 2 | Sleeve '+d.sleeve0+' | Back '+d.back0+' | Sleeve '+d.sleeve0+' | Front 2. Begin shaping row 1 on the right side (RS) immediately after cast-on.';
+  $('flat').textContent = 'Work '+flatRows+' rows flat. Purl each even-numbered wrong-side row. Knit the right-side rows and work the shaping listed below.';
+  $('neckline-rows').textContent = neckRows.length ? 'Cast on stitches at each front edge on '+neckRows.join(', ')+'. Use cable cast-on at the start and backward-loop cast-on at the end.' : 'Work the flat rows without any additional neckline edge cast-ons.';
+  $('body-rows').textContent = 'Body increase rows through the join: '+(bodyRows.join(', ') || 'none')+'. Add one stitch on the body side of each raglan marker (four total).';
+  $('sleeve-rows').textContent = 'Sleeve increase rows through the join: '+(sleeveRows.join(', ') || 'none')+'. Add one stitch on the sleeve side of each raglan marker (four total).';
+  $('before-join').textContent = 'After row '+flatRows+': back '+backAtJoin+' sts, fronts combined '+frontAtJoin+' sts and each sleeve '+sleeveAtJoin+' sts.';
+  $('join').textContent = 'With the right side facing, cable cast on '+d.crewCentre+' centre-front stitches at the start of row '+joinRow+'. Place a beginning-of-round marker before the new stitches. Knit the new stitches, then work across the existing stitches. Work any increases listed for row '+joinRow+' once. At the end, join to the first centre-front stitch without twisting.';
+  $('joined-count').textContent = 'After joining: '+(backAtJoin+bodyOnJoin)+' sts each for the front and back, '+(sleeveAtJoin+sleeveOnJoin)+' sts per sleeve. This completes your neckline start. The remaining yoke increases continue in the round.';
+}
+
+function setUnit(next) {
+  if (unit === next) return;
+  unit = next;
+  $('unit-cm').setAttribute('aria-pressed', String(unit === 'cm'));
+  $('unit-in').setAttribute('aria-pressed', String(unit === 'in'));
+  $('length-unit').textContent = unit;
+  document.querySelectorAll('[data-gauge-unit]').forEach(el => { el.textContent = unit === 'in' ? 'per 4 in' : 'per 10 cm'; });
+  fields.forEach(id => {
+    $(id).value = Number.isFinite(values[id]) ? Number((values[id]*factor(id)).toFixed(4)) : '';
+  });
+  render();
+}
+
+fields.forEach(id => $(id).addEventListener('input', () => {
+  values[id] = $(id).valueAsNumber/factor(id);
+  render();
+}));
+$('unit-cm').addEventListener('click', () => setUnit('cm'));
+$('unit-in').addEventListener('click', () => setUnit('in'));
+$('print').addEventListener('click', () => window.print());
+render();
+</script>
+</body>
+</html>
