@@ -107,6 +107,13 @@ footer{padding:32px 0 48px;text-align:center;color:var(--ink-soft);font-size:.85
 .tool-card h3{font-size:1.15rem;margin-bottom:8px}
 .tool-card p{color:var(--ink-soft);font-size:.92rem;margin-bottom:18px;flex-grow:1}
 @media(max-width:760px){.tools-grid{grid-template-columns:1fr}}
+.tracker-feature{grid-column:1/-1;display:grid;grid-template-columns:32px minmax(0,1fr) minmax(0,.8fr);align-items:center;gap:16px;border:1px solid var(--line);border-left:4px solid var(--terracotta);border-radius:8px;background:var(--paper);padding:clamp(16px,3vw,28px);scroll-margin-top:90px}
+.tracker-feature .tracker-copy h3{font-size:clamp(1.25rem,2.4vw,1.65rem)}
+.tracker-feature p+p,.tracker-copy h3+p{margin-top:8px}
+.tracker-feature .tracker-label{font-size:.875rem;font-weight:700;color:var(--sage-dark)}
+.tracker-preview{padding:16px;background:var(--cream);border:1px solid var(--line);border-radius:6px}
+.tracker-preview .tracker-count strong{color:var(--ink)}
+@media(max-width:760px){.tracker-feature{grid-template-columns:32px minmax(0,1fr);align-items:start}.tracker-preview{grid-column:1/-1}}
 </style>
 <style>
 .btn-primary{background:var(--terracotta);color:var(--paper)}
@@ -175,7 +182,8 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
         <a href="#email-capture" class="btn btn-primary">Get the free round-neck starter</a>
         <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-secondary">Get the full version — £15</a>
       </div>
-      <p class="micro">The maths, done. The knitting, yours.<br>£15 for the full version · One payment · No subscription · Stripe checkout</p>
+      <p class="micro">The maths, done. The knitting, yours.<br>£15 includes the calculator and tracker · One payment · No subscription · Stripe checkout</p>
+      <p><a href="#raglan-progress-tracker">See how the tracker guides you row by row</a></p>
     </div>
     <div class="diagram-card">
       <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Raglan jumper schematic with neckline options">
@@ -310,6 +318,20 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
       <div class="feature"><div class="feature-num">02</div><div><h3>Calculate your stitch counts</h3><p>Keep your cast-on, raglan increases, underarm stitches and sleeve decreases together in one place. Your upper-arm measurement helps you check the sleeve width the calculation produces.</p></div></div>
       <div class="feature"><div class="feature-num">03</div><div><h3>Choose your neckline</h3><p>A round neck for everyday wear, a V-neck, a boat neck or an off-shoulder style? Each has its own construction. Round neck starts flat and joins at the centre front, with ribbing picked up last. V-neck also starts flat; boat neck starts in the round. For off-shoulder, measure around your shoulders for the cast-on.</p></div></div>
       <div class="feature"><div class="feature-num">04</div><div><h3>See your schematic</h3><p>Keep a picture of the measurements beside you as you knit. The schematic follows your chosen neckline, and you can copy the written instructions into your project notes.</p></div></div>
+      <div class="feature tracker-feature" id="raglan-progress-tracker">
+        <div class="feature-num">05</div>
+        <div class="tracker-copy">
+          <p class="tracker-label">Progress tracker included</p>
+          <h3>Know what to knit on your next row</h3>
+          <p>Paste in your pattern and tap <strong>+</strong> after each row or round. See when to knit, purl, increase or decrease, and check how many stitches you should have afterwards.</p>
+          <p>Track each sleeve separately and pick up where you left off in the same browser.</p>
+        </div>
+        <div class="tracker-preview">
+          <p class="tracker-label">Round-neck example</p>
+          <p><strong>Next row 2</strong> · Purl across (WS)</p>
+          <p class="tracker-count"><strong>54 stitches</strong> expected after this row</p>
+        </div>
+      </div>
     </div>
     <p class="micro">The full calculator uses a straight body and equal front/back sections, without back-neck short rows. Round-neck flat rows default to 10 and can be adjusted; their depth depends on row gauge. Check fit before dividing, and check neckband pickup counts on the garment.</p>
   </section>
@@ -329,7 +351,7 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
     <div class="buy-card">
       <div>
         <h2>Ready to plan your jumper?</h2>
-        <p>If you’d like to take your swatch a little further, the full calculator brings together four neckline options, sleeve shaping, ribbing and written instructions for a straight-body top-down raglan. You’ll also have a measurement schematic and fit warnings to check as you go.</p>
+        <p>If you’d like to take your swatch a little further, the full calculator brings together four neckline options, sleeve shaping, ribbing and written instructions for a straight-body top-down raglan. You’ll also have a measurement schematic and fit warnings to check as you go. The Raglan Progress Tracker is included in the £15 purchase.</p>
       </div>
       <div class="buy-right">
         <div class="price">£15</div>
@@ -394,7 +416,7 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
       <div class="product-card">
         <div class="product-photo"><img src="images/calculator.webp" alt="Raglan Calculator tool interface" loading="lazy"></div>
         <h3>Raglan Calculator</h3>
-        <p>For the jumper you have in mind: bring your swatch and measurements, choose a neckline, and work through the raglan instructions, sleeve shaping and schematic.</p>
+        <p>For the jumper you have in mind: bring your swatch and measurements, choose a neckline, and work through the raglan instructions, sleeve shaping and schematic. Includes the Raglan Progress Tracker.</p>
         <a href="https://buy.stripe.com/4gM4gA0q52CDcVK8BW43S00" target="_blank" rel="noopener" class="btn btn-primary btn-small">Get the calculator — £15</a>
       </div>
     </div>
