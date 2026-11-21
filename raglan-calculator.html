@@ -410,7 +410,7 @@
 
   <section class="before-begin" aria-labelledby="before-begin-heading">
     <h2 id="before-begin-heading">Before you begin</h2>
-    <p>This calculator makes a straight-body raglan with equal front and back sections and no back-neck short rows. Sleeve width follows the raglan calculation, so check the fit notes before casting on and try on before dividing.</p>
+    <p>This calculator makes a straight-body raglan with equal front and back sections and no back-neck short rows. Upper-arm width follows the raglan calculation. Your sleeve shape starts after the underarm split, so check the fit notes before casting on and try on before dividing.</p>
     <details><summary>Read the construction and measurement notes</summary>
     <ul>
       <li><strong>The basic shape:</strong> four raglan lines, equal front and back sections, a straight body and no back-neck short rows.</li>
@@ -561,6 +561,23 @@
           </div>
           <div class="field-row">
             <div class="field">
+              <label for="sleeveStyle">Sleeve shape</label>
+              <select id="sleeveStyle" aria-describedby="sleeveShapeHint">
+                <option value="tapered">Tapered</option>
+                <option value="straight">Straight</option>
+                <option value="balloon">Balloon</option>
+              </select>
+              <span class="hint" id="sleeveShapeHint"></span>
+            </div>
+            <div class="field" id="balloonField" hidden>
+              <label>Extra balloon fullness
+                <span class="hint">added to the calculated upper-arm circumference</span>
+              </label>
+              <input type="number" id="balloonFullness" value="10">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field" id="cuffField">
               <label>Cuff circumference</label>
               <input type="number" id="cuff" value="20" min="10">
             </div>
@@ -666,7 +683,7 @@ let mode = 'crew', unit = 'cm';
 const CM_PER_IN = 2.54;
 const KNITTING_TERMS = [["RS — right side", "The side intended to face out when you wear the jumper. In stockinette, this is the smooth side with V-shaped stitches."], ["WS — wrong side", "The inside of the jumper. In stockinette, this is the bumpy, purl side. When working flat, turn the work between RS and WS rows."], ["st / sts", "Stitch / stitches. A number such as 40 sts means 40 stitches on the needle."], ["k / k1", "Knit / knit 1 stitch. For example, k12 means knit the next 12 stitches."], ["p / p1", "Purl / purl 1 stitch. For example, p12 means purl the next 12 stitches."], ["pm — place marker", "Put a stitch marker onto the right-hand needle between stitches. It marks a boundary; it is not a stitch."], ["sl m / slip marker", "Move the marker from the left-hand needle to the right-hand needle without working it. Keep the yarn in the position needed for the next stitch."], ["Beginning-of-round marker", "Marks where one round ends and the next begins. In the boat-neck and off-shoulder set-up, it also serves as the fourth raglan marker."], ["M1L — make 1 left", "Increase 1 stitch with a left lean: lift the strand between the needles from front to back with the left needle, then knit it through the back loop."], ["M1R — make 1 right", "Increase 1 stitch with a right lean: lift the strand between the needles from back to front with the left needle, then knit it through the front loop."], ["k2tog — knit 2 together", "Knit the next 2 stitches together as one. This decreases 1 stitch and leans to the right."], ["ssk — slip, slip, knit", "Slip the next 2 stitches knitwise, one at a time, then knit them together through their back loops. This decreases 1 stitch and leans to the left."], ["1×1 rib", "Alternate knit 1, purl 1. In the round, keep knitting the knit columns and purling the purl columns."], ["Stockinette", "For this jumper: knit RS rows and purl WS rows when working flat; knit every round when working in the round."], ["Row / round", "A row is worked across flat knitting, then you turn. A round goes all the way around joined stitches without turning."], ["Work even / plain round", "Continue without increases or decreases. Here, purl a WS row even or knit a plain round, as directed."], ["Cast on / bind off", "Cast on creates new stitches. Bind off (also called cast off) finishes a live edge so the stitches cannot unravel."], ["Hold stitches", "Leave stitches unworked on waste yarn, a spare cable or a stitch holder until you return to them."], ["Pick up stitches", "Draw new loops through an existing fabric edge onto your needle, as for the neckband or underarm. This differs from returning held live stitches to the needle."], ["Ease", "The difference between body and finished garment measurements. Positive ease adds room; negative ease makes the garment smaller than the body measurement."], ["Block", "Wash or dampen the finished knitting as appropriate for the yarn, gently arrange it to the intended shape and let it dry. Check your yarn care instructions; do not rely on blocking to fix a substantial sizing error."]];
 const $ = id => document.getElementById(id);
-const LENGTH_FIELDS = ['neck','shoulders','chest','chestEase','armDepth','bodyLen','upperArm','armEase','cuff','sleeveLen','vDepth','ribNeck','ribHem','ribCuff'];
+const LENGTH_FIELDS = ['neck','shoulders','chest','chestEase','armDepth','bodyLen','upperArm','armEase','cuff','balloonFullness','sleeveLen','vDepth','ribNeck','ribHem','ribCuff'];
 const FIELDS = ['stGauge','rowGauge','crewFlatRows', ...LENGTH_FIELDS];
 // Canonical values are always centimetres and stitches/rows per 10 cm.
 // Changing display units never changes these values.
@@ -677,9 +694,15 @@ const schedule = (events, slots) => Array.from({length:events}, (_,i) => Math.ro
 const list = a => a.join(', ');
 const names = {crew:'Round neck',v:'V-neck',boat:'Boat neck',offshoulder:'Off shoulder'};
 const hashes = {crew:'round',v:'vneck',boat:'boat',offshoulder:'offshoulder'};
-function calc(v = values, selectedMode = mode){
+const sleeveNames = {tapered:'Tapered', straight:'Straight', balloon:'Balloon'};
+const sleeveHints = {
+  tapered:'Decrease gradually from the underarm to your cuff.',
+  straight:'Keep the underarm stitch count through the cuff. Ribbing will draw in.',
+  balloon:'Increase for fullness below the underarm, then gather into your cuff.'
+};
+function calc(v = values, selectedMode = mode, sleeveStyle = $('sleeveStyle').value){
   const errors = [], warnings = [];
-  const required = FIELDS.filter(id => (selectedMode === 'crew' || id !== 'crewFlatRows') && (selectedMode === 'v' || id !== 'vDepth') && (selectedMode === 'offshoulder' ? id !== 'neck' : id !== 'shoulders'));
+  const required = FIELDS.filter(id => (selectedMode === 'crew' || id !== 'crewFlatRows') && (selectedMode === 'v' || id !== 'vDepth') && (selectedMode === 'offshoulder' ? id !== 'neck' : id !== 'shoulders') && (sleeveStyle !== 'straight' || id !== 'cuff') && (sleeveStyle === 'balloon' || id !== 'balloonFullness'));
   for(const id of required){
     if(!Number.isFinite(v[id])) errors.push(`Enter a valid number for ${$(id).getAttribute('aria-label') || id}.`);
     else if(!['chestEase','armEase'].includes(id) && (v[id] < 0 || (!id.startsWith('rib') && v[id] === 0))) errors.push(`${id} must be ${id.startsWith('rib') ? 'zero or positive' : 'greater than zero'}.`);
@@ -725,9 +748,38 @@ function calc(v = values, selectedMode = mode){
   }
   const sleeveRows=Math.round((v.sleeveLen-v.ribCuff)*rg);
   const requestedCuffSts=Math.max(4,even(v.cuff*sg));
-  const cuffSts=Math.max(4,Math.min(sleeveSts,Math.max(requestedCuffSts,sleeveSts-2*Math.max(0,sleeveRows))));
-  const decreaseRounds=(sleeveSts-cuffSts)/2;
-  if(cuffSts!==requestedCuffSts) warnings.push(`Cuff adjusted to ${fmt(cuffSts/sg)} from requested ${fmt(v.cuff)} so it can be reached from the actual sleeve width within ${sleeveRows} rounds before ribbing. This sleeve uses decreases only. Review the resulting cuff fit.`);
+  let cuffSts=sleeveSts, peakSts=sleeveSts;
+  let sleeveIncreaseRows=[], decreaseRows=[], gatherDecreases=[];
+  if(sleeveStyle==='tapered'){
+    cuffSts=Math.min(sleeveSts,Math.max(requestedCuffSts,sleeveSts-2*Math.max(0,sleeveRows)));
+    if(cuffSts!==requestedCuffSts) warnings.push(`Cuff adjusted to ${fmt(cuffSts/sg)} from requested ${fmt(v.cuff)} so it can be reached from the actual sleeve width within ${sleeveRows} rounds before ribbing. Review the resulting cuff fit.`);
+    if(!errors.length && sleeveRows<=10000) decreaseRows=schedule((sleeveSts-cuffSts)/2,sleeveRows);
+  }
+  if(sleeveStyle==='balloon'){
+    const increases=Math.max(1,Math.round(v.balloonFullness*sg/2));
+    peakSts=sleeveSts+2*increases;
+    cuffSts=requestedCuffSts;
+    if(!Number.isSafeInteger(peakSts) || increases>sleeveRows || !Number.isSafeInteger(cuffSts)){
+      errors.push('Reduce balloon fullness or allow more sleeve length before the cuff.');
+    }else if(cuffSts>=peakSts){
+      errors.push('For a gathered balloon sleeve, enter a cuff circumference smaller than the widest part of the sleeve.');
+    }else{
+      for(let remaining=peakSts;remaining>cuffSts;){
+        // Each k2tog needs two stitches. Reserve enough rounds for a narrow cuff.
+        const decreases=Math.min(remaining-cuffSts,Math.floor(remaining/2));
+        gatherDecreases.push(decreases);
+        remaining-=decreases;
+      }
+      const roundsBeforeGather=sleeveRows-gatherDecreases.length;
+      if(roundsBeforeGather<=increases){
+        errors.push('Allow more sleeve length before the cuff, reduce balloon fullness or choose a wider cuff.');
+      }else if(sleeveRows<=10000){
+        const shapingRounds=Math.max(increases,Math.round(roundsBeforeGather*0.6));
+        sleeveIncreaseRows=schedule(increases,shapingRounds);
+      }
+      if(gatherDecreases.length>1) warnings.push(`The balloon sleeve gathers from ${peakSts} to ${cuffSts} stitches over ${gatherDecreases.length} rounds. Try on before working the cuff.`);
+    }
+  }
   const bodyRows=Math.round((v.bodyLen-v.ribHem)*rg);
   const neckRows=Math.round(v.ribNeck*rg), hemRows=Math.round(v.ribHem*rg), cuffRows=Math.round(v.ribCuff*rg);
   let vN=0, edgeRows=[], initialCO=neckSts, pickup=0;
@@ -758,8 +810,33 @@ function calc(v = values, selectedMode = mode){
     if(back0+2*sleeve0+2*pickup-2*neckRows<4) errors.push("The V-neckband is too deep for its pickup count and paired decreases. Reduce neckband depth.");
   }
   if(bodyRows>10000 || sleeveRows>10000 || neckRows>10000 || hemRows>10000 || cuffRows>10000) errors.push('The entered length and row gauge produce more than 10,000 rounds. Check the measurements.');
-  return {errors,warnings,sg,rg,chest,arm,openingCirc,bodyIncreases,sleeveIncreases,bodyIncreaseSlots,sleeveIncreaseSlots,neckSts,sleeve0,back0,front0,N,backF,frontF,sleeveF,underarmEach,bodySts,sleeveSts,cuffSts,decreaseRounds,sleeveRows,bodyRows,neckRows,hemRows,cuffRows,vN,edgeRows,initialCO,pickup,crewPairs,crewEdgeAdds,crewCentre,crewPickup,
-    decreaseRows: errors.length ? [] : schedule(decreaseRounds,sleeveRows)};
+  return {errors,warnings,sg,rg,chest,arm,openingCirc,bodyIncreases,sleeveIncreases,bodyIncreaseSlots,sleeveIncreaseSlots,neckSts,sleeve0,back0,front0,N,backF,frontF,sleeveF,underarmEach,bodySts,sleeveSts,cuffSts,peakSts,sleeveStyle,sleeveIncreaseRows,gatherDecreases,sleeveRows,bodyRows,neckRows,hemRows,cuffRows,vN,edgeRows,initialCO,pickup,crewPairs,crewEdgeAdds,crewCentre,crewPickup,
+    decreaseRows};
+}
+function sleeveShaping(d){
+  if(d.sleeveStyle==='balloon'){
+    const firstGather=d.sleeveRows-d.gatherDecreases.length+1;
+    let stitches=d.peakSts;
+    const gather=d.gatherDecreases.map((decreases,index)=>{
+      stitches-=decreases;
+      const plain=stitches-decreases;
+      const spacing=Math.floor(plain/decreases);
+      const extra=plain%decreases;
+      const placement=extra
+        ? ` Leave ${spacing} or ${spacing+1} plain stitches between decreases, using the longer gap ${extra} times and spacing those gaps around the round.`
+        : spacing ? ` Leave ${spacing} plain stitch${spacing===1?'':'es'} between each decrease.` : '';
+      return `Gather round ${firstGather+index}: work k2tog ${decreases} times evenly around.${placement} End with ${stitches} sts.`;
+    });
+    return [
+      `Count sleeve rounds from the underarm. On rounds ${list(d.sleeveIncreaseRows)}, work k1, M1L, knit to last stitch, M1R, k1 (2 sts increased). The widest part has ${d.peakSts} sts, approximately ${fmt(d.peakSts/d.sg)} around. Knit all other rounds plain until gather round ${firstGather}.`,
+      ...gather,
+      `Work ${d.sleeveRows} rounds total before the cuff, ending with ${d.cuffSts} sts.`
+    ];
+  }
+  if(d.decreaseRows.length){
+    return [`Count sleeve rounds from the underarm. On rounds ${list(d.decreaseRows)}, work k1, k2tog, knit to last 3 sts, ssk, k1 (2 sts decreased). Knit all other rounds plain. Work ${d.sleeveRows} rounds total before the cuff, ending with exactly ${d.cuffSts} sts.`];
+  }
+  return [`Work ${d.sleeveRows} rounds even on ${d.cuffSts} sts before the cuff.`];
 }
 let currentSections=[];
 function sections(d){
@@ -791,9 +868,9 @@ function sections(d){
     `Work ${2*d.N} shaping rows/rounds total, including the flat section if present. Body: ${d.bodyIncreases} increase events; sleeves: ${d.sleeveIncreases}. Approximate shaping depth ${fmt(2*d.N/d.rg)}. Held counts at division: back ${d.backF}, front ${d.frontF}, each sleeve ${d.sleeveF}.`);
   add('divide','Divide for body and sleeves',`At division: back ${d.backF}, front ${d.frontF}, each sleeve ${d.sleeveF} sts. Work body stitches; hold each sleeve and cast on ${d.underarmEach} underarm stitches in its place. Body total: ${d.bodySts} sts, approximately ${fmt(d.bodySts/d.sg)}.`);
   add('body','Body',`Work ${d.bodyRows} plain rounds. Work ${d.hemRows} rounds of 1×1 rib. Bind off elastically. Total underarm-to-hem length is approximately ${fmt((d.bodyRows+d.hemRows)/d.rg)} including ribbing.`);
-  add('sleeves','Sleeves — work twice',`Return ${d.sleeveF} held stitches to the needles. Pick up ${d.underarmEach} stitches across the underarm cast-on: ${d.sleeveSts} total. Place beginning-of-round marker at the centre of the underarm. If you pick up extra corner stitches to close holes, decrease those extras back to ${d.sleeveSts} before starting the schedule.`,
-    d.decreaseRounds ? `Count sleeve rounds from the underarm. On rounds ${list(d.decreaseRows)}, work k1, k2tog, knit to last 3 sts, ssk, k1 (2 sts decreased). Knit all other rounds plain. Work ${d.sleeveRows} rounds total before ribbing, ending with exactly ${d.cuffSts} sts.` : `Work ${d.sleeveRows} rounds even on ${d.cuffSts} sts.`,
-    `Work ${d.cuffRows} rounds of 1×1 rib, then bind off elastically. Total sleeve length including cuff is approximately ${fmt((d.sleeveRows+d.cuffRows)/d.rg)}. Actual cuff circumference at stockinette gauge: ${fmt(d.cuffSts/d.sg)}; ribbing will draw in.`);
+  add('sleeves',`Sleeves — ${sleeveNames[d.sleeveStyle].toLowerCase()} (work twice)`,`Return ${d.sleeveF} held stitches to the needles. Pick up ${d.underarmEach} stitches across the underarm cast-on: ${d.sleeveSts} total. Place beginning-of-round marker at the centre of the underarm. If you pick up extra corner stitches to close holes, decrease those extras back to ${d.sleeveSts} before starting the schedule.`,
+    ...sleeveShaping(d),
+    `${d.cuffRows ? `Work ${d.cuffRows} rounds of 1×1 rib, then bind off elastically.` : 'Bind off elastically.'} Total sleeve length including cuff is approximately ${fmt((d.sleeveRows+d.cuffRows)/d.rg)}. Cuff circumference at stockinette gauge: ${fmt(d.cuffSts/d.sg)}.${d.cuffRows ? ' Ribbing will draw in.' : ''}`);
   if(mode==='crew') add('pickup','Pick up the round-neck ribbing',`After the body and sleeves, with RS facing, pick up ${d.back0} stitches across the original back cast-on edge, ${d.sleeve0} across each sleeve cast-on edge, ${d.crewCentre} across the centre-front bridge, and approximately ${d.crewPickup} along each shaped front edge (including the two original front stitches). About ${d.back0+2*d.sleeve0+d.crewCentre+2*d.crewPickup} stitches total. These are picked-up stitches, not live cast-on stitches. Adjust spacing for a flat edge, keeping an even total for 1×1 rib.`, `Join and work ${d.neckRows} rounds of 1×1 rib (approximately ${fmt(d.neckRows/d.rg)}). No V-point decreases. Bind off elastically and check that the opening passes comfortably over the head. The pickup count is an estimate; verify with your ribbing gauge.`);
   if(mode==='v') add('pickup','Pick up the V-neckband' ,`With RS facing, pick up along the original cast-on edge: ${d.back0} stitches across the back plus ${d.sleeve0} across EACH sleeve edge. These are cast-on edges, not live stitches. Also pick up approximately ${d.pickup} stitches along EACH sloping front edge, including its original front-edge stitch. Approximate total: ${d.back0+2*d.sleeve0+2*d.pickup} stitches. Adjust pickup spacing to keep the band flat; this is an estimate, not an exact fit guarantee.`,
     `Place a marker between stitches at the V point. Work ${d.neckRows} rounds of 1×1 rib with paired decreases at the point: work ssk immediately before the marker and k2tog immediately after it (2 stitches decreased in total per round). Keep knit/purl columns aligned away from the point. Bind off elastically.`);
@@ -801,6 +878,10 @@ function sections(d){
   return s;
 }
 function render(){
+ const style=$('sleeveStyle').value;
+ $('sleeveShapeHint').textContent=sleeveHints[style];
+ $('balloonField').hidden=style!=='balloon';
+ $('cuffField').hidden=style==='straight';
  const d=calc();
  $('warnBox').replaceChildren();
  for(const message of [...d.errors,...d.warnings]){const node=document.createElement('div');node.className='warn';node.textContent=message;$('warnBox').append(node);}
@@ -915,7 +996,12 @@ function renderDiagram(d){
   const off=mode==='offshoulder';
   const left=off?160:mode==='boat'?185:mode==='crew'?180:220, right=560-left;
   const top=off?90:65;
-  const outline=`M${left} ${top} L140 130 L65 260 L108 285 L180 180 L180 355 L380 355 L380 180 L452 285 L495 260 L420 130 L${right} ${top}`;
+  const sleeveOutline = {
+    tapered:['L65 260 L108 285 L180 180','L452 285 L495 260 L420 130'],
+    straight:['L60 255 L113 288 L180 180','L447 288 L500 255 L420 130'],
+    balloon:['C112 162 50 202 54 245 Q56 257 71 260 L109 282 C132 287 173 212 180 180','C387 212 428 287 451 282 L489 260 Q504 257 506 245 C510 202 448 162 420 130']
+  }[d.sleeveStyle];
+  const outline=`M${left} ${top} L140 130 ${sleeveOutline[0]} L180 355 L380 355 L380 180 ${sleeveOutline[1]} L${right} ${top}`;
   const opening=mode==='v'?`M${left} ${top} L280 155 L${right} ${top}`:mode==='boat'?`M${left} ${top} Q280 82 ${right} ${top}`:off?`M${left} ${top} L${right} ${top} L${right} ${top+20} L${left} ${top+20} Z`:`M${left} ${top} Q280 125 ${right} ${top}`;
   const title=names[mode];
   const openingLabel=off?'Around shoulders':mode==='crew'?'Base neck opening':'Neck opening';
@@ -958,13 +1044,14 @@ function renderDiagram(d){
       ${text(280,464,'Illustration only • not to scale')}
     </g>`;
   $('schematic').setAttribute('aria-label',`${title}: ${mode==='crew'?'Lower front neckline by '+fmt(values.crewFlatRows/d.rg)+' before ribbing. ':''}${openingLabel} circumference ${actualOpening}, chest circumference ${fmt(d.bodySts/d.sg)}, body length ${bodyLength}, sleeve length ${sleeveLength}.`);
-  $('schematicCap').textContent=`Dimensions show calculated stitch/round sizes. Body and sleeve lengths include ribbing. Circumferences are full measurements around the garment, not flat widths. ${mode==='v'?'V depth is measured from the shaping start to the join; the opening circumference is the base calculation before the V is shaped. ':''}Shaping depth excludes the band and set-up. Ribbing may draw in; check its gauge and fit. ${mode==='crew'?'Green shows the back layer; pink shows the front. The vertical arrow marks the difference between back-neck starting level and centre front before ribbing. Lower front neckline by '+fmt(values.crewFlatRows/d.rg)+'. Pick up the neckband last. No short rows are used.':'No back-neck short rows or front scoop are included.'}`;
+  $('schematicCap').textContent=`${sleeveNames[d.sleeveStyle]} sleeve selected${d.sleeveStyle==='balloon'?', with a widest circumference of '+fmt(d.peakSts/d.sg):''}. The jumper sketch illustrates the selected sleeve shape. Body and sleeve lengths include ribbing. Circumferences are full measurements around the garment, not flat widths. ${mode==='v'?'V depth is measured from the shaping start to the join; the opening circumference is the base calculation before the V is shaped. ':''}Shaping depth excludes the band and set-up. Ribbing may draw in; check its gauge and fit. ${mode==='crew'?'Green shows the back layer; pink shows the front. The vertical arrow marks the difference between back-neck starting level and centre front before ribbing. Lower front neckline by '+fmt(values.crewFlatRows/d.rg)+'. Pick up the neckband last. No short rows are used.':'No back-neck short rows or front scoop are included.'}`;
 }
 function patternText(){const d=calc();if(d.errors.length) throw new Error('Correct invalid inputs before copying.');return [`TOP-DOWN RAGLAN — ${names[mode]}`,`Needles: ${$('needle').value}; yarn: ${$('yarn').value}`,`Gauge: ${values.stGauge} sts and ${values.rowGauge} rows per 10cm.`,...d.warnings.map(w=>'FIT WARNING: '+w),...sections(d).map(s=>s.title.toUpperCase()+'\n'+s.paragraphs.join('\n')), 'KNITTING TERMS\n'+KNITTING_TERMS.map(([term,meaning])=>term+': '+meaning).join('\n')].join('\n\n');}
 function updateNeckHint(){const ranges={crew:[45,56],boat:[60,72],offshoulder:[80,95]};$('neckHint').textContent=mode==='v'?'Base neck opening before front V shaping':mode==='crew'?'Base opening for stitch allocation; shaped opening and ribbing are checked separately':`Typical starting range ${fmt(ranges[mode][0])}–${fmt(ranges[mode][1])}; check fit.`;}
 function setMode(m,fromHash=false){if(!names[m])return;mode=m;for(const [id,key] of [['tabCrew','crew'],['tabV','v'],['tabBoat','boat'],['tabOff','offshoulder']]){$(id).classList.toggle('active',mode===key);$(id).setAttribute('aria-pressed',String(mode===key));}$('crewRowsField').style.display=mode==='crew'?'block':'none';$('vDepthField').style.display=mode==='v'?'block':'none';$('shoulderField').style.display=mode==='offshoulder'?'block':'none';$('neckField').style.display=mode==='offshoulder'?'none':'block';updateNeckHint();render();if(!fromHash)try{history.replaceState(null,'','#'+hashes[mode]);}catch{}}
 function setUnit(u){if(u===unit)return;unit=u;for(const id of FIELDS){const factor=id==='crewFlatRows'?1:LENGTH_FIELDS.includes(id)?(unit==='in'?1/CM_PER_IN:1):(unit==='in'?1.016:1);$(id).value=Number.isFinite(values[id])?Number((values[id]*factor).toFixed(4)):'';}$('unitCm').classList.toggle('active',unit==='cm');$('unitIn').classList.toggle('active',unit==='in');for(const id of ['gaugeRefSt','gaugeRefRow'])$(id).textContent=unit==='in'?'4in':'10cm';for(const id of ['measureUnitLabel','ribUnitLabel'])$(id).textContent=unit==='in'?'in':'cm';updateNeckHint();render();}
 for(const id of FIELDS){const el=$(id);el.removeAttribute('min');el.step=id==='crewFlatRows'?'2':'any';const label=el.previousElementSibling;if(label){label.htmlFor=id;el.setAttribute('aria-label',label.firstChild.textContent.trim());}el.addEventListener('input',()=>{const n=el.value.trim()===''?NaN:Number(el.value);values[id]=LENGTH_FIELDS.includes(id)?n*(unit==='in'?CM_PER_IN:1):n/(id==='crewFlatRows'?1:unit==='in'?1.016:1);render();});}
+$('sleeveStyle').addEventListener('change',render);
 for(const [id,m] of [['tabCrew','crew'],['tabV','v'],['tabBoat','boat'],['tabOff','offshoulder']])$(id).addEventListener('click',()=>setMode(m));
 $('unitCm').addEventListener('click',()=>setUnit('cm'));$('unitIn').addEventListener('click',()=>setUnit('in'));
 $('copyBtn').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(patternText());$('copiedMsg').textContent='Copied ✓';}catch{$('copiedMsg').textContent='Copy unavailable. Select the pattern text and copy it manually.';}$('copiedMsg').classList.add('show');setTimeout(()=>$('copiedMsg').classList.remove('show'),4000);});
