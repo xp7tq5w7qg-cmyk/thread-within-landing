@@ -26,8 +26,7 @@ h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;color:var(--ink)}
 .stitch-row svg{width:100%;height:100%;display:block}
 header{padding:28px 0 0}
 .brand{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px}
-.brand-name{font-family:'Fraunces',serif;font-size:1.1rem;letter-spacing:.04em;text-transform:uppercase}
-.brand-name span{color:var(--terracotta)}
+.brand-logo{display:block;width:clamp(88px,16vw,132px);height:auto;border-radius:12px}
 .brand nav a{color:var(--ink-soft);text-decoration:none;font-size:.92rem;margin-left:24px}
 .brand nav a:hover{color:var(--terracotta)}
 .brand nav a.btn{color:var(--paper)}
@@ -90,6 +89,9 @@ section{padding:56px 0}
 .about-mark{width:64px;height:64px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;color:var(--cream);font-family:'Fraunces',serif;font-size:1.5rem}
 .about p{color:var(--ink-soft);margin-bottom:14px}
 .about a{color:var(--terracotta)}
+.about-socials{padding-inline-start:1.25rem;color:var(--ink-soft)}
+.about-socials li+li{margin-top:6px}
+.about-socials a{color:var(--sage-dark)}
 .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .product-card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;display:flex;flex-direction:column}
 .product-photo{width:100%;aspect-ratio:1/1;border-radius:4px;margin-bottom:16px;overflow:hidden}
@@ -161,7 +163,7 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
 
 <header>
   <div class="wrap brand">
-    <div class="brand-name">The Thread <span>Within</span></div>
+    <img class="brand-logo" src="images/thread-within-logo.webp" width="288" height="288" alt="The Thread Within">
     <nav aria-label="Main navigation">
       <a href="#email-capture">Get the free round-neck starter</a>
       <a href="#free-tools">Free tools</a>
@@ -428,7 +430,13 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
       <div>
         <h2 style="margin-bottom:14px;">About The Thread Within</h2>
         <p>I’m Piyi, the knitter behind The Thread Within. I love making jumpers, and I’d rather spend my time knitting than redoing the same calculations. These are the tools and little resources I’m building to make that part of a project feel easier — for you as well as me.</p>
-        <p>You can also join me on <a href="https://www.youtube.com/@thethreadwithin" target="_blank" rel="noopener">YouTube</a> for knitting and everyday moments, with videos in English and Greek.</p>
+        <p id="about-socials-label">Follow The Thread Within</p>
+        <ul class="about-socials" aria-labelledby="about-socials-label">
+          <li><a href="https://www.instagram.com/the_thread_within/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@threadwithin">YouTube</a> · Knitting tips and tool demos</li>
+          <li><a href="https://www.facebook.com/people/The-Thread-Within/61596931287178/">Facebook</a></li>
+          <li><a href="https://www.pinterest.com/pigi90/">Pinterest</a></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -445,7 +453,9 @@ section[id],div[id=email-capture]{scroll-margin-top:24px}
   </div>
 </aside>
 <footer>
-  <div class="wrap">&copy; 2026 The Thread Within · <a href="/privacy/">Privacy</a></div>
+  <div class="wrap">
+    &copy; 2026 The Thread Within · <a href="/privacy/">Privacy</a>
+  </div>
 </footer>
 
 </body>
